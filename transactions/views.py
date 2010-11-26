@@ -70,6 +70,7 @@ def create_expenditure(request):
         form = ExpenditureForm()
 
     template['form'] = form
+    template['test'] = 'shing'
     
     return render_to_response('transactions/create_expenditure.htm',template, context_instance=RequestContext(request))
 
