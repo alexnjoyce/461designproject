@@ -29,6 +29,7 @@ def create_income(request):
     #dictionary that passes information to the template
     template = dict()
     template['test'] = "does this work?!!?!"
+    template['test2'] = "does this REALLY work?!!?!"
     # If the form has been submitted
     if request.method == 'POST': 
         form = IncomeForm(request.POST)
