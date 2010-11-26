@@ -70,7 +70,7 @@ def create_expenditure(request):
         form = ExpenditureForm()
 
     template['form'] = form
-    template['test'] = 'shing'
+    
     
     return render_to_response('transactions/create_expenditure.htm',template, context_instance=RequestContext(request))
 
@@ -87,6 +87,6 @@ def view_all(request):
     #save variables to be passed into the template for use there
     template['expenditures'] = expenditures
     template['incomes'] = incomes
-    
+    template['test'] = 'check it'
     
     return render_to_response('transactions/view_all.htm',template, context_instance=RequestContext(request))
