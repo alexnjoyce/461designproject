@@ -45,12 +45,12 @@ class Transaction(models.Model):
         return u'%s %s' %(self.date, self.amount)
     
 class Income(Transaction):
-    income_category = models.ForeignKey(IncomeCategory)
+    income_category = models.ForeignKey(IncomeCategory, null=True)
     def __unicode__(self):
         return u'%s %s' %(self.date, self.amount)
     
 class Expenditure(Transaction):
-    expenditure_category = models.ForeignKey(ExpenditureCategory)
+    expenditure_category = models.ForeignKey(ExpenditureCategory, null=True)
     reciept_img = models.FileField('Receipt Image', upload_to = 'receipt_images', null=True, blank=True)
     
     def __unicode__(self):
@@ -62,11 +62,13 @@ class IncomeForm(ModelForm):
     
     class Meta:
         model = Income
+        exclude = ('income_category')
 
 class ExpenditureForm(ModelForm):
     
     class Meta:
         model = Expenditure
+        exclude = ('expenditure_category')
     
     
     
