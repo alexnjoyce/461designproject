@@ -1,0 +1,24 @@
+{% extends "base.htm" %}
+{% block body %}
+<h1> View Positions </h1>
+<a href="{% url position_view_positions criteria='all'%}">All</a>...<a href="{% url position_view_positions criteria='active' %}">Active</a>...<a href="{% url position_view_positions criteria='inactive' %}">InActive</a>
+	<table>
+		<tr>
+		<td>Position Name</td>
+		<td>Is Active?</td>
+		</tr>
+	{% for p in positions %}
+		<tr>
+		<td>
+			{{p.name}}
+		</td>
+		<td>
+			<a href="{% url position_isactive_switch id=p.id state=criteria %}">{{p.isactive}}</a>
+		</td>
+
+		</tr>
+	{% endfor %}
+	</table>
+	<br><br>
+	<a href="{% url position_create_position %}">Create Position</a>
+{% endblock body %}

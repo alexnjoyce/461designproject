@@ -1,0 +1,23 @@
+{% extends "base.htm" %}
+{% block body %}
+<h1> View Budgets </h1>
+
+	<table>
+		<tr>
+			<td>Budget Name</td>
+			<td>Start Date</td>
+			<td>End Date</td>
+			<td>Stream</td>
+		</tr>
+	{% for b in budgets %}
+		<tr>
+			<td>{{b.name}}</td>
+			<td>{{b.start_date}}</td>
+			<td>{{b.end_date}}</td>
+			<td>{{b.stream}}</td>
+		</tr>
+	{% endfor %}
+	</table>
+	<br><br>
+	<a href="{% url budget_create_budget %}">Create Budget</a>
+{% endblock body %}

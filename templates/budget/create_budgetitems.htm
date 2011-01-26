@@ -1,0 +1,34 @@
+{% extends "base.htm" %}
+{% block body %}
+<h1> Input Budget Items</h1>
+
+	{% if formset.errors %}
+        <p style="color: red;">
+            Please correct the error{{ form.errors|pluralize }} below.
+        </p>
+    {% endif %}
+	
+	<form action="{% url budget_create_budgetitems id=budget.id %}" method="post">
+		{{ formset.management_form }}
+		<table>
+		
+		{% for form in formset.forms %}
+		<tr>
+			{% for field in form %}
+			<td>
+				{{ field.errors }}
+				{{ field.label_tag }} : {{ field }}
+			</td>
+			{% endfor %}
+		</tr>
+		
+        {% endfor %}
+        
+		</table>
+		<br /> <br />
+		<input type="submit" value="Input Items" /> <a href="{% url index %}"><button type="button">Cancel</button></a>
+		<br /> <br />
+		
+	</form>
+
+{% endblock body %}
