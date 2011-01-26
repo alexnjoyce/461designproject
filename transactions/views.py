@@ -28,7 +28,8 @@ def create_income(request):
 #================================================================================
     #dictionary that passes information to the template
     template = dict()
-    
+    template['test'] = "does this work?!!?!"
+    template['test2'] = "does this REALLY work?!!?!"
     # If the form has been submitted
     if request.method == 'POST': 
         form = IncomeForm(request.POST)
@@ -70,6 +71,7 @@ def create_expenditure(request):
         form = ExpenditureForm()
 
     template['form'] = form
+    
     
     return render_to_response('transactions/create_expenditure.htm',template, context_instance=RequestContext(request))
 
@@ -140,7 +142,7 @@ def view_all(request):
     template['expenditures_total'] = expenditures_total
     template['incomes_total'] = incomes_total
     template['incomes'] = incomes
-    
+
     
     
     return render_to_response('transactions/view_all.htm', template, context_instance=RequestContext(request))
