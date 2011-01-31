@@ -2,6 +2,21 @@
 {% block body %}
 <h1> Input Budget Items</h1>
 
+Previous Budgets: </br>
+<table>
+	{% if previous_budgets %}
+	{% for b in previous_budgets %}
+	<tr>
+		<td><a href="{% url budget_view_budgetitems id=b.id %}">{{b.name}}</a></td>
+		<td>{{b.stream}}</td>
+		<td>{{b.start_date.year}}<td>
+	</tr>	
+	{% endfor %}
+	{% else %}
+	None
+	{% endif %}
+</table></br></br>
+
 	{% if formset.errors %}
         <p style="color: red;">
             Please correct the error{{ form.errors|pluralize }} below.
@@ -26,7 +41,7 @@
         
 		</table>
 		<br /> <br />
-		<input type="submit" value="Input Items" /> <a href="{% url index %}"><button type="button">Cancel</button></a>
+		<input type="submit" value="Submit Proposal" /> <a href="{% url index %}"><button type="button">Cancel</button></a>
 		<br /> <br />
 		
 	</form>

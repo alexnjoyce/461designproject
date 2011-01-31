@@ -1,7 +1,51 @@
 <html>
-<title> EngSoc Finance Tool </title>
+	<head>
+		
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<link rel="stylesheet" HREF="stylesheet.css" TYPE="text/css" />
+		<title> EngSoc Finance Tool</title>		
+</head>
 	<body>
-		{% block body %}
-        {% endblock %}
+		<div id="container">
+	
+			<div id="content">
+			{% block body %}
+				{% block extra_body %}{% endblock %}
+			{% endblock %}
+			</div>
+			
+			<div id="sidebar">
+			{% block sidebar %}
+				Transaction Management
+				<ul>
+					<li><a href = "{% url create_expenditure %}">Enter in Expenditure </a></li>
+					<li><a href = "{% url create_income %}">Enter in Income </a></li>
+					<li><a href = "{% url view_all %}">View All Transactions</a></li>
+				</ul>
+				Position Management
+				<ul>
+					<li><a href = "{% url position_create_position %}">Create Position </a></li>
+					<li><a href = "{% url position_view_positions criteria='all' %}">View All Positions</a></li>
+				</ul>
+				Budget Management
+				<ul>
+					<li><a href = "{% url budget_create_budget %}">Create Budget </a></li>
+					<li><a href = "{% url budget_view_budgets %}">View Budgets </a></li>
+				</ul>
+				Category Management
+				<ul>
+					<li><a href = "{% url category_create_category type='income' %}">Create Income Category </a></li>
+					<li><a href = "{% url category_create_category type='expenditure'%}">Create Expenditure Category </a></li>
+					<li><a href = "{% url category_view_categories criteria='all' %}">View Categories</a></li>
+				</ul>
+			{% endblock %}
+			</div>
+			
+		</div>
+
+		
+		{% block footer %}
+		{% endblock %}
+		
     </body>
 </html>
