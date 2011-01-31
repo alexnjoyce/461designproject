@@ -1,0 +1,36 @@
+{% extends "base.htm" %}
+{% block body %}
+<h1> View Categories </h1>
+<a href="{% url category_view_categories criteria='all'%}">All</a>...<a href="{% url category_view_categories criteria='active' %}">Active</a>...<a href="{% url category_view_categories criteria='inactive' %}">InActive</a>
+	<table>
+		<tr>
+		<td>Category Type</td>
+		<td>Category Name</td>
+		<td>Is Active?</td>
+		</tr>
+	{% for c in income_categories %}
+		<tr>
+		<td>Income</td>
+		<td>
+			{{c.name}}
+		</td>
+		<td>
+			<a href="{% url category_isactive_switch id=c.id state=criteria %}">{{c.isactive}}</a>
+		</td>
+		</tr>
+	{% endfor %}
+	{% for c in expenditure_categories %}
+		<tr>
+		<td>Expenditure</td>
+		<td>
+			{{c.name}}
+		</td>
+		<td>
+			<a href="{% url category_isactive_switch id=c.id state=criteria %}">{{c.isactive}}</a>
+		</td>
+		</tr>
+	{% endfor %}
+	</table>
+	<br><br>
+	<a href="{% url category_create_category type='income' %}">Create Income Category</a>  <a href="{% url category_create_category type='expenditure' %}">Create Expenditure Category</a>
+{% endblock body %}

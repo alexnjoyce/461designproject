@@ -1,0 +1,70 @@
+{% extends "base.htm" %}
+{% block body %}
+<h1> View Budget </h1>
+
+Budget Name: {{budget.name}} </br>
+Position: {{budget.position.name}}</br>
+Start Date: {{budget.start_date}}</br>
+End Date: {{budget.end_date}}</br>
+Stream: {{budget.stream}}</br></br></br>
+	
+	{% if budget_items %}
+		<table>
+			<tr>
+				<td>Type</td>
+				<td>Category</td>
+				<td>Amount</td>
+			</tr>
+		{% for b in budget_items %}
+			{% ifequal b.type "IN" %}
+			<tr>
+				<td>{{b.type}}</td>
+				<td>{{b.income_category.name}}</td>
+				<td>{{b.amount}}</td>
+			</tr>
+			{% endifequal %}
+		{% endfor %}
+			<tr>
+				<td><b>Income Total:</b></td>
+				<td></td>
+				<td><b>
+					{% for e in budget_items_type %}
+						{% ifequal e.type "IN" %}{{e.sum}}{% endifequal %}
+					{% endfor %}
+				</b></td>
+			</tr>
+		{% for b in budget_items %}
+			{% ifequal b.type "EX" %}
+			<tr>
+				<td>{{b.type}}</td>
+				<td>{{b.expenditure_category.name}}</td>
+				<td>{{b.amount}}</td>
+			</tr>
+			{% endifequal %}
+		{% endfor %}
+			<tr><b>
+				<td><b>Expenditure Total:</b></td>
+				<td></td>
+				<td><b>
+					{% for e in budget_items_type %}
+						{% ifequal e.type "EX" %}{{e.sum}}{% endifequal %}
+					{% endfor %}
+				</b></td>
+			</b></tr>
+			<tr><b>
+				<td><b>Net:</b></td>
+				<td></td>
+				<td><b>{{net}}</b></td>
+			</b></tr>			
+			
+		</table>
+		{% if budget.approved %}
+		{% else %}
+		<a href="{% url budget_approved_switch id=budget.id %}"><button>Approve</button></a>
+		{% endif %}
+	{% else %}
+		<a href="{% url budget_create_budgetitems id=budget.id %}">Enter in Details</a>
+	{% endif %}
+	<br><br>
+	<a href="{% url index %}">Home</a>
+{% endblock body %}
