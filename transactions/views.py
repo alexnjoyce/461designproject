@@ -148,7 +148,7 @@ def view_all(request):
     return render_to_response('transactions/view_all.htm', template, context_instance=RequestContext(request))
 
 
-def delete_id(request, id):
+def delete_transaction(request, id):
 #===============================================================================
 # DELETE transactions
 #===============================================================================
@@ -164,10 +164,10 @@ def delete_id(request, id):
     template_data["permission"] = permission
     template_data["delete"] = delete
     
-    return render_to_response('finance/delete_id.htm', template, context_instance=RequestContext(request))
+    return HttpResponseRedirect (reverse('view_all'))
 
 
-def confirm_delete_id(request, id):
+def confirm_delete_transaction(request, id):
 #===============================================================================
 # DELETE transactions
 #===============================================================================
@@ -175,10 +175,7 @@ def confirm_delete_id(request, id):
     template_data = dict()
     
     t = Transaction.objects.get(pk=id)
-    permission = True
-                
-    template_data["confirm"] = True
+ 
     template_data["trans"] = t
-    template_data["permission"] = permission
 
-    return render_to_response('finance/delete_id.htm', template, context_instance=RequestContext(request))
+    return render_to_response('transactions/confirm_delete.htm', template, context_instance=RequestContext(request))
