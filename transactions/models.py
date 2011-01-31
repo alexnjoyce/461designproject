@@ -7,6 +7,7 @@ from django import forms
 import datetime
 
 #import from 461designproject
+from categories.models import IncomeCategory, ExpenditureCategory
 
 #predefined choices
 TYPE_CHOICES = (
@@ -15,19 +16,23 @@ TYPE_CHOICES = (
 )
 
 #start model defintion
-class IncomeCategory(models.Model):
-    name = models.CharField(max_length = 200)
-    slug = models.CharField(max_length = 200)
-    
-    def __unicode__(self):
-        return self.name
 
-class ExpenditureCategory(models.Model):
-    name = models.CharField(max_length = 200)
-    slug = models.CharField(max_length = 200)
-    
-    def __unicode__(self):
-        return self.name
+#===============================================================================
+# moved to categories 
+#===============================================================================
+#class IncomeCategory(models.Model):
+#    name = models.CharField(max_length = 200)
+#    slug = models.CharField(max_length = 200)
+#    
+#    def __unicode__(self):
+#        return self.name
+#
+#class ExpenditureCategory(models.Model):
+#    name = models.CharField(max_length = 200)
+#    slug = models.CharField(max_length = 200)
+#    
+#    def __unicode__(self):
+#        return self.name
 
 class Transaction(models.Model):  
     date = models.DateField('Date', null=True, blank=True) 
