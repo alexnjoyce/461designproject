@@ -1,0 +1,20 @@
+{% extends "base.htm" %}
+{% block body %}
+<h1> Edit Transaction </h1>
+
+	 {% if form.errors %}
+        <p style="color: red;">
+            Please correct the error{{ form.errors|pluralize }} below.
+        </p>
+    {% endif %}
+	<form action="{% url edit_transaction id=t.id %}" method="post">
+		<table>
+			{{ form.as_table }}
+		</table>
+		<br /> <br />
+		<input type="submit" value="Edit Transaction" /> <a href="{% url index %}"><button type="button">Cancel</button></a>
+		<br /> <br />
+		
+	</form>
+
+{% endblock body %}
