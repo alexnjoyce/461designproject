@@ -29,3 +29,12 @@ urlpatterns += patterns('transactions.views',
 
 
 )
+
+#include file by file for each of the url.py files in the app folders
+urlpatterns += patterns('',
+    (r'', include('positions.urls')),
+    (r'', include('budget.urls')),
+    (r'', include('categories.urls')),
+    
+
+)
