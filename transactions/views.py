@@ -152,19 +152,19 @@ def delete_transaction(request, id):
 #===============================================================================
 # DELETE transactions
 #===============================================================================
-    template_data = dict()
+    template = dict()
     
     t = Transaction.objects.get(pk=id)
     t.delete()
     permission = True
     delete = True
                   
-    template_data["confirm"] = False
-    template_data["trans"] = t
-    template_data["permission"] = permission
-    template_data["delete"] = delete
+    template["confirm"] = True
+    template["trans"] = t
+    template["permission"] = permission
+    template["delete"] = delete
     
-    return HttpResponseRedirect (reverse('view_all'))
+    return HttpResponseRedirect (reverse('view_all')) #redirect to list of transactions after delete is complete
 
 
 def confirm_delete_transaction(request, id):
@@ -172,10 +172,10 @@ def confirm_delete_transaction(request, id):
 # DELETE transactions
 #===============================================================================
 
-    template_data = dict()
+    template = dict()
     
     t = Transaction.objects.get(pk=id)
  
-    template_data["trans"] = t
+    template["trans"] = t
 
-    return render_to_response('transactions/confirm_delete.htm', template, context_instance=RequestContext(request))
+    return render_to_response('transactions/confirm_delete_transaction.htm', template, context_instance=RequestContext(request))
