@@ -3,7 +3,7 @@
 <h1> Confirm Delete </h1>
 
 	 Are you sure you want to delete the transaction?
-	<br> <a href="{% url delete_transaction id=trans.id %}">YES</a> | <a href="{% url view_all %}">NO</a>
+	<br> <a href="{% url transaction_delete_transaction id=trans.id %}">YES</a> | <a href="{% url transaction_view_transactions %}">NO</a>
   
 
 {% endblock body %}

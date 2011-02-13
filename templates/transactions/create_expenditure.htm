@@ -7,7 +7,7 @@
             Please correct the error{{ form.errors|pluralize }} below.
         </p>
     {% endif %}
-	<form action="{% url create_expenditure %}" method="post">
+	<form action="{% url transaction_create_expenditure %}" method="post">
 		<table>
 			{{ form.as_table }}
 		</table>
