@@ -47,6 +47,7 @@ class Budget(models.Model):
 class BudgetItem(models.Model):
 
     type = models.CharField(max_length = 2, choices=TYPE_CHOICES)
+#    description = models.CharField('Description', max_length = 100)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     
 #    linked objects

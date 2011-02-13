@@ -52,15 +52,21 @@ def create_category(request, type):
 def view_categories(request, criteria):
     template = dict()
     
-    if criteria == 'all':
-        income_categories = IncomeCategory.objects.all()
-        expenditure_categories = ExpenditureCategory.objects.all()
-    elif criteria == 'active':
+    criteria_list = []
+    criteria_list.append('active')
+    criteria_list.append('inactive')
+    
+    template['criteria_list'] = criteria_list
+    
+    if criteria == 'active':
         income_categories = IncomeCategory.objects.filter(isactive=True)
         expenditure_categories = ExpenditureCategory.objects.filter(isactive=True)
     elif criteria == 'inactive':
         income_categories = IncomeCategory.objects.filter(isactive=False)
         expenditure_categories = ExpenditureCategory.objects.filter(isactive=False)
+    else:
+        income_categories = IncomeCategory.objects.all()
+        expenditure_categories = ExpenditureCategory.objects.all()
     
     template['income_categories'] = income_categories
     template['expenditure_categories'] = expenditure_categories

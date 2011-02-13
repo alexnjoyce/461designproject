@@ -34,6 +34,12 @@ def create_position(request):
 def view_positions(request, criteria):
     template = dict()
     
+    criteria_list = []
+    criteria_list.append('active')
+    criteria_list.append('inactive')
+    
+    template['criteria_list'] = criteria_list
+    
     if criteria == 'all':
         positions = Position.objects.all()
     elif criteria == 'active':

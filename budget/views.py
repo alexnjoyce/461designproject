@@ -80,21 +80,30 @@ def view_budgets(request, year=None, term=None):
     
     budgets = Budget.objects.all()
     terms = []
+
     terms.append('S')
     terms.append('W')
     terms.append('F')
     template['terms'] = terms
     
-    years = budgets.values('year')
+    years_list = budgets.values('year')
+    years =[]
+    count = 0
+    for y in years_list:
+        years.append(y['year'])
+        
+    
     template['years'] = years
+    template['all'] = "all"
+    
     
     if year:
         budgets = budgets.filter(year=year)
-        template['year'] = year
+        template['year'] = int(year)
     if term:
         budgets = budgets.filter(term=term)
-        template['term'] = term
-    
+        template['term'] = term    
+   
     
     template['budgets'] = budgets
     
@@ -151,7 +160,12 @@ def view_budgetitems (request, id):
     
     if budget_items: 
         budget_items_type = BudgetItem.objects.filter(budget=budget).values('type').annotate(sum = Sum('amount'))
-        net = check(budget_items_type.get(type="IN")["sum"])-check(budget_items_type.get(type="EX")['sum'])  
+        net = 0
+        for bi in budget_items_type:
+            if bi['type'] == "EX":
+                net = net - bi['sum']
+            else:
+                net = net + bi['sum']
         template['budget_items_type'] = budget_items_type
         template['net'] = net
     
