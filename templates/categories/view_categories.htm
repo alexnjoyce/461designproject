@@ -1,16 +1,30 @@
 {% extends "base.htm" %}
 {% block body %}
 <h1> View Categories </h1>
-<a href="{% url category_view_categories criteria='all'%}">All</a>...<a href="{% url category_view_categories criteria='active' %}">Active</a>...<a href="{% url category_view_categories criteria='inactive' %}">InActive</a>
+
+	<select id="active_select" name="active_select">
+		{% if criteria %} <option value="all">all</option>
+		{% else %} <option value="all" selected="selected">all</option>
+		{% endif %}
+		{% for c in criteria_list %}
+			{% ifequal criteria c %} <option value="{{c}}" selected="selected">{{c}}</option>
+			{% else %} <option value="{{c}}">{{c}}</option>
+			{% endifequal %}
+			
+		{% endfor %}
+	
+	</select>
+
 	<table>
 		<tr>
-		<td>Category Type</td>
-		<td>Category Name</td>
+		<td></td>
 		<td>Is Active?</td>
+		</tr>
+		<tr>
+		<td><b>Income Categories</b></td>
 		</tr>
 	{% for c in income_categories %}
 		<tr>
-		<td>Income</td>
 		<td>
 			{{c.name}}
 		</td>
@@ -19,9 +33,11 @@
 		</td>
 		</tr>
 	{% endfor %}
+		<tr>
+		<td><b>Expenditure Categories</b></td>
+		</tr>
 	{% for c in expenditure_categories %}
 		<tr>
-		<td>Expenditure</td>
 		<td>
 			{{c.name}}
 		</td>
@@ -31,6 +47,22 @@
 		</tr>
 	{% endfor %}
 	</table>
-	<br><br>
-	<a href="{% url category_create_category type='income' %}">Create Income Category</a>  <a href="{% url category_create_category type='expenditure' %}">Create Expenditure Category</a>
+	
+	{% block extra_body %}
+	
+	    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#active_select').change(function() {
+                if ($(this).val() == "all")
+					window.location.href="{% url category_view_categories criteria='all'%}" ;
+	            else
+					window.location.href="{% url category_view_categories %}" + $(this).val() + "/" ;
+			
+            });
+		});
+		</script>
+	
+	
+	{% endblock %}
+	
 {% endblock body %}
