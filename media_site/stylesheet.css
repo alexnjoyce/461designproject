@@ -1,0 +1,20 @@
+#body {
+	font: 11px/17px Verdana, Arial, sans-serif; /* make the font look a little nicer than default times new roman */
+	text-align: center; /* center the layout in IE 5 */
+}
+
+#container {
+	width: 900px; /* the width of our layout overall */
+	margin: 0 auto; /* center the layout in mozilla and IE 6+ */
+	text-align: left; /* put the text back where it should be */
+}
+
+#sidebar {
+	float: left; /* put the sidebar on the left */
+	width: 300px; /* the width of our sidebar column */
+}
+
+#content {
+	float: right; /* put the content on the right */
+	width: 600px; /* the width of our content column */
+}
