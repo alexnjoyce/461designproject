@@ -1,21 +1,30 @@
 {% extends "base.htm" %}
 {% block body %}
 <h1> View Budgets </h1>
+
 	Term:
-	<select id="term_select">
-		<option value="" selected="selected">all</option>
+	<select id="term_select" name="term_select">
+		{% if term %} <option value="{{all}}">{{all}}</option>
+		{% else %} <option value="{{all}}" selected="selected">{{all}}</option>
+		{% endif %}
 		{% for t in terms %}
-			<option value="{{t}}">{{t}}</option>
+			{% ifequal term t %} <option value="{{t}}" selected="selected">{{t}}</option>
+			{% else %} <option value="{{t}}">{{t}}</option>
+			{% endifequal %}
+			
 		{% endfor %}
 	</select>
 	Year:
-	<select id="year_select">
-		<option value="" selected="selected">all</option>
+	<select id="year_select" name="year_select">
+		{% if year %}<option value="{{all}}">{{all}}</option>
+		{% else %} <option value="{{all}}" selected="selected">{{all}}</option>
+		{% endif %}
 		{% for y in years %}
-			<option value="{{y.year}}">{{y.year}}</option>
+			{% ifequal year y %} <option value="{{y}}" selected="selected">{{y}}</option>
+			{% else %} <option value="{{y}}">{{y}}</option>
+			{% endifequal %}
 		{% endfor %}
 	</select>
-
 
 	<table>
 		<tr>
@@ -38,24 +47,37 @@
 		</tr>
 	{% endfor %}
 	</table>
-	<br><br>
-	<a href="{% url budget_create_budget %}">Create Budget</a>
+	
 	
 	{% block extra_body %}
     <script type="text/javascript">
         $(document).ready(function() {
             $('#term_select').change(function() {
-                if ($(this).val())
-	                window.location.href="{% url budget_view_budgets %}" + $(this).val() + "/" ;
+                if ($(this).val() == "all")
+					if (year_select.options[year_select.selectedIndex].value == "all")
+						window.location.href="{% url budget_view_budgets %}" ;
+					else
+						window.location.href="{% url budget_view_budgets %}"+ {{year}} + "/";
+
 	            else
-	                window.location.href="{% url budget_view_budgets %}" + "/";
+					if (year_select.options[year_select.selectedIndex].value == "all")
+						window.location.href="{% url budget_view_budgets %}" + $(this).val() + "/" ;
+					else
+						window.location.href="{% url budget_view_budgets %}"+ {{year}} + "/" + $(this).val() + "/" ;
 			
             });
 			$('#year_select').change(function() {
-                if ($(this).val())
-	                window.location.href="{% url budget_view_budgets %}" + $(this).val() + "/" ;
+                if ($(this).val() == "all")
+	                if (term_select.options[term_select.selectedIndex].value == "all")
+						window.location.href="{% url budget_view_budgets %}" ;
+					else
+						window.location.href="{% url budget_view_budgets %}" + term_select.options[term_select.selectedIndex].value + "/" ;
+
 	            else
-	                window.location.href="{% url budget_view_budgets %}" + "/";
+					if (term_select.options[term_select.selectedIndex].value == "all")
+						window.location.href="{% url budget_view_budgets %}" + $(this).val() + "/" ;
+					else
+						window.location.href="{% url budget_view_budgets %}"+ $(this).val() + "/" + term_select.options[term_select.selectedIndex].value + "/" ;
 			
             });
         });
@@ -63,5 +85,3 @@
 	{% endblock %}
 
 {% endblock body %}
-
-
