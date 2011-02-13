@@ -1,7 +1,18 @@
 {% extends "base.htm" %}
 {% block body %}
 <h1> View Positions </h1>
-<a href="{% url position_view_positions criteria='all'%}">All</a>...<a href="{% url position_view_positions criteria='active' %}">Active</a>...<a href="{% url position_view_positions criteria='inactive' %}">InActive</a>
+	<select id="active_select" name="active_select">
+		{% if criteria %} <option value="all">all</option>
+		{% else %} <option value="all" selected="selected">all</option>
+		{% endif %}
+		{% for c in criteria_list %}
+			{% ifequal criteria c %} <option value="{{c}}" selected="selected">{{c}}</option>
+			{% else %} <option value="{{c}}">{{c}}</option>
+			{% endifequal %}
+			
+		{% endfor %}
+	
+	</select>
 	<table>
 		<tr>
 		<td>Position Name</td>
@@ -19,6 +30,22 @@
 		</tr>
 	{% endfor %}
 	</table>
-	<br><br>
-	<a href="{% url position_create_position %}">Create Position</a>
+	
+	{% block extra_body %}
+	
+	    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#active_select').change(function() {
+                if ($(this).val() == "all")
+					window.location.href="{% url position_view_positions criteria='all'%}" ;
+	            else
+					window.location.href="{% url position_view_positions %}" + $(this).val() + "/" ;
+			
+            });
+		});
+		</script>
+	
+	
+	{% endblock %}
+	
 {% endblock body %}
