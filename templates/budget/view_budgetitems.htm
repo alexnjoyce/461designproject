@@ -11,14 +11,12 @@ Stream: {{budget.stream}}</br></br></br>
 	{% if budget_items %}
 		<table>
 			<tr>
-				<td>Type</td>
 				<td>Category</td>
 				<td>Amount</td>
 			</tr>
 		{% for b in budget_items %}
 			{% ifequal b.type "IN" %}
 			<tr>
-				<td>{{b.type}}</td>
 				<td>{{b.income_category.name}}</td>
 				<td>{{b.amount}}</td>
 			</tr>
@@ -36,7 +34,6 @@ Stream: {{budget.stream}}</br></br></br>
 		{% for b in budget_items %}
 			{% ifequal b.type "EX" %}
 			<tr>
-				<td>{{b.type}}</td>
 				<td>{{b.expenditure_category.name}}</td>
 				<td>{{b.amount}}</td>
 			</tr>
