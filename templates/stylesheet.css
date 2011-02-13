@@ -1,22 +1,6 @@
 #body {
-	font: 11px/17px Verdana, Arial, sans-serif; /* make the font look a little nicer than default times new roman */
-	text-align: center; /* center the layout in IE 5 */
+
+  font-family: Verdana, serif;
+
 }
 
-#container {
-	width: 750px; /* the width of our layout overall */
-	margin: 0 auto; /* center the layout in mozilla and IE 6+ */
-	text-align: left; /* put the text back where it should be */
-}
-
-#sidebar {
-	float: left; /* put the sidebar on the left */
-	width: 250px; /* the width of our sidebar column */
-}
-
-#content {
-	float: right; /* put the content on the right */
-	width: 500px; /* the width of our content column */
-}
-
-/* NOTE: the content column and sidebar column widths must - when added together - be less then or equal to the width of the container */
