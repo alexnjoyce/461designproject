@@ -27,6 +27,7 @@
 		<td>{{i.date}}</td>
 		<td>{{i.amount}}</td>
 		<td>{{i.income_category.name}}</td>
+		<td>{{i.description}}</td>
 		<td><a href="{% url transaction_edit_transaction id=i.id %}">Edit</a></td>
 		<td><a href="{% url transaction_confirm_delete_transaction id=i.id %}">Delete</a></td>
 	</tr>
