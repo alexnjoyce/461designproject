@@ -8,6 +8,7 @@
 		<td>Date</td>
 		<td>Amount</td>
 		<td>Category</td>
+		<td>Description</td>
 	</tr>
 {% for e in expenditures %}
 	<tr>
@@ -15,6 +16,7 @@
 		<td>{{e.date}}</td>
 		<td>{{e.amount}}</td>
 		<td>{{e.expenditure_category.name}}</td>
+		<td>{{e.description}}</td>
 		<td><a href="{% url transaction_edit_transaction id=e.id %}">Edit</a></td>
 		<td><a href="{% url transaction_confirm_delete_transaction id=e.id %}">Delete</a></td>
 	</tr>
