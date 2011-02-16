@@ -67,13 +67,19 @@ class IncomeForm(ModelForm):
     
     class Meta:
         model = Income
-        exclude = ('income_category')
+        
+    def __init__(self, *args, **kwargs):
+        super(IncomeForm, self).__init__(*args, **kwargs)
+        self.fields['income_category'].queryset = IncomeCategory.objects.filter(isactive=True)
 
 class ExpenditureForm(ModelForm):
     
     class Meta:
         model = Expenditure
-        exclude = ('expenditure_category')
+    
+    def __init__(self, *args, **kwargs):
+        super(ExpenditureForm, self).__init__(*args, **kwargs)
+        self.fields['expenditure_category'].queryset = ExpenditureCategory.objects.filter(isactive=True)
     
     
     
