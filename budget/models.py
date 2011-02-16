@@ -47,20 +47,39 @@ class Budget(models.Model):
 class BudgetItem(models.Model):
 
     type = models.CharField(max_length = 2, choices=TYPE_CHOICES)
-#    description = models.CharField('Description', max_length = 100)
+    description = models.CharField('Description', max_length = 100)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
-    
 #    linked objects
     budget = models.ForeignKey(Budget)
-    income_category = models.ForeignKey(IncomeCategory, null=True, blank=True)
-    expenditure_category = models.ForeignKey(ExpenditureCategory, null=True, blank=True)
     
-class BudgetItemForm(ModelForm):
+    
+class IncomeBudgetItem(BudgetItem):
+    
+    income_category = models.ForeignKey(IncomeCategory)
+    
+class ExpenseBudgetItem(BudgetItem):
+    
+    expenditure_category = models.ForeignKey(ExpenditureCategory)
+    
+class IncomeBudgetItemForm(ModelForm):
     class Meta:
-        model = BudgetItem
-        exclude = ('budget')
+        model = IncomeBudgetItem
+        exclude = ('budget', 'type')
+
+class ExpenseBudgetItemForm(ModelForm):
+    class Meta:
+        model = ExpenseBudgetItem
+        exclude = ('budget', 'type')
+    
+    def __init__(self, *args, **kwargs):
+        super(ExpenseBudgetItemForm, self).__init__(*args, **kwargs)
+        self.fields['expenditure_category'].queryset = ExpenditureCategory.objects.filter(isactive=True)
 
 class BudgetForm(ModelForm):
     class Meta:
         model = Budget
         exclude = ('creator', 'edited_by', 'start_date', 'end_date', 'approved')
+    
+    def __init__(self, *args, **kwargs):
+        super(BudgetForm, self).__init__(*args, **kwargs)
+        self.fields['position'].queryset = Position.objects.filter(isactive=True)

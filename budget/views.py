@@ -13,7 +13,7 @@ from django.forms.formsets import formset_factory
 
 
 from positions.models import Position
-from budget.models import Budget, BudgetItem, BudgetItemForm, BudgetForm
+from budget.models import Budget, BudgetItem, IncomeBudgetItemForm, ExpenseBudgetItemForm, BudgetForm
 
 def check(check):
 #===============================================================================
@@ -115,24 +115,35 @@ def create_budgetitems (request, id):
     budget = Budget.objects.get(pk=id)
     previous_budgets = Budget.objects.filter(position=budget.position).exclude(id=budget.id)
     
-    budgetFormSet = formset_factory(BudgetItemForm, extra=5)
+    ExpensebudgetFormSet = formset_factory(ExpenseBudgetItemForm, extra=5)
+    IncomebudgetFormSet = formset_factory(IncomeBudgetItemForm, extra=5)
     
     if request.method == 'POST':
-        formset = budgetFormSet(request.POST)
-        if formset.is_valid():
+        expense_formset = ExpensebudgetFormSet(request.POST, prefix='expenses')
+        income_formset = IncomebudgetFormSet(request.POST, prefix='incomes')
+        if expense_formset.is_valid()and income_formset.is_valid():
             count = 0
-            for form in formset.forms:
+            for form in expense_formset.forms:
                 item = form.save(commit=False)
                 if item.amount:
                     item.budget = budget
+                    item.type = "EX"
+                    item.save()
+            for form in income_formset.forms:
+                item = form.save(commit=False)
+                if item.amount:
+                    item.budget = budget
+                    item.type = "IN"
                     item.save()
             
             return HttpResponseRedirect(reverse('index'))
     
     else:
-        formset = budgetFormSet()
+        expense_formset = ExpensebudgetFormSet(prefix='expenses')
+        income_formset = IncomebudgetFormSet(prefix='incomes')
     
-    template['formset'] = formset
+    template['income_formset'] = income_formset
+    template['expense_formset'] = expense_formset
     template['budget'] = budget
     template['previous_budgets'] = previous_budgets
     
