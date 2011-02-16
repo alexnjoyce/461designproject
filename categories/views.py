@@ -10,7 +10,7 @@ def create_category(request, type):
     template = dict()
     
 #    if you want to make income category
-    if type == "income":
+    if type == "IN":
     #   if the form has been submitted
         if request.method == 'POST': 
             form = IncomeCategoryForm(request.POST)
@@ -42,7 +42,7 @@ def create_category(request, type):
         #else blank form   
         else:
             form = ExpenditureCategoryForm()
-
+            
     template['form'] = form
     template['type'] = type
     

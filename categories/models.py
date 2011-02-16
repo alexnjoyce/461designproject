@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 
 
 class Category(models.Model):
-    name = models.CharField('Position Name', max_length = 50)
+    name = models.CharField('Category Name', max_length = 50)
     isactive = models.BooleanField()
     
 #    automatically created
