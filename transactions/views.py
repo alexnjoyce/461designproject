@@ -38,7 +38,7 @@ def create_income(request):
         if form.is_valid(): # check if fields validated
             cleaned_data = form.cleaned_data
             form.save()
-            return HttpResponseRedirect(reverse('index'))
+            return HttpResponseRedirect(reverse('transaction_view_transactions'))
             
     #else blank form   
     else:
@@ -63,7 +63,7 @@ def create_expenditure(request):
         if form.is_valid(): # check if fields validated
             cleaned_data = form.cleaned_data
             form.save()
-            return HttpResponseRedirect(reverse('index'))
+            return HttpResponseRedirect(reverse('transaction_view_transactions'))
         
     
     #else blank form   
@@ -97,7 +97,7 @@ def edit_transaction(request, id):
                 #.editor = request.user
                 form.save()
         
-                return HttpResponseRedirect(reverse('index')) # Redirect after POST
+                return HttpResponseRedirect(reverse('transaction_view_transactions')) # Redirect after POST
         else:
             form = IncomeForm(instance=t)
                 
@@ -114,7 +114,7 @@ def edit_transaction(request, id):
                 form.editor = request.user
                 form.save()
         
-                return HttpResponseRedirect(reverse('index')) # Redirect after POST
+                return HttpResponseRedirect(reverse('transaction_view_transactions')) # Redirect after POST
                          
         else:
             form = ExpenditureForm(instance=t)
@@ -164,7 +164,7 @@ def delete_transaction(request, id):
     template["permission"] = permission
     template["delete"] = delete
     
-    return HttpResponseRedirect (reverse('view_all')) #redirect to list of transactions after delete is complete
+    return HttpResponseRedirect (reverse('transaction_view_transactions')) #redirect to list of transactions after delete is complete
 
 
 def confirm_delete_transaction(request, id):
