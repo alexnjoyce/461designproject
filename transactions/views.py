@@ -22,6 +22,15 @@ def index(request):
     return render_to_response('transactions/index.htm',template, context_instance=RequestContext(request))
 
 
+def create_transaction(request):
+#================================================================================
+# create transaction page
+#================================================================================
+    template = dict()
+
+    return render_to_response('transactions/create_transaction.htm', template, context_instance=RequestContext(request))    
+
+
 def create_income(request):
 #================================================================================
 # create income object

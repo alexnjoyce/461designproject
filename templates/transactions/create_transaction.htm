@@ -1,20 +1,12 @@
 {% extends "base.htm" %}
 {% block body %}
-<h1> Create Income </h1>
+<h1> Create Transaction </h1>
 
-	 {% if form.errors %}
-        <p style="color: red;">
-            Please correct the error{{ form.errors|pluralize }} below.
-        </p>
-    {% endif %}
-	<form action="{% url transaction_enter_transaction %}" method="post">
-		<table>
-			{{ form.as_table }}
-		</table>
-		<br /> <br />
-		<input type="submit" value="Add Transaction" /> <a href="{% url index %}"><button type="button">Cancel</button></a>
-		<br /> <br />
-		
-	</form>
+What type of transaction would you like to enter?
+<br><br>
+<li><a href="{% url transaction_create_expenditure %}">Expenditure</a>
+<br><br>
+<li><a href="{% url transaction_create_income %}">Income</a>
+
 
 {% endblock body %}
