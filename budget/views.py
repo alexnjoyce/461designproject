@@ -13,7 +13,7 @@ from django.forms.formsets import formset_factory
 
 
 from positions.models import Position
-from budget.models import Budget, BudgetItem, IncomeBudgetItemForm, ExpenseBudgetItemForm, BudgetForm
+from budget.models import Budget, BudgetItem, IncomeBudgetItemForm, ExpenseBudgetItemForm, BudgetForm, IncomeBudgetItem, ExpenseBudgetItem
 
 def check(check):
 #===============================================================================
@@ -86,7 +86,7 @@ def view_budgets(request, year=None, term=None):
     terms.append('F')
     template['terms'] = terms
     
-    years_list = budgets.values('year')
+    years_list = budgets.values('year').distinct().order_by()
     years =[]
     count = 0
     for y in years_list:
@@ -167,22 +167,28 @@ def view_budgetitems (request, id):
     
     budget = Budget.objects.get(pk=id)
     
-    budget_items = BudgetItem.objects.filter(budget=budget)
+    budget_items_in = IncomeBudgetItem.objects.filter(budget=budget)
+    budget_items_ex = ExpenseBudgetItem.objects.filter(budget=budget)
     
-    if budget_items: 
-        budget_items_type = BudgetItem.objects.filter(budget=budget).values('type').annotate(sum = Sum('amount'))
-        net = 0
-        for bi in budget_items_type:
-            if bi['type'] == "EX":
-                net = net - bi['sum']
-            else:
-                net = net + bi['sum']
-        template['budget_items_type'] = budget_items_type
-        template['net'] = net
+    in_tot = budget_items_in.aggregate(sum=Sum('amount'))
+    in_tot = check(in_tot['sum'])
+
+    ex_tot = budget_items_ex.aggregate(sum=Sum('amount'))
+    ex_tot = check(ex_tot['sum'])
+    
+    if budget_items_in or budget_items_ex:
+        template['full'] = True
+     
+    
+    template['budget_items_in'] = budget_items_in
+    template['budget_items_ex'] = budget_items_ex
+    template['in_tot'] = in_tot
+    template['ex_tot'] = ex_tot
+    template['net'] = in_tot - ex_tot
     
     template['budget'] = budget
-    template['budget_items'] = budget_items
-
+    
+    
     
     return render_to_response('budget/view_budgetitems.htm',template, context_instance=RequestContext(request))
                             

@@ -29,7 +29,7 @@ class Budget(models.Model):
     term = models.CharField(max_length = 1, choices=TERM_CHOICES)
     year = models.IntegerField('Year')
     stream = models.CharField(max_length = 1, choices=STREAM_CHOICES)
-    approved = models.BooleanField()
+    approved = models.BooleanField(default=False)
     
 #    automatically created
     created = models.DateField('Date Created', auto_now_add=True)
@@ -42,7 +42,7 @@ class Budget(models.Model):
 #    edited_by = models.ForeignKey(User, related_name="budget_edited")
     
     def __unicode__(self):
-        return u'%s %s-%s' %(self.name, self.start_date, self.end_date)
+        return u'%s %s-%s' %(self.name, self.term, self.year)
 
 class BudgetItem(models.Model):
 
