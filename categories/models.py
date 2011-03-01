@@ -29,7 +29,7 @@ class IncomeCategory(Category):
 class ExpenditureCategory(Category):
 
     def __unicode__(self):
-        return u'%s' %(self.name)
+        return u'%s' %(self.name) 
     
 #forms on the website
 class IncomeCategoryForm(ModelForm):
