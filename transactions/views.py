@@ -6,10 +6,14 @@ from django.shortcuts import get_object_or_404, render_to_response
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.db.models import Avg, Max, Min, Count, Sum
+from django.core.exceptions import ObjectDoesNotExist
 
 #import models
 from transactions.models import Transaction, Income, Expenditure, IncomeCategory, ExpenditureCategory
 from transactions.models import ExpenditureForm, IncomeForm
+
+from budget.models import Budget
+from positions.models import Position
 
 
 
@@ -45,7 +49,10 @@ def create_income(request):
 
         #validate fields
         if form.is_valid(): # check if fields validated
-            cleaned_data = form.cleaned_data
+            item = form.cleaned_data
+            item = form.save(commit=False)
+            item.budget = Budget.objects.get(term=item.term, year=item.year, position=item.position)
+            item.type = "IN"
             form.save()
             return HttpResponseRedirect(reverse('transaction_view_transactions'))
             
@@ -70,7 +77,10 @@ def create_expenditure(request):
 
         #validate fields
         if form.is_valid(): # check if fields validated
-            cleaned_data = form.cleaned_data
+            item = form.cleaned_data
+            item = form.save(commit=False)
+            item.budget = Budget.objects.get(term=item.term, year=item.year, position=item.position)
+            item.type = "EX"
             form.save()
             return HttpResponseRedirect(reverse('transaction_view_transactions'))
         
@@ -133,15 +143,44 @@ def edit_transaction(request, id):
        
     return render_to_response('transactions/edit_transaction.htm', template, context_instance=RequestContext(request))
 
-def view_all(request):
+def view_transactions(request, year=None, term=None):
 #================================================================================
 # view all transactions
 #================================================================================
     template = dict()
-    
-    #get all the transactions
     expenditures = Expenditure.objects.all()
     incomes = Income.objects.all()
+    transactions = Transaction.objects.all()
+    
+    terms = []
+    terms.append('S')
+    terms.append('W')
+    terms.append('F')
+    template['terms'] = terms
+    
+    years_list = transactions.values('year').distinct().order_by()
+    years =[]
+    count = 0
+    for y in years_list:
+        years.append(y['year'])
+        
+    
+    template['years'] = years
+    template['all'] = "all"
+    
+    
+    if year:
+        incomes = incomes.filter(year=year)
+        expenditures = expenditures.filter(year=year)
+        template['year'] = int(year)
+    if term:
+        incomes = incomes.filter(term=term)
+        expenditures = expenditures.filter(term=term)
+        template['term'] = term    
+   
+    
+    template['incomes'] = incomes
+    template['expenditures'] = expenditures
     
     expenditures_total = expenditures.aggregate(total=Sum('amount'))
     incomes_total = incomes.aggregate(total=Sum('amount'))
@@ -154,7 +193,7 @@ def view_all(request):
 
     
     
-    return render_to_response('transactions/view_all.htm', template, context_instance=RequestContext(request))
+    return render_to_response('transactions/view_transactions.htm', template, context_instance=RequestContext(request))
 
 
 def delete_transaction(request, id):
@@ -164,13 +203,12 @@ def delete_transaction(request, id):
     template = dict()
     
     t = Transaction.objects.get(pk=id)
-    t.delete()
-    permission = True
-    delete = True
+    if t.approved == False:
+        t.delete()
+        delete = True
                   
     template["confirm"] = True
     template["trans"] = t
-    template["permission"] = permission
     template["delete"] = delete
     
     return HttpResponseRedirect (reverse('transaction_view_transactions')) #redirect to list of transactions after delete is complete
@@ -184,7 +222,41 @@ def confirm_delete_transaction(request, id):
     template = dict()
     
     t = Transaction.objects.get(pk=id)
+
+    if t.approved == False:
+        template["permission"] = True
+
  
     template["trans"] = t
 
     return render_to_response('transactions/confirm_delete_transaction.htm', template, context_instance=RequestContext(request))
+
+
+def view_transaction(request, id):
+#===============================================================================
+# View details of transaction
+#===============================================================================
+    template = dict()
+    
+    t = Transaction.objects.get(pk=id)
+    if t.type == "IN":
+        t = Income.objects.get(pk=id)
+    else:
+        t = Expenditure.objects.get(pk=id)
+        
+    template["t"] = t
+    return render_to_response('transactions/view_transaction.htm', template, context_instance=RequestContext(request))
+
+def approved_switch(request, id):
+    
+    transaction = Transaction.objects.get(pk=id)
+   
+    if(transaction.approved == True):
+        transaction.approved = False
+        transaction.save()
+    else:
+        transaction.approved = True
+        transaction.save()
+
+    return HttpResponseRedirect(reverse('transaction_view_transactions') )
+    
