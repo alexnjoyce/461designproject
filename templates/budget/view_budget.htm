@@ -25,8 +25,8 @@
 			{% endifequal %}
 		{% endfor %}
 	</select>
-
-	<table>
+	<input type="button" value="Refresh" onClick="window.location.reload()">
+	<table class="sortable">
 		<tr>
 			<td>Budget Name</td>
 			<td>Term</td>
@@ -41,7 +41,7 @@
 			<td>{{b.term}}</td>
 			<td>{{b.year}}</td>
 			<td>{{b.stream}}</td>
-			<td><a href="{% url budget_view_budgetitems id=b.id %}">Details</a></td>
+			<td><a href="{% url budget_view_budgetitems id=b.id %}" target="_blank">Details</a></td>
 			<td>{{b.approved}}</td>
 			
 		</tr>
