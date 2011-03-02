@@ -10,7 +10,7 @@
 			{% ifequal term t %} <option value="{{t}}" selected="selected">{{t}}</option>
 			{% else %} <option value="{{t}}">{{t}}</option>
 			{% endifequal %}
-			
+
 		{% endfor %}
 	</select>
 	Year:
@@ -85,7 +85,7 @@
 						window.location.href="{% url transaction_view_transactions %}" + $(this).val() + "/" ;
 					else
 						window.location.href="{% url transaction_view_transactions %}"+ {{year}} + "/" + $(this).val() + "/" ;
-			
+
             });
 			$('#year_select').change(function() {
                 if ($(this).val() == "all")
@@ -99,7 +99,7 @@
 						window.location.href="{% url transaction_view_transactions %}" + $(this).val() + "/" ;
 					else
 						window.location.href="{% url transaction_view_transactions %}"+ $(this).val() + "/" + term_select.options[term_select.selectedIndex].value + "/" ;
-			
+
             });
         });
     </script>
