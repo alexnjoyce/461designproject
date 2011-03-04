@@ -28,20 +28,24 @@
 <input type="button" value="Refresh" onClick="window.location.reload()">
 <table class="sortable">
 	<tr>
+	  <table id ="tableHeader">
 		<td>Type</td>
-		<td>Date</td>
+		<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 		<td>Amount</td>
 		<td>Category</td>
 		<td>Description</td>
 		<td>Budget</td>
-		<td></td>
-		<td></td>
-		<td></td>
+		<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+		<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+		<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 		<td>Approved</td>
+		</table>
 	</tr>
+	
+<table id ="tableEntries">	
 {% for e in expenditures %}
 	<tr>
-		<td>{{e.type}}</td>
+		<td>&nbsp;&nbsp;{{e.type}}&nbsp;&nbsp;</td>
 		<td>{{e.date}}</td>
 		<td>{{e.amount}}</td>
 		<td>{{e.expenditure_category.name}}</td>
@@ -55,7 +59,7 @@
 {% endfor %}
 {% for i in incomes %}
 	<tr>
-		<td>{{i.type}}</td>
+		<td>&nbsp;&nbsp;{{i.type}}&nbsp;&nbsp;</td>
 		<td>{{i.date}}</td>
 		<td>{{i.amount}}</td>
 		<td>{{i.income_category.name}}</td>
@@ -67,7 +71,7 @@
 		<td>{{i.approved}}</td>
 	</tr>
 {% endfor %}
-
+</table>
 </table>
 
 {% block extra_body %}

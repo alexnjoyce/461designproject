@@ -402,6 +402,25 @@ a:hover {
 	color: #6E6E6E;
 }
 
+
+/* Tables */
+#tableHeader tr{
+  background-color: #eee;
+}
+
+#tableEntries tr:nth-child(odd) {
+  background-color: #f0e68c;
+}
+
+#tableEntries tr:nth-child(even){
+  background-color: #fff;
+}
+
+/*
+tr:nth-child(odd)   { background-color:#FC9D00; }
+tr:nth-child(even)    { background-color:#FC9D00; }
+*/
+
 /* Calendar */
 
 #calendar {
