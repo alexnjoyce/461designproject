@@ -52,7 +52,6 @@
 		<td>{{e.description}}</td>
 		<td>{{e.budget}}</td>
 		<td><a href="{% url transaction_edit_transaction id=e.id %}">Edit</a></td>
-		<td><a href="{% url transaction_confirm_delete_transaction id=e.id %}">Delete</a></td>
 		<td><a href="{% url transaction_view_transaction id=e.id %}" target="_blank">Details</a></td>
 		<td>{{e.approved}}</td>
 	</tr>
@@ -66,7 +65,6 @@
 		<td>{{i.description}}</td>
 		<td>{{i.budget}}</td>
 		<td><a href="{% url transaction_edit_transaction id=i.id %}">Edit</a></td>
-		<td><a href="{% url transaction_confirm_delete_transaction id=i.id %}">Delete</a></td>
 		<td><a href="{% url transaction_view_transaction id=i.id %}" target="_blank">Details</a></td>
 		<td>{{i.approved}}</td>
 	</tr>
