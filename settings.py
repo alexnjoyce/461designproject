@@ -90,5 +90,6 @@ INSTALLED_APPS = (
     '461designproject.transactions',
     '461designproject.positions',
     '461designproject.budget',
-    '461designproject.categories'
+    '461designproject.categories',
+    '461designproject.custom_tags'
 )
