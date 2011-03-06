@@ -1,3 +1,5 @@
+{% load user_group %}
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <!--
 Design by Free CSS Templates
@@ -34,8 +36,10 @@ Released   : 20100422
 			<li><a href = "{% url index %}">Home</a></li>
 			<li><a href = "{% url transaction_view_transactions %}">Transactions</a></li>
 			<li><a href = "{% url budget_view_budgets %}">Budgets</a></li>
+			{% if user|in_group:"vp_finance,admin" %}
 			<li><a href = "{% url position_view_positions criteria='all' %}">Positions</a></li>
 			<li><a href = "{% url category_view_categories criteria='all' %}">Categories</a></li>
+			{% endif %}
 		</ul>
 	</div>
 	<!-- end #menu -->
@@ -88,13 +92,25 @@ Released   : 20100422
 							<div style="clear: both;">&nbsp;</div>
 						</li>
 						<li>
+							<h2>Welcome</h2>
+							{% if user.is_authenticated %}
+								<p>Welcome, {{ user.username }}!</p>
+							{% else %}
+								<p>Welcome, new user. Please log in! 
+								<a href="accounts/login/">Login here</a></p>
+							{% endif %}
+						</li>
+						{% if user.is_authenticated %}
+						<li>
 							<h2>Enter</h2>
 							<ul>
 								<li><a href = "{% url transaction_create_transaction %}">Transaction </a></li>
 								<li><a href = "{% url budget_create_budget %}">Budget Proposal </a></li>
+								{% if user|in_group:"vp_finance,admin" %}
 								<li><a href = "{% url category_create_category type='IN' %}">Income Category </a></li>
 								<li><a href = "{% url category_create_category type='EX' %}">Expenditure Category </a></li>
 								<li><a href = "{% url position_create_position %}">Position </a></li>
+								{% endif %}
 
 							</ul>
 						</li>
@@ -102,12 +118,14 @@ Released   : 20100422
 							<h2>Manage</h2>
 							<ul>
 								<li><a href = "{% url transaction_view_transactions %}">Transactions</a></li>
-								<li><a href = "{% url position_view_positions criteria='all' %}">Positions</a></li>
 								<li><a href = "{% url budget_view_budgets %}">Budgets </a></li>
+								{% if user|in_group:"vp_finance,admin" %}
+								<li><a href = "{% url position_view_positions criteria='all' %}">Positions</a></li>
 								<li><a href = "{% url category_view_categories criteria='all' %}">Categories </a></li>
+								{% endif %}
 							</ul>
 						</li>
-
+						{% endif %}
 					</ul>
 				</div>
 				<!-- end #sidebar -->

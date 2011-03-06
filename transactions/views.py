@@ -31,6 +31,13 @@ def create_transaction(request):
 # create transaction page
 #================================================================================
     template = dict()
+    
+    types = []
+
+    types.append('Income')
+    types.append('Expenditure')
+
+    template['types'] = types
 
     return render_to_response('transactions/create_transaction.htm', template, context_instance=RequestContext(request))    
 
@@ -41,8 +48,7 @@ def create_income(request):
 #================================================================================
     #dictionary that passes information to the template
     template = dict()
-    template['test'] = "does this work?!!?!"
-    template['test2'] = "does this REALLY work?!!?!"
+
     # If the form has been submitted
     if request.method == 'POST': 
         form = IncomeForm(request.POST)

@@ -1,12 +1,29 @@
 {% extends "base.htm" %}
 {% block body %}
 <h1> Create Transaction </h1>
+	
+	Select a transaction type: </br>
+	
+	<select id="type_select" name="type_select">
+		{% for t in types %}
+			<option value="{{t}}">{{t}}</option>
+		{% endfor %}
+	</select>
 
-What type of transaction would you like to enter?
-<br><br>
-<li><a href="{% url transaction_create_expenditure %}">Expenditure</a>
-<br><br>
-<li><a href="{% url transaction_create_income %}">Income</a>
 
+
+	
+	{% block extra_body %}
+	<script type="text/javascript">
+        $(document).ready(function() {
+            $('#type_select').change(function() {
+                if ($(this).val() == "Income")
+					window.location.href="{% url transaction_create_income %}" ;
+				else
+					window.location.href="{% url transaction_create_expenditure %}" ;
+			});
+		});
+	</script>
+	{% endblock %}
 
 {% endblock body %}
