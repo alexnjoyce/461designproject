@@ -34,15 +34,15 @@ h1, h2, h3 {
 }
 
 h1 {
-	font-size: 2em;
+	font-size: 20px;
 }
 
 h2 {
-	font-size: 2.4em;
+	font-size: 18em;
 }
 
 h3 {
-	font-size: 1.6em;
+	font-size: 16em;
 }
 
 p, ul, ol {
@@ -65,7 +65,7 @@ a:hover {
   width: 100%;
   margin: 0 auto;
   padding-left: 25px;
-  height: 140px;
+  height: 125px;
 }
 
 /*
