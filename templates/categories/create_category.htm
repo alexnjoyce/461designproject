@@ -1,12 +1,23 @@
 {% extends "base.htm" %}
 {% block body %}
-<h1> Create {{type}} Category </h1>
-
+<h1> Create Category </h1>
+	
+	
 	{% if form.errors %}
         <p style="color: red;">
             Please correct the error{{ form.errors|pluralize }} below.
         </p>
     {% endif %}
+	
+	<select id="type_select" name="type_select">
+		{% for t in types %}
+			{% ifequal type t %} <option value="{{ t }}" selected="selected">{{t|capfirst}}</option>
+			{% else %}<option value="{{ t }}">{{t|capfirst}}</option>
+			{% endifequal %}
+		{% endfor %}
+	</select>
+	
+	{% if type %}
 	<form action="{% url category_create_category type=type %}" method="post">
 		<table>
 			{{ form.as_table }}
@@ -16,5 +27,17 @@
 		<br /> <br />
 		
 	</form>
+	{% endif %}
+	
+	{% block extra_body %}
+	<script type="text/javascript">
+        $(document).ready(function() {
+            $('#type_select').change(function() {
+				window.location.href="{% url category_create_category %}"+ $(this).val() + "/";
+
+			});
+		});
+	</script>
+	{% endblock %}
 
 {% endblock body %}

@@ -6,11 +6,19 @@ from django.core.urlresolvers import reverse
 from categories.models import Category, IncomeCategory, ExpenditureCategory, IncomeCategoryForm, ExpenditureCategoryForm
 
 
-def create_category(request, type):
+def create_category(request, type=None):
     template = dict()
+                    
+    types = []
+
+    types.append('income')
+    types.append('expenditure')
+
+    template['types'] = types
+    
     
 #    if you want to make income category
-    if type == "IN":
+    if type == "income":
     #   if the form has been submitted
         if request.method == 'POST': 
             form = IncomeCategoryForm(request.POST)
@@ -25,9 +33,10 @@ def create_category(request, type):
         #else blank form   
         else:
             form = IncomeCategoryForm()
+        template['form'] = form
             
 #    else type is expenditure
-    else:
+    elif type == "expenditure":
         #   if the form has been submitted
         if request.method == 'POST': 
             form = ExpenditureCategoryForm(request.POST)
@@ -42,8 +51,8 @@ def create_category(request, type):
         #else blank form   
         else:
             form = ExpenditureCategoryForm()
-            
-    template['form'] = form
+        template['form'] = form
+    
     template['type'] = type
     
     #tells the view which template to use, and to pass the template dictionary
