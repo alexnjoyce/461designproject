@@ -46,7 +46,7 @@
 			<td>{{b.term}}</td>
 			<td>{{b.year}}</td>
 			<td>{{b.stream}}</td>
-			<td><a href="{% url budget_view_budgetitems id=b.id %}" target="_blank">Details</a></td>
+			<td><a href="{% url budget_view_budgetitems id=b.id %}" target="_blank" onclick="window.open(this.href,this.target, 'scrollbar=1, height=300, width=400');return false;">Details</a></td>
 			<td>{{b.approved}}</td>
 			
 		</tr>
