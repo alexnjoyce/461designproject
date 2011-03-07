@@ -1,0 +1,14 @@
+{% extends "base.htm" %}
+{% block body %}
+<h1> Category Created</h1>
+	Congratulations! New category created... <br /><br />
+	
+	Details:<br />
+	Name: {{category.name}}<br />
+	Active: {{category.isactive}}	<br /><br />
+	
+	
+	<a href="{% url category_view_categories criteria='all' %}"><button type="button">View All</button></a>  <a href="{% url category_delete_category id=category.id %}"><button type="button">Delete</button></a>
+
+
+{% endblock body %}

@@ -1,0 +1,19 @@
+{% extends "base.htm" %}
+{% block body %}
+<h1>Transaction Submitted</h1>
+
+Congratulations, your transaction has been submitted for approval. <br />
+<table>
+
+	<tr><td>Type</td><td>{{t.get_type_display}}</td></tr>
+	<tr><td>Date</td><td>{{t.date}}</td></tr>
+	<tr><td>Amount</td><td>{{t.amount|floatformat:2}}</td></tr>
+	<tr><td>Category</td><td>{% ifequal t.type "IN" %}{{t.income_category}}{% else %}{{t.expenditure_category}} {% endifequal %}</td></tr>
+	<tr><td>Description</td><td>{{t.description}}</td></tr>
+	<tr><td>Budget</td><td>{{t.budget}}</td></tr>
+</table>
+
+<a href="{% url transaction_view_transactions %}"><button type="button">View All</button></a>   <a href="{% url transaction_edit_transaction id=t.id %}"><button type="button">Edit</button></a>  <a href="{% url transaction_delete_transaction id=t.id %}"><button type="button">Delete</button></a>
+
+
+{% endblock body %}

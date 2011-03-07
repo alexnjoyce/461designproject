@@ -1,0 +1,12 @@
+{% extends "base.htm" %}
+{% block body %}
+{% if delete %}
+<h1> Budget Deleted</h1>
+	Congratulations! Budget was deleted.
+	
+{% else %}
+<h1> Error: Budget Not Deleted</h1>
+	Budget could not be deleted - it has already been approved.
+{% endif %}
+
+{% endblock body %}

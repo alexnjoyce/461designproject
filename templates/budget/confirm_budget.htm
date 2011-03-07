@@ -1,0 +1,57 @@
+{% extends "base.htm" %}
+{% block body %}
+<h1> Budget Created </h1>
+
+Congratulations! Your budget has been created... see details below. <br/><br/>
+
+Budget Name: {{budget.name}} </br>
+Position: {{budget.position.name}}</br>
+Start Date: {{budget.start_date}}</br>
+End Date: {{budget.end_date}}</br>
+Stream: {{budget.stream}}</br></br></br>
+
+	<table>
+		<tr>
+			<th>Category</th>
+			<th>Description</th>
+			<th>Amount</th>
+		</tr>
+	{% for b in budget_items_in %}
+
+		<tr>
+			<td>{{b.income_category}}</td>
+			<td>{{b.description}}</td>
+			<td>{{b.amount|floatformat:2}}</td>
+		</tr>
+
+	{% endfor %}
+		<tr>
+			<td><b>Income Total:</b></td>
+			<td></td>
+			<td><b>{{in_tot|floatformat:2}}</b></td>
+		</tr>
+	{% for b in budget_items_ex %}
+		<tr>
+			<td>{{b.income_category}}</td>
+			<td>{{b.description}}</td>
+			<td>{{b.amount|floatformat:2}}</td>
+		</tr>
+
+	{% endfor %}
+		<tr><b>
+			<td><b>Expenditure Total:</b></td>
+			<td></td>
+			<td><b>{{ex_tot|floatformat:2}}</b></td>
+		</b></tr>
+		<tr><b>
+			<td><b>Net:</b></td>
+			<td></td>
+			<td><b>{{net|floatformat:2}}</b></td>
+		</b></tr>			
+		
+	</table>
+	
+	<a href="{% url budget_view_budgets %}"><button type="button">View All</button></a>  <a href="{% url budget_delete_budget id=budget.id %}"><button type="button">Delete</button></a>
+		
+
+{% endblock body %}

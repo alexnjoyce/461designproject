@@ -10,6 +10,7 @@
     {% endif %}
 	
 	<select id="type_select" name="type_select">
+		<option value=""></option>
 		{% for t in types %}
 			{% ifequal type t %} <option value="{{ t }}" selected="selected">{{t|capfirst}}</option>
 			{% else %}<option value="{{ t }}">{{t|capfirst}}</option>
@@ -33,6 +34,7 @@
 	<script type="text/javascript">
         $(document).ready(function() {
             $('#type_select').change(function() {
+			if ($(this).val() != "")
 				window.location.href="{% url category_create_category %}"+ $(this).val() + "/";
 
 			});

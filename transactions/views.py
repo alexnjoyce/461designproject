@@ -60,7 +60,7 @@ def create_income(request):
             item.budget = Budget.objects.get(term=item.term, year=item.year, position=item.position)
             item.type = "IN"
             form.save()
-            return HttpResponseRedirect(reverse('transaction_view_transactions'))
+            return HttpResponseRedirect(reverse('transaction_confirm_transaction', kwargs={'id': item.id}))
             
     #else blank form   
     else:
@@ -88,7 +88,7 @@ def create_expenditure(request):
             item.budget = Budget.objects.get(term=item.term, year=item.year, position=item.position)
             item.type = "EX"
             form.save()
-            return HttpResponseRedirect(reverse('transaction_view_transactions'))
+            return HttpResponseRedirect(reverse('transaction_confirm_transaction', kwargs={'id': item.id}))
         
     
     #else blank form   
@@ -109,6 +109,7 @@ def edit_transaction(request, id):
     t = Transaction.objects.get(pk=id)
     type = t.type
     
+    
 #    if income, then use all Income forms
     if t.type == "IN":
         t = get_object_or_404(Income, pk=id)
@@ -122,7 +123,7 @@ def edit_transaction(request, id):
                 #.editor = request.user
                 form.save()
         
-                return HttpResponseRedirect(reverse('transaction_view_transactions')) # Redirect after POST
+                return HttpResponseRedirect(reverse('transaction_confirm_transaction', kwargs={'id': item.id})) # Redirect after POST
         else:
             form = IncomeForm(instance=t)
                 
@@ -139,7 +140,7 @@ def edit_transaction(request, id):
                 form.editor = request.user
                 form.save()
         
-                return HttpResponseRedirect(reverse('transaction_view_transactions')) # Redirect after POST
+                return HttpResponseRedirect(reverse('transaction_confirm_transaction', kwargs={'id': item.id})) # Redirect after POST
                          
         else:
             form = ExpenditureForm(instance=t)
@@ -252,6 +253,22 @@ def view_transaction(request, id):
         
     template["t"] = t
     return render_to_response('transactions/view_transaction.htm', template, context_instance=RequestContext(request))
+
+def confirm_transaction(request, id):
+#===============================================================================
+# View details of transaction
+#===============================================================================
+    template = dict()
+    
+    t = Transaction.objects.get(pk=id)
+    if t.type == "IN":
+        t = Income.objects.get(pk=id)
+    else:
+        t = Expenditure.objects.get(pk=id)
+        
+    template["t"] = t
+    return render_to_response('transactions/confirm_transaction.htm', template, context_instance=RequestContext(request))
+
 
 def approved_switch(request, id):
     

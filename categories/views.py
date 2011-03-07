@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 
 from categories.models import Category, IncomeCategory, ExpenditureCategory, IncomeCategoryForm, ExpenditureCategoryForm
-
+from transactions.models import Income, Expenditure
 
 def create_category(request, type=None):
     template = dict()
@@ -26,8 +26,8 @@ def create_category(request, type=None):
             #validate fields
             if form.is_valid(): # check if fields validated
                 cleaned_data = form.cleaned_data
-                form.save()
-                return HttpResponseRedirect(reverse('category_view_categories', kwargs={'criteria': "all"}))
+                category = form.save()
+                return HttpResponseRedirect(reverse('category_create_confirm', kwargs={'id': category.id}))
     
                 
         #else blank form   
@@ -44,8 +44,9 @@ def create_category(request, type=None):
             #validate fields
             if form.is_valid(): # check if fields validated
                 cleaned_data = form.cleaned_data
-                form.save()
-                return HttpResponseRedirect(reverse('category_view_categories', kwargs={'criteria': "all"}))
+                category = form.save()
+                
+                return HttpResponseRedirect(reverse('category_create_confirm', kwargs={'id': category.id}))
     
                 
         #else blank form   
@@ -58,7 +59,39 @@ def create_category(request, type=None):
     #tells the view which template to use, and to pass the template dictionary
     return render_to_response('categories/create_category.htm',template, context_instance=RequestContext(request))
 
-def view_categories(request, criteria):
+def create_confirmation (request, id):
+    template = dict()
+    
+    category = get_object_or_404(Category, pk=id)
+    
+    template['category'] = category
+    
+    return render_to_response('categories/confirm.htm',template, context_instance=RequestContext(request))
+
+def delete_category(request, id):
+#===============================================================================
+# DELETE category
+#===============================================================================
+    template = dict()
+    
+    category = get_object_or_404(Category, pk=id)
+    transactions_in = Income.objects.filter(income_category=category) 
+    transactions_ex = Expenditure.objects.filter(expenditure_category=category)
+                  
+    if not transactions_in or not transactions_ex:
+        category.delete()
+        delete = True
+    else:
+        delete = False
+    
+    template["category"] = category
+    template["delete"] = delete
+    
+    return render_to_response('categories/delete.htm',template, context_instance=RequestContext(request))
+
+
+
+def view_categories(request, criteria=None):
     template = dict()
     
     criteria_list = []

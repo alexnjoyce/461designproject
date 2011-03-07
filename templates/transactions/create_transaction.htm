@@ -5,6 +5,7 @@
 	Select a transaction type: </br>
 	
 	<select id="type_select" name="type_select">
+		<option value=""></option>
 		{% for t in types %}
 			<option value="{{t}}">{{t}}</option>
 		{% endfor %}
@@ -17,6 +18,7 @@
 	<script type="text/javascript">
         $(document).ready(function() {
             $('#type_select').change(function() {
+			if ($(this).val() != "")
                 if ($(this).val() == "Income")
 					window.location.href="{% url transaction_create_income %}" ;
 				else

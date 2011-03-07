@@ -1,0 +1,12 @@
+{% extends "base.htm" %}
+{% block body %}
+{% if delete %}
+<h1> Category Deleted</h1>
+	Congratulations! Category was deleted.
+	
+{% else %}
+<h1> Error: Category Not Deleted</h1>
+	Category could not be deleted because there are transactions that are attached to that category.
+{% endif %}
+
+{% endblock body %}
