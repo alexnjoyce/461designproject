@@ -57,5 +57,7 @@ Stream: {{budget.stream}}</br></br></br>
 	{% else %}
 		<a href="{% url budget_create_budgetitems id=budget.id %}">Enter in Details</a>
 	{% endif %}
+	
+	<a href="{% url budget_view_budgets %}" onClick="javascript:window.close();"><button>Cancel</button></a>
 
 {% endblock body %}

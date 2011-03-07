@@ -1,23 +1,29 @@
-{% extends "base.htm" %}
+<link href="/media_site/style.css" rel="stylesheet" type="text/css" media="screen" />
+
 {% block body %}
 <h1>Details of Transaction</h1>
 
-<table>
-
+<table width=350>
+<p>
 	<tr><td>Type</td><td>{{t.get_type_display}}</td></tr>
 	<tr><td>Date</td><td>{{t.date}}</td></tr>
 	<tr><td>Amount</td><td>{{t.amount|floatformat:2}}</td></tr>
 	<tr><td>Category</td><td>{% ifequal t.type "IN" %}{{t.income_category}}{% else %}{{t.expenditure_category}} {% endifequal %}</td></tr>
 	<tr><td>Description</td><td>{{t.description}}</td></tr>
 	<tr><td>Budget</td><td>{{t.budget}}</td></tr>
+	
+</p>
 </table>
-
+<br><br>
 {% if t.approved %}
 	<a href="{% url transaction_approved_switch id=t.id %}" onClick="javascript:window.close();"><button>Un-Approve</button></a>
 {% else %}
 	<a href="{% url transaction_approved_switch id=t.id %}" onClick="javascript:window.close();"><button>Approve</button></a>
 {% endif %}
 
+<a href="{% url transaction_view_transactions %}" onClick="javascript:window.close();"><button>Close Window</button></a>
+
 
 {% endblock body %}
+
 

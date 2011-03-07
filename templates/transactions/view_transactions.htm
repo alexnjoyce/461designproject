@@ -54,7 +54,7 @@
 		<td width=120>{{e.description}}</td>
 		<td width=110>{{e.budget}}</td>
 		<td width=50><a href="{% url transaction_edit_transaction id=e.id %}">Edit</a></td>
-		<td width=60><a href="{% url transaction_view_transaction id=e.id %}" target="_blank">Details</a></td>
+		<td width=60><a href="{% url transaction_view_transaction id=e.id %}" target="_blank" onclick="window.open(this.href,this.target, 'scrollbar=1, height=300, width=400');return false;">Details</a></td>
 		<td width=70>{{e.approved}}</td>
 	</tr>
 {% endfor %}
@@ -67,7 +67,7 @@
 		<td>{{i.description}}</td>
 		<td>{{i.budget}}</td>
 		<td><a href="{% url transaction_edit_transaction id=i.id %}">Edit</a></td>
-		<td><a href="{% url transaction_view_transaction id=i.id %}" target="_blank">Details</a></td>
+		<td><a href="{% url transaction_view_transaction id=i.id %}" target="_blank" onclick="window.open(this.href,this.target, 'scrollbar=1, height=300, width=400');return false;">Details</a></td>
 		<td>{{i.approved}}</td>
 	</tr>
 {% endfor %}

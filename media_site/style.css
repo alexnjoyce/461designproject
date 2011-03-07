@@ -11,26 +11,14 @@ added  by alex
 
 /* Sortable tables */
 
-
-/* #tableEntries tr:nth-child(odd) {
-  background-color: #f0e68c;
-}
-
-#tableEntries tr:nth-child(even){
-  background-color: #fff;
-}
-
-
-tr:nth-child(odd)   { background-color:#FC9D00; }
-tr:nth-child(even)    { background-color:#FC9D00; }
-*/
-
 table.sortable thead {
     background-color:#eee;
     color:#666666;
     font-weight: bold;
     cursor: default;
 }
+
+/* alternating row colours */
 
 table.sortable tr:nth-child(odd) {
     background-color: #ffff99;
@@ -287,7 +275,7 @@ a:hover {
 */
 #content {
   float: right;
-  width: 72%;
+  width: 75%;
   padding: 0px 0px 0px 0px;
 }
 
@@ -359,7 +347,7 @@ a:hover {
 
 #sidebar {
 	float: left;
-	width: 280px;
+	width: 250px;
 	padding: 0px;
 	color: #787878;
 }
