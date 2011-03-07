@@ -33,7 +33,7 @@ table.sortable thead {
 }
 
 table.sortable tr:nth-child(odd) {
-    background-color: #f0e68c;
+    background-color: #ffff99;
 }
     
 table.sortable tr:nth-child(even){

@@ -26,14 +26,19 @@
 		{% endfor %}
 	</select>
 	<input type="button" value="Refresh" onClick="window.location.reload()">
-	<table class="sortable">
+	
+	<br>
+  <br>
+  <p>To sort rows, click on the column name.</p>
+
+<table class="sortable" width=500 cellpadding=0 cellspacing=0>
 		<tr>
-			<td>Budget Name</td>
-			<td>Term</td>
-			<td>Year</td>
-			<td>Stream</td>
-			<td>Details</td>
-			<td>Approved</td>
+			<td bgcolor="#ccc">Budget Name</td>
+			<td bgcolor="#ccc">Term</td>
+			<td bgcolor="#ccc">Year</td>
+			<td bgcolor="#ccc">Stream</td>
+			<td bgcolor="#ccc">Details</td>
+			<td bgcolor="#ccc">Approved</td>
 		</tr>
 	{% for b in budgets %}
 		<tr>
