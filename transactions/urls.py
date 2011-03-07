@@ -25,6 +25,7 @@ urlpatterns += patterns('transactions.views',
     url(r'^transaction/create/transaction/$',                'create_transaction',                name="transaction_create_transaction"),
     url(r'^transaction/create/income/$',                'create_income',                name="transaction_create_income"),
     url(r'^transaction/create/expenditure/$',           'create_expenditure',           name="transaction_create_expenditure"),
+        url(r'^transaction/(?P<id>\d+)/confirm/$',           'confirm_transaction',           name="transaction_confirm_transaction"),
     
     url(r'^transaction/view/$',                         'view_transactions',                     name="transaction_view_transactions"),
     url(r'^transaction/view/(?P<year>\d{4})/$',           'view_transactions',                         name="transaction_view_transactions"),
