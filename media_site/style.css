@@ -10,12 +10,36 @@ added  by alex
 */
 
 /* Sortable tables */
+
+
+/* #tableEntries tr:nth-child(odd) {
+  background-color: #f0e68c;
+}
+
+#tableEntries tr:nth-child(even){
+  background-color: #fff;
+}
+
+
+tr:nth-child(odd)   { background-color:#FC9D00; }
+tr:nth-child(even)    { background-color:#FC9D00; }
+*/
+
 table.sortable thead {
     background-color:#eee;
     color:#666666;
     font-weight: bold;
     cursor: default;
 }
+
+table.sortable tr:nth-child(odd) {
+    background-color: #f0e68c;
+}
+    
+table.sortable tr:nth-child(even){
+    background-color: #fff;
+}
+
 
 body {
 	margin: 0;
@@ -402,24 +426,6 @@ a:hover {
 	color: #6E6E6E;
 }
 
-
-/* Tables */
-#tableHeader tr{
-  background-color: #eee;
-}
-
-#tableEntries tr:nth-child(odd) {
-  background-color: #f0e68c;
-}
-
-#tableEntries tr:nth-child(even){
-  background-color: #fff;
-}
-
-/*
-tr:nth-child(odd)   { background-color:#FC9D00; }
-tr:nth-child(even)    { background-color:#FC9D00; }
-*/
 
 /* Calendar */
 

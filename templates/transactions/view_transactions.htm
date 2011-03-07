@@ -26,39 +26,41 @@
 	</select>
 
 <input type="button" value="Refresh" onClick="window.location.reload()">
-<table class="sortable">
+
+<br>
+<br>
+<p>To sort rows, click on the column name.</p>
+<table class="sortable" width=720 cellpadding=0 cellspacing=0>
 	<tr>
-	  <table id ="tableHeader">
-		<td>Type</td>
-		<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-		<td>Amount</td>
-		<td>Category</td>
-		<td>Description</td>
-		<td>Budget</td>
-		<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-		<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-		<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-		<td>Approved</td>
-		</table>
+		<td bgcolor="#ccc">Type</td>
+		<td bgcolor="#ccc">Date</td>
+		<td bgcolor="#ccc">Amount</td>
+		<td bgcolor="#ccc">Category</td>
+		<td bgcolor="#ccc">Description</td>
+		<td bgcolor="#ccc">Budget</td>
+		<td bgcolor="#ccc"></td>
+		<td bgcolor="#ccc"></td>
+		<td bgcolor="#ccc">Approved</td></bgcolor>
 	</tr>
 	
-<table id ="tableEntries">	
+	
 {% for e in expenditures %}
 	<tr>
-		<td>&nbsp;&nbsp;{{e.type}}&nbsp;&nbsp;</td>
+   
+    <td>{{e.type}}</td>
 		<td>{{e.date}}</td>
-		<td>{{e.amount}}</td>
-		<td>{{e.expenditure_category.name}}</td>
-		<td>{{e.description}}</td>
-		<td>{{e.budget}}</td>
-		<td><a href="{% url transaction_edit_transaction id=e.id %}">Edit</a></td>
-		<td><a href="{% url transaction_view_transaction id=e.id %}" target="_blank">Details</a></td>
-		<td>{{e.approved}}</td>
+		<td width=60>{{e.amount}}</td>
+		<td width=100>{{e.expenditure_category.name}}</td>
+		<td width=120>{{e.description}}</td>
+		<td width=110>{{e.budget}}</td>
+		<td width=50><a href="{% url transaction_edit_transaction id=e.id %}">Edit</a></td>
+		<td width=60><a href="{% url transaction_view_transaction id=e.id %}" target="_blank">Details</a></td>
+		<td width=70>{{e.approved}}</td>
 	</tr>
 {% endfor %}
 {% for i in incomes %}
 	<tr>
-		<td>&nbsp;&nbsp;{{i.type}}&nbsp;&nbsp;</td>
+		<td>{{i.type}}</td>
 		<td>{{i.date}}</td>
 		<td>{{i.amount}}</td>
 		<td>{{i.income_category.name}}</td>
@@ -69,7 +71,6 @@
 		<td>{{i.approved}}</td>
 	</tr>
 {% endfor %}
-</table>
 </table>
 
 {% block extra_body %}
