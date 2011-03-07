@@ -62,9 +62,12 @@ class ExpenseBudgetItem(BudgetItem):
     expenditure_category = models.ForeignKey(ExpenditureCategory)
     
 class IncomeBudgetItemForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(IncomeBudgetItemForm, self).__init__(*args, **kwargs)
+    
     class Meta:
         model = IncomeBudgetItem
-        exclude = ('budget', 'type')
+        exclude = ('budget', 'type', 'budgetitem_ptr')
 
 class ExpenseBudgetItemForm(ModelForm):
     class Meta:
