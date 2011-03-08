@@ -1,21 +1,87 @@
 {% extends "base.htm" %}
 {% block body %}
-<h1> Input Budget Items</h1>
 
-Previous Budgets: </br>
-<table>
-	{% if previous_budgets %}
+<h1>Previous Budgets</h1>
+<br/><br/>
+{% if previous_budgets %}
+
 	{% for b in previous_budgets %}
-	<tr>
-		<td><a href="{% url budget_view_budgetitems id=b.id %}">{{b.name}}</a></td>
-		<td>{{b.stream}}</td>
-		<td>{{b.start_date.year}}<td>
-	</tr>	
+		<p><a href="{% url budget_view_budgetitems id=b.id %}">{{b.name}} || {{b.term}} || {{b.start_date.year}} || {{b.stream}}</a>
+		<a href="#" id="{{b.id}}-show" class="showLink" onclick="showHide('{{b.id}}');return false;">More</a>
+		</p>
+		<div id="{{b.id}}" class="more">
+		<p><a href="#" id="{{b.id}}-hide" class="hideLink" onclick="showHide('{{b.id}}');return false;">Less</a></p>
+			<b>Income Items</b>
+			<table class="sortable" width=500 cellpadding=0 cellspacing=0>
+				<tr>
+					<td bgcolor="#ccc">Description</td>
+					<td bgcolor="#ccc">Category</td>
+					<td bgcolor="#ccc">Budgeted</td>
+					<td bgcolor="#ccc">Actual</td>
+				</tr>
+
+				{% for bi in previous_bi_in %}
+					{% ifequal bi.budget b %}
+					<tr>
+						<td>{{bi.description}}</td>
+						<td>{{bi.income_category}}</td>
+						<td>{{bi.amount}}</td>
+						<td></td>
+					</tr>
+					{% endifequal %}
+				{% endfor %}
+				<tr>
+					<td>Total Income</td>
+					<td></td>
+					<td>
+				{% for i in total_in %}
+					{% ifequal i.budget b.id %}{{i.sum}}{% endifequal %}
+				{% endfor %}
+						</td>
+					<td></td>
+				</tr>
+				</table>
+				
+				<b>Expenditure Items</b>
+				<table class="sortable" width=500 cellpadding=0 cellspacing=0>
+					<tr>
+						<td bgcolor="#ccc">Description</td>
+						<td bgcolor="#ccc">Category</td>
+						<td bgcolor="#ccc">Budgeted</td>
+						<td bgcolor="#ccc">Actual</td>
+					</tr>
+				{% for bi in previous_bi_ex %}
+					{% ifequal bi.budget b.id %}
+					<tr>
+						<td>{{bi.description}}</td>
+						<td>{{bi.expenditure_category}}</td>
+						<td>{{bi.amount}}</td>
+						<td></td>
+					</tr>
+					{% endifequal %}
+				{% endfor %}
+				<tr>
+					<td>Total Expenditure</td>
+					<td></td>
+					<td>
+				{% for i in total_ex %}
+					{% ifequal i.budget b.id %}{{i.sum}}{% endifequal %}
+				{% endfor %}
+					</td>
+					<td></td>
+				</tr>
+
+			</table><br/><br/>
+			
+		</div>
+	
 	{% endfor %}
-	{% else %}
+{% else %}
 	None
-	{% endif %}
-</table></br></br>
+{% endif %}
+
+<h1> Input Budget Items</h1>
+</br></br>
 
 	{% if formset.errors %}
         <p style="color: red;">
@@ -48,7 +114,7 @@ Previous Budgets: </br>
 			{% for field in form %}
 			<td>
 				{{ field.errors }}
-				{{ field.label_tag|capfirst }} :<br/> {{ field }}
+				{{ field.label_tag|capfirst }} : {{ field }}
 			</td>
 			{% endfor %}
 		</tr>
@@ -61,5 +127,24 @@ Previous Budgets: </br>
 		<br /> <br />
 		
 	</form>
-
+	
+	{% block extra_body %}
+    <script type="text/javascript">
+		function showHide(shID) {
+		if (document.getElementById(shID)) {
+			if (document.getElementById(shID+'-show').style.display != 'none') {
+				document.getElementById(shID+'-show').style.display = 'none';
+				document.getElementById(shID).style.display = 'block';
+			}
+			else {
+				document.getElementById(shID+'-show').style.display = 'inline';
+				document.getElementById(shID).style.display = 'none';
+			}
+		}
+	}
+	</script>
+	{% endblock extra_body %}
 {% endblock body %}
+
+
+				

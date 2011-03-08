@@ -132,8 +132,17 @@ def create_budgetitems (request, id):
     template = dict()
     
     budget = Budget.objects.get(pk=id)
-    previous_budgets = Budget.objects.filter(position=budget.position).exclude(id=budget.id)
     
+#   information for previous budget information 
+    previous_budgets = Budget.objects.filter(position=budget.position).exclude(id=budget.id)
+    previous_bi_in = IncomeBudgetItem.objects.filter(budget__position=budget.position).exclude(id=budget.id)
+    previous_bi_ex = ExpenseBudgetItem.objects.filter(budget__position=budget.position).exclude(id=budget.id)
+    total_in = previous_bi_in.values('budget').annotate(sum=Sum('amount'))
+    total_ex = previous_bi_ex.values('budget').annotate(sum=Sum('amount'))
+    
+    
+    
+#    create a formset - multiple forms on one page
     ExpensebudgetFormSet = formset_factory(ExpenseBudgetItemForm, extra=5)
     IncomebudgetFormSet = formset_factory(IncomeBudgetItemForm, extra=5)
     
@@ -164,7 +173,13 @@ def create_budgetitems (request, id):
     template['income_formset'] = income_formset
     template['expense_formset'] = expense_formset
     template['budget'] = budget
+    
+#    previous budget information
     template['previous_budgets'] = previous_budgets
+    template['previous_bi_in'] = previous_bi_in
+    template['previous_bi_ex'] = previous_bi_ex
+    template['total_in'] = total_in
+    template['total_ex'] = total_ex
     
     return render_to_response('budget/create_budgetitems.htm',template, context_instance=RequestContext(request))
 
