@@ -15,6 +15,7 @@ from django.forms.models import inlineformset_factory
 
 
 from positions.models import Position
+from transactions.models import Income, Expenditure
 from budget.models import Budget, BudgetItem, IncomeBudgetItemForm, ExpenseBudgetItemForm, BudgetForm, IncomeBudgetItem, ExpenseBudgetItem
 
 def check(check):
@@ -139,8 +140,6 @@ def create_budgetitems (request, id):
     previous_bi_ex = ExpenseBudgetItem.objects.filter(budget__position=budget.position).exclude(id=budget.id)
     total_in = previous_bi_in.values('budget').annotate(sum=Sum('amount'))
     total_ex = previous_bi_ex.values('budget').annotate(sum=Sum('amount'))
-    
-    
     
 #    create a formset - multiple forms on one page
     ExpensebudgetFormSet = formset_factory(ExpenseBudgetItemForm, extra=5)
@@ -306,8 +305,10 @@ def view_budgetitems (request, id):
 #===============================================================================
     template = dict()
     
+#    budget
     budget = Budget.objects.get(pk=id)
     
+#    get all the proposed budget items
     budget_items_in = IncomeBudgetItem.objects.filter(budget=budget)
     budget_items_ex = ExpenseBudgetItem.objects.filter(budget=budget)
     
@@ -317,18 +318,54 @@ def view_budgetitems (request, id):
     ex_tot = budget_items_ex.aggregate(sum=Sum('amount'))
     ex_tot = check(ex_tot['sum'])
     
+#    breakdown of budgeted by category
+    budget_items_in_cat = budget_items_in.values('income_category__name').annotate(sum=Sum('amount'))
+    budget_items_ex_cat = budget_items_ex.values('expenditure_category__name').annotate(sum=Sum('amount'))
+    
+#    actual items that have been attached to budget
+    transactions_in_cat = Income.objects.filter(budget=budget).values('income_category__name').annotate(sum=Sum('amount'))
+    transactions_ex_cat = Expenditure.objects.filter(budget=budget).values('expenditure_category__name').annotate(sum=Sum('amount'))
+    transactions_in_tot = Income.objects.filter(budget=budget).aggregate(sum=Sum('amount'))
+    transactions_in_tot = check(transactions_in_tot['sum'])
+    transactions_ex_tot = Income.objects.filter(budget=budget).aggregate(sum=Sum('amount'))
+    transactions_ex_tot = check(transactions_ex_tot['sum'])
+    
+#   information for previous budget information 
+    previous_budgets = Budget.objects.filter(position=budget.position).exclude(id=budget.id)
+    previous_bi_in = IncomeBudgetItem.objects.filter(budget__position=budget.position).exclude(id=budget.id)
+    previous_bi_ex = ExpenseBudgetItem.objects.filter(budget__position=budget.position).exclude(id=budget.id)
+    total_in = previous_bi_in.values('budget').annotate(sum=Sum('amount'))
+    total_ex = previous_bi_ex.values('budget').annotate(sum=Sum('amount'))
+    
+#    check if there are budget items
     if budget_items_in or budget_items_ex:
         template['full'] = True
-     
     
+#    this budget information
     template['budget_items_in'] = budget_items_in
     template['budget_items_ex'] = budget_items_ex
     template['in_tot'] = in_tot
     template['ex_tot'] = ex_tot
     template['net'] = in_tot - ex_tot
     
-    template['budget'] = budget
+#    category breakdown
+    template['budget_items_in_cat'] = budget_items_in_cat
+    template['budget_items_ex_cat'] = budget_items_ex_cat
     
+#    budget actuals
+    template['transactions_in_cat'] = transactions_in_cat
+    template['transactions_ex_cat'] = transactions_ex_cat
+    template['transactions_in_tot'] = transactions_in_tot
+    template['transactions_ex_tot'] = transactions_ex_tot
+    
+#    previous budget information
+    template['previous_budgets'] = previous_budgets
+    template['previous_bi_in'] = previous_bi_in
+    template['previous_bi_ex'] = previous_bi_ex
+    template['total_in'] = total_in
+    template['total_ex'] = total_ex
+    
+    template['budget'] = budget
     
     
     return render_to_response('budget/view_budgetitems.htm',template, context_instance=RequestContext(request))

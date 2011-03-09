@@ -25,7 +25,7 @@
 					<tr>
 						<td>{{bi.description}}</td>
 						<td>{{bi.income_category}}</td>
-						<td>{{bi.amount}}</td>
+						<td align='right'>{{bi.amount|floatformat:2}}</td>
 						<td></td>
 					</tr>
 					{% endifequal %}
@@ -33,9 +33,9 @@
 				<tr>
 					<td>Total Income</td>
 					<td></td>
-					<td>
+					<td align='right'>
 				{% for i in total_in %}
-					{% ifequal i.budget b.id %}{{i.sum}}{% endifequal %}
+					{% ifequal i.budget b.id %}{{i.sum|floatformat:2}}{% endifequal %}
 				{% endfor %}
 						</td>
 					<td></td>
@@ -55,7 +55,7 @@
 					<tr>
 						<td>{{bi.description}}</td>
 						<td>{{bi.expenditure_category}}</td>
-						<td>{{bi.amount}}</td>
+						<td align='right'>{{bi.amount|floatformat:2}}</td>
 						<td></td>
 					</tr>
 					{% endifequal %}
@@ -63,9 +63,9 @@
 				<tr>
 					<td>Total Expenditure</td>
 					<td></td>
-					<td>
+					<td align='right'>
 				{% for i in total_ex %}
-					{% ifequal i.budget b.id %}{{i.sum}}{% endifequal %}
+					{% ifequal i.budget b.id %}{{i.sum|floatformat:2}}{% endifequal %}
 				{% endfor %}
 					</td>
 					<td></td>
