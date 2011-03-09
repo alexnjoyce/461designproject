@@ -110,7 +110,7 @@ Stream: {{budget.stream}}</br></br></br>
 		<a href="{% url budget_create_budgetitems id=budget.id %}">Enter in Details</a>
 	{% endif %}
 		
-	<a href="{% url budget_view_budgets %}" onClick="javascript:window.close();"><button>Cancel</button></a> <br/><br/>
+	<a href="{% url budget_view_budgets %}" onClick="javascript:window.close();"><button>Close Window</button></a> <br/><br/>
 	
 	<h1>Previous Budgets</h1>
 	{% for b in previous_budgets %}
