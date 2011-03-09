@@ -3,12 +3,13 @@
 
 <h1> Welcome!</h1>
 <br />
-
-<p><b>Notices</b>
-  <br>
- <li>number of cheques ready for pick up
- <li>number of transactions waiting for approval
- <li>number of budgets waiting for approval</p>
-
+{% if user.is_authenticated %}
+	<p><b>Notices</b>
+	  <br>
+	 <li>number of cheques ready for pick up
+	 <li>number of transactions waiting for approval
+	 <li>number of budgets waiting for approval</p>
+<p>Other dashboard metrics</p>
+ {% endif %}
 
 {% endblock body %}

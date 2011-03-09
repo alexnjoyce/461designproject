@@ -34,11 +34,13 @@ Released   : 20100422
 	<div id="menu">
 		<ul>
 			<li><a href = "{% url index %}">Home</a></li>
-			<li><a href = "{% url transaction_view_transactions %}">Transactions</a></li>
-			<li><a href = "{% url budget_view_budgets %}">Budgets</a></li>
-			{% if user|in_group:"vp_finance,admin" %}
-			<li><a href = "{% url position_view_positions criteria='all' %}">Positions</a></li>
-			<li><a href = "{% url category_view_categories criteria='all' %}">Categories</a></li>
+			{% if user.is_authenticated %}
+				<li><a href = "{% url transaction_view_transactions %}">Transactions</a></li>
+				<li><a href = "{% url budget_view_budgets %}">Budgets</a></li>
+				{% if user|in_group:"vp_finance,admin" %}
+				<li><a href = "{% url position_view_positions criteria='all' %}">Positions</a></li>
+				<li><a href = "{% url category_view_categories criteria='all' %}">Categories</a></li>
+				{% endif %}
 			{% endif %}
 		</ul>
 	</div>
