@@ -265,6 +265,8 @@ def confirm_transaction(request, id):
         t = Income.objects.get(pk=id)
     else:
         t = Expenditure.objects.get(pk=id)
+        if not t.reciept_img:
+            template["no_receipt"] = True
         
     template["t"] = t
     return render_to_response('transactions/confirm_transaction.htm', template, context_instance=RequestContext(request))

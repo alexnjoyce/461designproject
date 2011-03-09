@@ -2,7 +2,9 @@
 {% block body %}
 <h1>Transaction Submitted</h1>
 
-Congratulations, your transaction has been submitted for approval. <br />
+<p>Congratulations, your transaction has been submitted for approval. </p>
+{% if no_receipt %}<p><b>Please submit your receipts to the Orifice or upload it to the transaction. Will not be approved until submitted.</b></p>{% endif %}
+
 <table>
 
 	<tr><td>Type</td><td>{{t.get_type_display}}</td></tr>
