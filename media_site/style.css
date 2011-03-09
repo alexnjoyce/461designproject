@@ -66,17 +66,18 @@ h1 {
 }
 
 h2 {
-	font-size: 18em;
+	font-size: 18px;
 }
 
 h3 {
-	font-size: 16em;
+	font-size: 16px;
 }
 
 p, ul, ol {
 	margin-top: 0;
 	line-height: 180%;
 }
+
 
 ul, ol {
 }
