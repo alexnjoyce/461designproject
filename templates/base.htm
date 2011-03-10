@@ -30,6 +30,7 @@ Released   : 20100422
 <div id="wrapper">
   <h2><img src="https://lh3.googleusercontent.com/_qdSpweXYZlQ/TXPiI-BcjuI/AAAAAAAAAuQ/ABFGrWWaE0c/cc_logo.png" border="0" align="left">
 </div> 
+
   <!-- end #header -->
   <div id="menu">
     <ul>
@@ -101,7 +102,6 @@ Released   : 20100422
                 <li><a href = "{% url category_create_category %}">Category </a></li>
                 <li><a href = "{% url position_create_position %}">Position </a></li>
                 {% endif %}
-
               </ul>
             </li>
             {% if user|in_group:"vp_finance,admin" %}

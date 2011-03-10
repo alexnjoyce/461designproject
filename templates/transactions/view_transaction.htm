@@ -1,5 +1,5 @@
 <link href="/media_site/style.css" rel="stylesheet" type="text/css" media="screen" />
-
+{% load user_group %}
 {% block body %}
 <h1>Details of Transaction</h1>
 
@@ -15,10 +15,12 @@
 </p>
 </table>
 <br><br>
-{% if t.approved %}
-	<a href="{% url transaction_approved_switch id=t.id %}" onClick="javascript:window.close();"><button>Un-Approve</button></a>
-{% else %}
-	<a href="{% url transaction_approved_switch id=t.id %}" onClick="javascript:window.close();"><button>Approve</button></a>
+{% if user|in_group:"vp_finance,admin" %}
+	{% if t.approved %}
+		<a href="{% url transaction_approved_switch id=t.id %}" onClick="javascript:window.close();"><button>Un-Approve</button></a>
+	{% else %}
+		<a href="{% url transaction_approved_switch id=t.id %}" onClick="javascript:window.close();"><button>Approve</button></a>
+	{% endif %}
 {% endif %}
 
 <a href="{% url transaction_view_transactions %}" onClick="javascript:window.close();"><button>Close Window</button></a>
