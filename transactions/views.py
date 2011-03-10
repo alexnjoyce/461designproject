@@ -33,7 +33,7 @@ def create_transaction(request):
     template = dict()
     
     types = []
-
+    
     types.append('Income')
     types.append('Expenditure')
 
