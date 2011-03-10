@@ -34,7 +34,7 @@ TERM_CHOICES = (
 #start model defintion
 
 class Transaction(models.Model):  
-    date = models.DateField('Date', null=True, blank=True) 
+    date = models.DateField('Date (YYYY-MM-DD)', null=True, blank=True) 
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     description = models.CharField(max_length = 100)
     approved = models.BooleanField(default=False)
