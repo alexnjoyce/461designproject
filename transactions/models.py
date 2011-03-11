@@ -43,13 +43,11 @@ class Transaction(models.Model):
     year = models.IntegerField('Year')
 
 #   New fields added by Katrina
-#    name = models.CharField(max_length = 100)
-#    date_submitted = models.DateField('Date Submitted (YYYY-MM-DD)', null=True, blank=True)
-#    email = models.CharField(max_length = 100)
-#    hst = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    name = models.CharField(max_length = 100)
+    email = models.CharField(max_length = 100)
 
 #    automatic fields
-    enter_date = models.DateField('Enter Date', auto_now_add=True)
+    date_submitted = models.DateField('Enter Date', auto_now_add=True)
     type = models.CharField(max_length = 2, choices=TYPE_CHOICES) #income or expenditure
  
 #    linked objects - foreign keys go here
@@ -68,8 +66,9 @@ class Income(Transaction):
     
 class Expenditure(Transaction):
     expenditure_category = models.ForeignKey(ExpenditureCategory, null=True)
-    reciept_img = models.FileField('Receipt Image', upload_to = 'receipt_images', null=True, blank=True)
-    
+    receipt_img = models.FileField('Receipt Image', upload_to = 'receipt_images', null=True, blank=True)
+    hst = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+        
     def __unicode__(self):
         return u'%s %s' %(self.payee, self.amount)
 
