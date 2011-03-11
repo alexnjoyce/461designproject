@@ -3,8 +3,11 @@ from django.shortcuts import get_object_or_404, render_to_response
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 
-from categories.models import Category, IncomeCategory, ExpenditureCategory, IncomeCategoryForm, ExpenditureCategoryForm
+import csv
+
+from categories.models import Category, IncomeCategory, ExpenditureCategory, IncomeCategoryForm, ExpenditureCategoryForm, UploadDataForm
 from transactions.models import Income, Expenditure
+from settings import MEDIA_ROOT
 
 def create_category(request, type=None):
     template = dict()
@@ -131,4 +134,36 @@ def isactive_switch(request, state, id):
 
     return HttpResponseRedirect(reverse('category_view_categories', kwargs={'criteria': criteria}) )
 
+def upload_data(request):
+    
+    template = dict()
+    
+    if request.method == 'POST':
+        
+        form = UploadDataForm(request.POST, request.FILES)
+        if form.is_valid():             
+            
+            directory = MEDIA_ROOT + "/test_data/" + request.FILES["file"].name
+            
+            reader = csv.reader(open(directory))
+            
+            for r in reader:
+                if r[0] == "EX":
+                    category = ExpenditureCategory()
+                    category.name = r[1]
+                    category.isactive = True
+                    category.save()
+                elif r[0] == "IN":
+                    category = IncomeCategory()
+                    category.name = r[1]
+                    category.isactive = True
+                    category.save()
+            
+        return HttpResponseRedirect(reverse('category_view_categories'))
+    else:
+        form = UploadDataForm()
+    
+    template['form'] = form
+    
+    return render_to_response('categories/upload_categories.htm',template, context_instance=RequestContext(request))    
     

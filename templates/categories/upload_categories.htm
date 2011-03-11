@@ -1,0 +1,21 @@
+{% extends "base.htm" %}
+{% block body %}
+	<h1> Upload Category Data </h1>
+	
+	{% if form.errors %}
+        <p style="color: red;">
+            Please correct the error{{ form.errors|pluralize }} below.
+        </p>
+    {% endif %}
+	
+	<form action="{% url category_upload_categories %}" method="post"  enctype="multipart/form-data">
+		<table>
+			{{ form.as_table }}
+		</table>
+		<br /> <br />
+		<input type="submit" value="Upload Data" /> <a href="{% url category_view_categories %}"><button type="button">Cancel</button></a>
+		<br /> <br />
+		
+	</form>
+	
+{% endblock %}

@@ -26,3 +26,9 @@ class PositionForm(ModelForm):
     
     class Meta:
         model = Position
+
+#===============================================================================
+# form for uploading test data
+#===============================================================================
+class UploadDataForm(forms.Form):
+    file  = forms.FileField()

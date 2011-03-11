@@ -3,7 +3,10 @@ from django.shortcuts import get_object_or_404, render_to_response
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 
-from positions.models import Position, PositionForm
+import csv
+
+from positions.models import Position, PositionForm, UploadDataForm
+from settings import MEDIA_ROOT
 
 
 
@@ -66,5 +69,34 @@ def isactive_switch(request, state, id):
     criteria = state
 
     return HttpResponseRedirect(reverse('position_view_positions', kwargs={'criteria': criteria}) )
+
+def upload_data(request):
+    
+    template = dict()
+    
+    if request.method == 'POST':
+        
+        form = UploadDataForm(request.POST, request.FILES)
+        if form.is_valid():             
+            
+            directory = MEDIA_ROOT + "/test_data/" + request.FILES["file"].name
+            
+            reader = csv.reader(open(directory))
+            
+            for r in reader:
+                position = Position()
+                position.name = r[0]
+                position.isactive = True
+                position.save()
+
+            
+        return HttpResponseRedirect(reverse('position_view_positions'), kwargs={'criteria': 'all'})
+    else:
+        form = UploadDataForm()
+    
+    template['form'] = form
+    
+    return render_to_response('positions/upload_positions.htm',template, context_instance=RequestContext(request))    
+    
 
     

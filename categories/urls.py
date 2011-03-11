@@ -22,6 +22,7 @@ urlpatterns = patterns('',
 urlpatterns += patterns('categories.views',
     
     url(r'^create/category/$',                         'create_category',                       name="category_create_category"),
+    url(r'^upload/category/$',                         'upload_data',                       name="category_upload_categories"),
     url(r'^create/category/(?P<type>\w+)/$',          'create_category',                        name="category_create_category"),
     url(r'^create/category/confirm/(?P<id>\d+)/$',    'create_confirmation',                    name="category_create_confirm"),
     

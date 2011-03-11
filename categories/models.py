@@ -41,3 +41,10 @@ class ExpenditureCategoryForm(ModelForm):
     
     class Meta:
         model = ExpenditureCategory
+        
+#===============================================================================
+# form for uploading test data
+#===============================================================================
+
+class UploadDataForm(forms.Form):
+    file  = forms.FileField()
