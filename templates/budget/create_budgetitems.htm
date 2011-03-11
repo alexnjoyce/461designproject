@@ -78,6 +78,7 @@
 	{% endfor %}
 {% else %}
 	None
+	<br><br>
 {% endif %}
 
 <h1> Input Budget Items</h1>
@@ -95,26 +96,44 @@
 		
 		<table>
 		
-		<tr><td><b>Expenses</b></td></tr>
+		<tr>
+		  <td><b>Item Expensed</b></td>
+		  <td><b>$/Item</b></td>
+		  <td><b># Items</b></td>
+		  <td><b>Total Cost/Item</b></td>
+		  <td><b>Expenditure Category</b></td>
+		</tr>
+		
 		{% for form in expense_formset.forms %}
 		<tr>
 			{% for field in form %}
 			<td>
 				{{ field.errors }}
-				{{ field.label_tag|capfirst }} : {{ field }}
+			  {{ field }}
 			</td>
-			{% endfor %}
+			{% endfor %} 
 		</tr>
         {% endfor %}
-		
-		<tr><td><b>Income</b></td></tr>
+    </table>
+<br><br>
+
+    <table>
+		<tr>
+      <td><b>Income Item</b></td>
+      <td><b>$/Item</b></td>
+      <td><b># Items</b></td>
+      <td><b>Total Income/Item</b></td>
+      <td><b>Income Category</b></td>
+    </tr>
+    
+    
 		{{ income_formset.management_form }}
 		{% for form in income_formset.forms %}
 		<tr>
 			{% for field in form %}
 			<td>
 				{{ field.errors }}
-				{{ field.label_tag|capfirst }} : {{ field }}
+				{{ field }}
 			</td>
 			{% endfor %}
 		</tr>
