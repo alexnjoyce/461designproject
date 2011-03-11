@@ -1,0 +1,13 @@
+IN,Beverage Sales
+IN,Donations
+IN,Food Sales
+IN,Other Sales
+IN,Ticket Sales
+IN,Other Income
+EX,Adminstrative Costs
+EX,Advertising Costs
+EX,Beverage Costs
+EX,Food Costs
+EX,Personel Costs
+EX,Venue Costs
+EX,Other Costs
