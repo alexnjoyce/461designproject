@@ -47,11 +47,11 @@
         <br>
         {{ form.position }}
       </td> 
-<!--     <td><label for="id_hst">*<b>HST $:</b></label>
+     <td><label for="id_hst">*<b>HST $:</b></label>
         <br>
           {{ form.hst }}
       </td>
--->
+
       <td><label for="id_amount"><b>Total $:</b></label>
         <br>
 			    {{ form.amount }}
@@ -82,7 +82,7 @@
 			{{ form.receipt_img }}
 
 		<br /> <br />
-		<input type="submit" value="Add Transaction" /> <a href="{% url transaction_create_transaction %}"><button type="button">Cancel</button></a>
+		<input type="submit" value="Submit Transaction" /> <a href="{% url transaction_create_transaction %}"><button type="button">Cancel</button></a>
 		<br /> <br />
 		
 	</form>
