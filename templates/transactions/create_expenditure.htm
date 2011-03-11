@@ -1,16 +1,82 @@
 {% extends "base.htm" %}
 {% block body %}
 <h1> Create Expenditure </h1>
-
+<br><br>
 	 {% if form.errors %}
         <p style="color: red;">
             Please correct the error{{ form.errors|pluralize }} below.
         </p>
+        {{ form.errors }}
     {% endif %}
-	<form action="{% url transaction_create_expenditure %}" method="post">
-		<table>
-			{{ form.as_table }}
-		</table>
+    
+    
+	 <form action="{% url transaction_create_expenditure %}" method="post">
+			<table>
+        <tr>
+          <td><label for="id_name"><b>Name:</b></label>
+            {{ form.name }}		
+          </td>
+        </tr>   
+        <tr>
+          <td><label for="id_submission_date"><b>Date Submitted:</b></label>
+            {{ form.date_submitted }}  (e.g: YYYY-MM-DD)
+          </td>
+        </tr>  
+        <tr>
+          <td><label for="id_email"><b>Email Address:</b></label>
+            {{ form.email }}   
+          </td>  
+      </table>
+<br>
+<br>
+<b><h3>Enter Expenditure Details</h3></b><br>
+      <table  width=850>          	  
+			<tr>
+			<td><label for="id_date"><b>Date of Expense</b> (YYYY-MM-DD):</label>
+			  <br>
+			    {{ form.date }}
+			</td>
+      <td><label for="id_description"><b>Description:</b></label>
+        <br>
+        {{ form.description }}
+      </td>
+      <td><label for="position"><b>Position/Directorship:</b></label>
+        <br>
+        {{ form.position }}
+      </td> 
+      <td><label for="id_hst">*<b>HST $:</b></label>
+        <br>
+          {{ form.hst }}
+      </td>
+      <td><label for="id_amount"><b>Total $:</b></label>
+        <br>
+			    {{ form.amount }}
+			</td>
+			</tr>
+			</table>     
+			
+      <p>*In order to claim HST, a receipt showing the HST amount must be provided with the expense statement</p>
+			<br><br>
+			
+			<table><tr>
+      <td><label for="id_term"><b>Term:</b></label>
+        <br>
+          {{ form.term }}
+      <td><label for="id_year"><b>Year</b> (YYYY):</label>
+        <br>
+          {{ form.year }}
+      </td>
+      <td><label for="id_category"><b>Category:</b></label>
+        <br>
+          {{ form.expenditure_category }}
+      </td>
+      </tr></table>
+      <br>
+      <br>
+			<label for="receipt"><b>Attach a copy of the receipt:</b></label>
+			<br>
+			{{ form.receipt_img }}
+
 		<br /> <br />
 		<input type="submit" value="Add Transaction" /> <a href="{% url transaction_create_transaction %}"><button type="button">Cancel</button></a>
 		<br /> <br />

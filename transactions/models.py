@@ -42,6 +42,12 @@ class Transaction(models.Model):
     term = models.CharField(max_length = 1, choices=TERM_CHOICES)
     year = models.IntegerField('Year')
 
+#   New fields added by Katrina
+    name = models.CharField(max_length = 100)
+    date_submitted = models.DateField('Date Submitted (YYYY-MM-DD)', null=True, blank=True)
+    email = models.CharField(max_length = 100)
+    hst = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+
 #    automatic fields
     enter_date = models.DateField('Enter Date', auto_now_add=True)
     type = models.CharField(max_length = 2, choices=TYPE_CHOICES) #income or expenditure
