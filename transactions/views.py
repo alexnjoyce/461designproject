@@ -51,7 +51,7 @@ def create_income(request):
 
     # If the form has been submitted
     if request.method == 'POST': 
-        form = IncomeForm(request.POST)
+        form = IncomeForm(request.POST, request.FILES)
 
         #validate fields
         if form.is_valid(): # check if fields validated
@@ -79,7 +79,7 @@ def create_expenditure(request):
     
     # If the form has been submitted
     if request.method == 'POST': 
-        form = ExpenditureForm(request.POST)
+        form = ExpenditureForm(request.POST, request.FILES)
 
         #validate fields
         if form.is_valid(): # check if fields validated
@@ -123,7 +123,7 @@ def edit_transaction(request, id):
                 #.editor = request.user
                 form.save()
         
-                return HttpResponseRedirect(reverse('transaction_confirm_transaction', kwargs={'id': item.id})) # Redirect after POST
+                return HttpResponseRedirect(reverse('transaction_confirm_transaction', kwargs={'id': form.id})) # Redirect after POST
         else:
             form = IncomeForm(instance=t)
                 
@@ -140,7 +140,7 @@ def edit_transaction(request, id):
                 form.editor = request.user
                 form.save()
         
-                return HttpResponseRedirect(reverse('transaction_confirm_transaction', kwargs={'id': item.id})) # Redirect after POST
+                return HttpResponseRedirect(reverse('transaction_confirm_transaction', kwargs={'id': form.id})) # Redirect after POST
                          
         else:
             form = ExpenditureForm(instance=t)
