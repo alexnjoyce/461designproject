@@ -357,6 +357,9 @@ def view_budgetitems (request, id):
     template['transactions_ex_cat'] = transactions_ex_cat
     template['transactions_in_tot'] = transactions_in_tot
     template['transactions_ex_tot'] = transactions_ex_tot
+
+#    variables to hold the net of budget - actuals
+    template['net_budget_transaction_ex_tot'] = ex_tot - transactions_ex_tot
     
 #    previous budget information
     template['previous_budgets'] = previous_budgets

@@ -48,8 +48,10 @@ class BudgetItem(models.Model):
 
     type = models.CharField(max_length = 2, choices=TYPE_CHOICES)
     description = models.CharField('Description', max_length = 100)
-    amount_per_item = models.DecimalField(max_digits=10, decimal_places=2)
-    num_items = models.DecimalField(max_digits=10, decimal_places=0)
+
+#    new entries for form added by Katrina
+#    amount_per_item = models.DecimalField(max_digits=10, decimal_places=2)
+#    num_items = models.DecimalField(max_digits=10, decimal_places=0)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
 #    linked objects
     budget = models.ForeignKey(Budget)

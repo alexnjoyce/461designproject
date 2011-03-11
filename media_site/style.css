@@ -18,7 +18,7 @@ table.sortable thead {
     cursor: default;
 }
 
-/* alternating row colours */
+/* alternating row colours for sortable tables*/
 
 table.sortable tr:nth-child(odd) {
     background-color: #ffff99;
@@ -26,6 +26,35 @@ table.sortable tr:nth-child(odd) {
     
 table.sortable tr:nth-child(even){
     background-color: #fff;
+}
+
+
+/* Tables displaying budgets */
+table.tableDollars{
+    cursor: default;
+    font-size: 14px;
+    padding: 0;
+}
+
+table.tableDollars th {
+  background-color:#eee;
+  font-weight: bold;
+  padding: 0;
+  text-align: left;
+}
+
+table.tableDollars tr:nth-child(odd) {
+    background-color: #ffff99;
+    padding: 0;
+}
+    
+table.tableDollars tr:nth-child(even){
+    background-color: #fff;
+    padding: 0;
+}
+
+table.tableDollars td {
+  padding-left: 20px;
 }
 
 /* show/hide content */
