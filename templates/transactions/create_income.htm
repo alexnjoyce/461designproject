@@ -1,17 +1,54 @@
 {% extends "base.htm" %}
 {% block body %}
 <h1> Create Income </h1>
+<br><br>
 
 	 {% if form.errors %}
         <p style="color: red;">
             Please correct the error{{ form.errors|pluralize }} below.
         </p>
+        {{ form.errors }}
     {% endif %}
-	<form action="{% url transaction_create_income %}" method="post">
-		<table>
-			{{ form.as_table }}
-		</table>
-		<br /> <br />
+    <form action="{% url transaction_create_income %}" method="post">
+    
+    <b><h3>Enter Income Details</h3></b><br>
+      <table width=800>             
+      <tr>
+      <td><label for="id_date"><b>Date of Income</b> (YYYY-MM-DD):</label>
+        <br>
+        {{ form.date }}
+      </td>
+      <td><label for="id_description"><b>Description:</b></label>
+        <br>
+        {{ form.description }}
+      </td>
+      <td><label for="position"><b>Position/Directorship:</b></label>
+        <br>
+        {{ form.position }}
+      </td> 
+
+      <td><label for="id_amount"><b>Total $:</b></label>
+        <br>
+          {{ form.amount }}
+      </td>
+      </tr>
+      </table>     
+<br><br>
+     <table><tr>
+      <td><label for="id_term"><b>Term:</b></label>
+        <br>
+          {{ form.term }}
+      <td><label for="id_year"><b>Year</b> (YYYY):</label>
+        <br>
+          {{ form.year }}
+      </td>
+      <td><label for="id_category"><b>Category:</b></label>
+        <br>
+          {{ form.income_category }}
+      </td>
+      </tr></table>
+      <br>
+      <br>
 		<input type="submit" value="Add Transaction" /> <a href="{% url transaction_create_transaction %}"><button type="button">Cancel</button></a>
 		<br /> <br />
 		
