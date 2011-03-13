@@ -9,27 +9,19 @@
         {{ form.errors }}
     {% endif %}
     
-
-<!--I think this is what ruined my db sync... whoops! 
 	 <form action="{% url transaction_create_expenditure %}" method="post">
-			<table>
+		<table>
         <tr>
-          <td><label for="id_name"><b>Name:</b></label>
-            {{ form.name }}		
-          </td>
+          <td><label for="id_name"><b>Name:</b></label></td>
+		  <td> {{ form.name }}	</td>
         </tr>   
+
         <tr>
-          <td><label for="id_submission_date"><b>Date Submitted:</b></label>
-            {{ form.date_submitted }}  (e.g: YYYY-MM-DD)
-          </td>
-        </tr>  
-        <tr>
-          <td><label for="id_email"><b>Email Address:</b></label>
-            {{ form.email }}   
-          </td>  
+          <td><label for="id_email"><b>Email Address:</b></label></td>
+          <td>  {{ form.email }}  </td>  
       </table>
       
---> 
+
 <br>
 <br>
 <b><h3>Enter Expenditure Details</h3></b><br>

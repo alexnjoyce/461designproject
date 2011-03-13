@@ -265,7 +265,7 @@ def confirm_transaction(request, id):
         t = Income.objects.get(pk=id)
     else:
         t = Expenditure.objects.get(pk=id)
-        if not t.reciept_img:
+        if not t.receipt_img:
             template["no_receipt"] = True
         
     template["t"] = t

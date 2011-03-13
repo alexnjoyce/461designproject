@@ -10,7 +10,16 @@
         {{ form.errors }}
     {% endif %}
     <form action="{% url transaction_create_income %}" method="post">
-    
+      <table>
+        <tr>
+          <td><label for="id_name"><b>Name:</b></label></td>
+		  <td> {{ form.name }}	</td>
+        </tr>   
+
+        <tr>
+          <td><label for="id_email"><b>Email Address:</b></label></td>
+          <td>  {{ form.email }}  </td>  
+      </table><br><br>
     <b><h3>Enter Income Details</h3></b><br>
       <table width=800>             
       <tr>

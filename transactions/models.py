@@ -33,12 +33,21 @@ TERM_CHOICES = (
 
 #start model defintion
 
-class Transaction(models.Model):  
+class Transaction(models.Model):
+    
+#    info of submitter
+    name = models.CharField(max_length = 100)
+    email = models.EmailField(max_length = 100)
+      
     date = models.DateField('Date (YYYY-MM-DD)', null=True, blank=True) 
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     description = models.CharField(max_length = 100)
+    
+#    admin fields
     approved = models.BooleanField(default=False)
     cheque_ready = models.BooleanField(default=False)
+    
+    
     term = models.CharField(max_length = 1, choices=TERM_CHOICES)
     year = models.IntegerField('Year')
 
@@ -64,10 +73,6 @@ class Expenditure(Transaction):
     expenditure_category = models.ForeignKey(ExpenditureCategory, null=True)
     receipt_img = models.FileField('Receipt Image', upload_to = 'receipt_images', null=True, blank=True)
     hst = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
-    
-    #   New fields added by Katrina
-    name = models.CharField(max_length = 100)
-    email = models.CharField(max_length = 100)
         
     def __unicode__(self):
         return u'%s %s' %(self.payee, self.amount)
