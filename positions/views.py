@@ -88,9 +88,10 @@ def upload_data(request):
                 position.name = r[0]
                 position.isactive = True
                 position.save()
+            return HttpResponseRedirect(reverse('position_view_positions', kwargs={'criteria': "all"}))
 
             
-        return HttpResponseRedirect(reverse('position_view_positions'), kwargs={'criteria': 'all'})
+        
     else:
         form = UploadDataForm()
     
