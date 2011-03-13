@@ -146,17 +146,22 @@ def create_budgetitems (request, id):
     IncomebudgetFormSet = formset_factory(IncomeBudgetItemForm, extra=5)
     
     if request.method == 'POST':
+        
         expense_formset = ExpensebudgetFormSet(request.POST, prefix='expenses')
         income_formset = IncomebudgetFormSet(request.POST, prefix='incomes')
+        
         if expense_formset.is_valid()and income_formset.is_valid():
-            count = 0
+            
             for form in expense_formset.forms:
-                item = form.save(commit=False)
+                item = form.cleaned_data
+                item = form.save(commit=False)  
                 if item.amount:
                     item.budget = budget
                     item.type = "EX"
                     item.save()
+                
             for form in income_formset.forms:
+                item = form.cleaned_data
                 item = form.save(commit=False)
                 if item.amount:
                     item.budget = budget

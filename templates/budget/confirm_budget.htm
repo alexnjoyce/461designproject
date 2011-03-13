@@ -10,7 +10,7 @@ Start Date: {{budget.start_date}}</br>
 End Date: {{budget.end_date}}</br>
 Stream: {{budget.stream}}</br></br></br>
 
-	<table>
+	<table class="tableDollars" cellspacing="0" cellpadding="0" width=600>
 		<tr>
 			<th>Category</th>
 			<th>Description</th>
@@ -21,32 +21,32 @@ Stream: {{budget.stream}}</br></br></br>
 		<tr>
 			<td>{{b.income_category}}</td>
 			<td>{{b.description}}</td>
-			<td>{{b.amount|floatformat:2}}</td>
+			<td align='right'>{{b.amount|floatformat:2}}</td>
 		</tr>
 
 	{% endfor %}
 		<tr>
 			<td><b>Income Total:</b></td>
 			<td></td>
-			<td><b>{{in_tot|floatformat:2}}</b></td>
+			<td align='right'><b>{{in_tot|floatformat:2}}</b></td>
 		</tr>
 	{% for b in budget_items_ex %}
 		<tr>
-			<td>{{b.income_category}}</td>
+			<td>{{b.expenditure_category}}</td>
 			<td>{{b.description}}</td>
-			<td>{{b.amount|floatformat:2}}</td>
+			<td align='right'>{{b.amount|floatformat:2}}</td>
 		</tr>
 
 	{% endfor %}
 		<tr><b>
 			<td><b>Expenditure Total:</b></td>
 			<td></td>
-			<td><b>{{ex_tot|floatformat:2}}</b></td>
+			<td align='right'><b>{{ex_tot|floatformat:2}}</b></td>
 		</b></tr>
 		<tr><b>
 			<td><b>Net:</b></td>
 			<td></td>
-			<td><b>{{net|floatformat:2}}</b></td>
+			<td align='right'><b>{{net|floatformat:2}}</b></td>
 		</b></tr>			
 		
 	</table>

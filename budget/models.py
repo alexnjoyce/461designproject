@@ -25,6 +25,7 @@ TERM_CHOICES = (
 )
 
 class Budget(models.Model):
+#    budget name can be removed (MFP meeting)
     name = models.CharField('Budget Name', max_length = 30)
     term = models.CharField(max_length = 1, choices=TERM_CHOICES)
     year = models.IntegerField('Year')
@@ -50,8 +51,8 @@ class BudgetItem(models.Model):
     description = models.CharField('Description', max_length = 100)
 
 #    new entries for form added by Katrina
-#    amount_per_item = models.DecimalField(max_digits=10, decimal_places=2)
-#    num_items = models.DecimalField(max_digits=10, decimal_places=0)
+    amount_per_item = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    num_items = models.DecimalField(max_digits=10, decimal_places=0)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
 #    linked objects
     budget = models.ForeignKey(Budget)
@@ -61,11 +62,22 @@ class IncomeBudgetItem(BudgetItem):
     
     income_category = models.ForeignKey(IncomeCategory)
     
+    def __unicode__(self):
+        return u'%s %s-%s' %(self.description, self.amount, self.amount_per_item)
+    
 class ExpenseBudgetItem(BudgetItem):
     
     expenditure_category = models.ForeignKey(ExpenditureCategory)
+
+    def __unicode__(self):
+        return u'%s %s-%s' %(self.description, self.amount, self.amount_per_item)
     
 class IncomeBudgetItemForm(ModelForm):
+    class Meta:
+        model = IncomeBudgetItem
+        exclude = ('budget', 'type')
+        fields = ['description', 'amount_per_item', 'num_items', 'amount', 'income_category']
+    
     def __init__(self, *args, **kwargs):
         super(IncomeBudgetItemForm, self).__init__(*args, **kwargs)
     
@@ -77,10 +89,25 @@ class ExpenseBudgetItemForm(ModelForm):
     class Meta:
         model = ExpenseBudgetItem
         exclude = ('budget', 'type')
+        fields = ['description', 'amount_per_item', 'num_items', 'amount', 'expenditure_category']
+    
+    def clean_amount(self):
+        cleaned_data = self.cleaned_data
+        amount_per_item = cleaned_data.get('amount_per_item')
+        num_items = cleaned_data.get('num_items')
+        amount = cleaned_data.get('amount')
+        
+        if amount_per_item*num_items != amount:
+            raise forms.ValidationError,"Amount must equal $/item * number of items."
+            
+        
+        return amount
     
     def __init__(self, *args, **kwargs):
         super(ExpenseBudgetItemForm, self).__init__(*args, **kwargs)
         self.fields['expenditure_category'].queryset = ExpenditureCategory.objects.filter(isactive=True)
+
+
 
 class BudgetForm(ModelForm):
     class Meta:

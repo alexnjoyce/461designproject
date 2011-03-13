@@ -84,9 +84,9 @@
 <h1> Input Budget Items</h1>
 </br></br>
 
-	{% if formset.errors %}
+	{% if expense_formset.errors %}
         <p style="color: red;">
-            Please correct the error{{ form.errors|pluralize }} below.
+            Please correct the error{{ expense_formset.errors|pluralize }} below.
         </p>
     {% endif %}
 
@@ -100,7 +100,7 @@
 		  <td><b>Item Expensed</b></td>
 		  <td><b>$/Item</b></td>
 		  <td><b># Items</b></td>
-		  <td><b>Total Cost/Item</b></td>
+		  <td><b>Total Cost</b></td>
 		  <td><b>Expenditure Category</b></td>
 		</tr>
 		
@@ -108,7 +108,7 @@
 		<tr>
 			{% for field in form %}
 			<td>
-				{{ field.errors }}
+			{{ field.errors }}
 			  {{ field }}
 			</td>
 			{% endfor %} 
@@ -116,13 +116,17 @@
         {% endfor %}
     </table>
 <br><br>
-
+	{% if income_formset.errors %}
+        <p style="color: red;">
+            Please correct the error{{ income_formset.errors|pluralize }} below.
+        </p>
+    {% endif %}
     <table>
 		<tr>
       <td><b>Income Item</b></td>
       <td><b>$/Item</b></td>
       <td><b># Items</b></td>
-      <td><b>Total Income/Item</b></td>
+      <td><b>Total Income</b></td>
       <td><b>Income Category</b></td>
     </tr>
     
