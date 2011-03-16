@@ -96,8 +96,9 @@ Stream: {{budget.stream}}</br></br></br>
 		</p>
 		<div id="{{b.id}}" class="more">
 		<p><a href="#" id="{{b.id}}-hide" class="hideLink" onclick="showHide('{{b.id}}');return false;">Less</a></p>
-			<b>Income Items</b>
-			<table class="sortable" width=500 cellpadding=0 cellspacing=0>
+			<h2>Income Items</h2>
+			<br>
+			<table class="tableDollars" width=600 cellpadding=0 cellspacing=0>
 				<tr>
 					<th>Description</th>
 					<th>Category</th>
@@ -116,19 +117,20 @@ Stream: {{budget.stream}}</br></br></br>
 					{% endifequal %}
 				{% endfor %}
 				<tr>
-					<td>Total Income</td>
-					<td></td>
-					<td align='right'>
+					<th>Total Income</th>
+					<th></th>
+					<th align='right'>
 				{% for i in total_in %}
 					{% ifequal i.budget b.id %}{{i.sum|floatformat:2}}{% endifequal %}
 				{% endfor %}
-						</td>
-					<td></td>
+						</th>
+					<th></th>
 				</tr>
 				</table>
-				
-				<b>Expenditure Items</b>
-				<table class="sortable" width=500 cellpadding=0 cellspacing=0>
+				<br><br>
+				<h2>Expenditure Items</h2>
+				<br>
+				<table class="tableDollars" width=600 cellpadding=0 cellspacing=0>
 					<tr>
 						<th>Description</th>
 						<th>Category</th>
@@ -146,14 +148,14 @@ Stream: {{budget.stream}}</br></br></br>
 					{% endifequal %}
 				{% endfor %}
 				<tr>
-					<td>Total Expenditure</td>
-					<td></td>
-					<td align='right'>
+					<th>Total Expenditure</th>
+					<th></th>
+					<th align='right'>
 				{% for i in total_ex %}
 					{% ifequal i.budget b.id %}{{i.sum|floatformat:2}}{% endifequal %}
 				{% endfor %}
-					</td>
-					<td></td>
+					</th>
+					<th></th>
 				</tr>
 
 			</table><br/><br/>
