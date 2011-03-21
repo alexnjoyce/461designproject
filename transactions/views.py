@@ -88,6 +88,7 @@ def create_expenditure(request):
             item = form.save(commit=False)
             item.budget = Budget.objects.get(term=item.term, year=item.year, position=item.position)
             item.type = "EX"
+            item.creator = request.user
             form.save()
             return HttpResponseRedirect(reverse('transaction_confirm_transaction', kwargs={'id': item.id}))
         
@@ -138,7 +139,7 @@ def edit_transaction(request, id):
             if form.is_valid(): # check if fields validated
                 cleaned_data = form.cleaned_data
                 form = form.save(commit=False) #save it to the db 
-                form.editor = request.user
+                #form.editor = request.user
                 form.save()
         
                 return HttpResponseRedirect(reverse('transaction_confirm_transaction', kwargs={'id': form.id})) # Redirect after POST

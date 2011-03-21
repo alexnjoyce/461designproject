@@ -21,7 +21,7 @@ urlpatterns = patterns('',
 #all our url patterns go here
 urlpatterns += patterns('transactions.views',
     
-    url(r'^$','index', name="index"),
+    
     url(r'^transaction/create/transaction/$',                'create_transaction',                name="transaction_create_transaction"),
     url(r'^transaction/create/income/$',                'create_income',                name="transaction_create_income"),
     url(r'^transaction/create/expenditure/$',           'create_expenditure',           name="transaction_create_expenditure"),

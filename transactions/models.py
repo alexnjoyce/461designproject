@@ -54,7 +54,7 @@ class Transaction(models.Model):
 
 #    automatic fields
     date_submitted = models.DateField('Enter Date', auto_now_add=True)
-    creator = models.ForeignKey(User, related_name="budget_created")
+    creator = models.ForeignKey(User, related_name="transaction_creator")
     type = models.CharField(max_length = 2, choices=TYPE_CHOICES) #income or expenditure
  
 #    linked objects - foreign keys go here
@@ -86,7 +86,7 @@ class IncomeForm(ModelForm):
     
     class Meta:
         model = Income
-        exclude = ('approved', 'cheque_ready', 'budget', 'type')
+        exclude = ('approved', 'cheque_ready', 'budget', 'type', 'creator')
         
     def __init__(self, *args, **kwargs):
         super(IncomeForm, self).__init__(*args, **kwargs)
@@ -109,7 +109,7 @@ class ExpenditureForm(ModelForm):
     
     class Meta:
         model = Expenditure
-        exclude = ('approved', 'cheque_ready', 'budget', 'type')
+        exclude = ('approved', 'cheque_ready', 'budget', 'type', 'creator')
     
     def __init__(self, *args, **kwargs):
         super(ExpenditureForm, self).__init__(*args, **kwargs)
