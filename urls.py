@@ -28,6 +28,7 @@ urlpatterns += patterns('',
     (r'', include('budget.urls')),
     (r'', include('categories.urls')),
     (r'', include('transactions.urls')),
+    (r'', include('overall.urls')),
     
 
 )
