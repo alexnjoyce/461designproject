@@ -3,6 +3,7 @@ from django.db import models
 from django.forms import ModelForm  #used for creating automatic forms
 from django import forms
 from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth.models import User
 
 #import python utility
 import datetime
@@ -53,6 +54,7 @@ class Transaction(models.Model):
 
 #    automatic fields
     date_submitted = models.DateField('Enter Date', auto_now_add=True)
+    creator = models.ForeignKey(User, related_name="budget_created")
     type = models.CharField(max_length = 2, choices=TYPE_CHOICES) #income or expenditure
  
 #    linked objects - foreign keys go here

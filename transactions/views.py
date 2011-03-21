@@ -59,6 +59,7 @@ def create_income(request):
             item = form.save(commit=False)
             item.budget = Budget.objects.get(term=item.term, year=item.year, position=item.position)
             item.type = "IN"
+            item.creator = request.user
             form.save()
             return HttpResponseRedirect(reverse('transaction_confirm_transaction', kwargs={'id': item.id}))
             
