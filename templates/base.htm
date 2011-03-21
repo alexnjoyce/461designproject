@@ -86,7 +86,8 @@ Released   : 20100422
             <li>
               <h2>Welcome</h2>
               {% if user.is_authenticated %}
-                <p>Welcome, {{ user.username }}!</p>
+                <p>Welcome, {{ user.username }}! <br/>
+				<a href="accounts/logout/">Logout</a></p>
               {% else %}
                 <p>Welcome, new user. Please log in! 
                 <a href="accounts/login/">Login here</a></p>

@@ -7,11 +7,13 @@ from django.shortcuts import get_object_or_404, render_to_response
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.db.models import Avg, Max, Min, Count, Sum
+from django.contrib.auth import logout
 
 from positions.models import Position
 from categories.models import Category, IncomeCategory, ExpenditureCategory
 from transactions.models import Transaction, Income, Expenditure
 from budget.models import Budget, BudgetItem, IncomeBudgetItem, ExpenseBudgetItem
+
 
 def check(check):
 #===============================================================================
@@ -96,9 +98,10 @@ def overview_page(request):
     return render_to_response('overall/index.htm',template, context_instance=RequestContext(request))
     
      
+def logout_view(request):
+    logout(request) 
     
-    
-    
+    return HttpResponseRedirect(reverse('overview_page'))
     
     
     
