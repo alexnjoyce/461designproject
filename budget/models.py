@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.forms import ModelForm  #used for creating forms at bottom of page
 from django.forms import forms
 from django import forms
+from django.contrib.auth.models import User
 
 # import from other apps
 from positions.models import Position
@@ -39,7 +40,7 @@ class Budget(models.Model):
     
 #    linked objects
     position = models.ForeignKey(Position)
-#    creator = models.ForeignKey(User, related_name="budget_created")
+    creator = models.ForeignKey(User, related_name="budget_created")
 #    edited_by = models.ForeignKey(User, related_name="budget_edited")
     
     def __unicode__(self):
@@ -99,8 +100,6 @@ class ExpenseBudgetItemForm(ModelForm):
         
         if amount_per_item*num_items != amount:
             raise forms.ValidationError,"Amount must equal $/item * number of items."
-            
-        
         return amount
     
     def __init__(self, *args, **kwargs):

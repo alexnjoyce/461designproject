@@ -71,6 +71,7 @@ def create_budget(request):
                 budget.creator = request.user
                 budget.start_date = start_date(budget.year, budget.term)
                 budget.end_date = end_date(budget.year, budget.term)
+                budget.creator = request.user
                 budget.save()
                 return HttpResponseRedirect(reverse('budget_create_budgetitems', kwargs={'id': budget.id}))
             else:
