@@ -40,7 +40,7 @@ class Budget(models.Model):
     
 #    linked objects
     position = models.ForeignKey(Position)
-    creator = models.ForeignKey(User, related_name="budget_created")
+    creator = models.ForeignKey(User, related_name="budget_creator")
 #    edited_by = models.ForeignKey(User, related_name="budget_edited")
     
     def __unicode__(self):
