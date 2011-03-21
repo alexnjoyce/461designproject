@@ -34,7 +34,7 @@ Released   : 20100422
   <!-- end #header -->
   <div id="menu">
     <ul>
-      <li><a href = "{% url index %}">Home</a></li>
+      <li><a href = "{% url overview_page %}">Home</a></li>
       {% if user.is_authenticated %}
         <li><a href = "{% url transaction_view_transactions %}">Transactions</a></li>
         <li><a href = "{% url budget_view_budgets %}">Budgets</a></li>
