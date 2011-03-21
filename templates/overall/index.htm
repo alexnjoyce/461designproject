@@ -1,0 +1,58 @@
+{% extends "base.htm" %}
+{% block body %}
+
+<h1> Welcome!</h1>
+<br />
+{% if user.is_authenticated %}
+	<h2>Your Notices</h2>
+		<li>Your transactions: <br/><br/>
+			 {%  for i in user_trans %}
+				{{i.type}} - {{i.amount}} - {{i.description}}<br/>
+			 {% endfor %}<br/>
+	 <li>Your budgets:</p>
+			 {%  for b in user_budgets %}
+				{{b.position}} - {{b.term}} - {{b.year}}<br/>
+			 {% endfor %}<br/><br/>
+	<h2>Overall Budget - by Category</h2>
+	<table>
+	<tr><td>Income Items</td><td></td></tr>
+	<tr>
+		<td>Category</td>
+		<td>Budgeted Amount</td>
+		<td>Actual Amount</td>
+	</tr>
+	{% for i in budget_actual_in_table %}
+	<tr>
+		<td>{{i.category}}</td>
+		<td>{{i.budgeted}}</td>
+		<td>{{i.actual}}</td>
+
+	</tr>
+	{% endfor %}
+	<tr>
+		<td>Total</td>
+		<td>{{sum_budget_in}}</td>
+		<td>{{sum_actual_in}}</td>
+	</tr>
+	<tr><td>Expenses Items</td><td></td></tr>
+	<tr>
+		<td>Category</td>
+		<td>Budgeted Amount</td>
+		<td>Actual Amount</td>
+	</tr>
+	{% for i in budget_actual_ex_table %}
+	<tr>
+		<td>{{i.category}}</td>
+		<td>{{i.budgeted}}</td>
+		<td>{{i.actual}}</td>
+
+	</tr>
+	{% endfor %}
+	<tr>
+		<td>Total</td>
+		<td>{{sum_budget_ex}}</td>
+		<td>{{sum_actual_ex}}</td>
+	</tr>
+	</table>
+{% endif %}
+{% endblock body %}
