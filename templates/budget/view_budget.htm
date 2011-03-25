@@ -32,9 +32,9 @@
   <br>
   <p>To sort rows, click on the column name.</p>
 
-<table class="sortable" width=500 cellpadding=0 cellspacing=0>
+<table class="sortable" width=500 cellpadding=5 cellspacing=0>
 		<tr>
-			<td bgcolor="#ccc">Budget Name</td>
+			<td bgcolor="#ccc">Position Name</td>
 			<td bgcolor="#ccc">Term</td>
 			<td bgcolor="#ccc">Year</td>
 			<td bgcolor="#ccc">Stream</td>
@@ -43,7 +43,7 @@
 		</tr>
 	{% for b in budgets %}
 		<tr>
-			<td>{{b.name}}</td>
+			<td>{{b.position}}</td>
 			<td>{{b.term}}</td>
 			<td>{{b.year}}</td>
 			<td>{{b.stream}}</td>
