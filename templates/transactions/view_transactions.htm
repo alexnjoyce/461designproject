@@ -33,7 +33,8 @@
 <table class="sortable" width=720 cellpadding=5 cellspacing=0>
 	<tr>
 		<td bgcolor="#ccc">Type</td>
-		<td bgcolor="#ccc">Date</td>
+		<td bgcolor="#ccc">Term</td>
+		<td bgcolor="#ccc">Year</td>
 		<td bgcolor="#ccc">Amount</td>
 		<td bgcolor="#ccc">Category</td>
 		<td bgcolor="#ccc">Description</td>
@@ -48,7 +49,8 @@
 	<tr>
    
     <td>{{e.type}}</td>
-		<td>{{e.date}}</td>
+		<td>{{e.term}}</td>
+		<td>{{e.year}}</td>
 		<td width=60>{{e.amount}}</td>
 		<td width=100>{{e.expenditure_category.name}}</td>
 		<td width=120>{{e.description}}</td>
@@ -61,7 +63,8 @@
 {% for i in incomes %}
 	<tr>
 		<td>{{i.type}}</td>
-		<td>{{i.date}}</td>
+		<td>{{i.term}}</td>
+		<td>{{i.year}}</td>
 		<td>{{i.amount}}</td>
 		<td>{{i.income_category.name}}</td>
 		<td>{{i.description}}</td>

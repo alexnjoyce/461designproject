@@ -467,6 +467,11 @@ a:hover {
 	color: #6E6E6E;
 }
 
+/* font style for "Congratulations!" messages on confirmation pages */
+p.congrats{
+  color: #FF8C00;
+  font-weight: bold; 
+}
 
 /* Calendar */
 
