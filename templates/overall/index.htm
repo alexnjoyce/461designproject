@@ -13,13 +13,13 @@
 			 {%  for b in user_budgets %}
 				{{b.position}} - {{b.term}} - {{b.year}}<br/>
 			 {% endfor %}<br/><br/>
-	<h2>Overall Budget - by Category</h2>
-	<table>
-	<tr><td>Income Items</td><td></td></tr>
+	<h2>Overall Budget - By Category</h2>
+	<br><table class="summary" width=500 cellpadding=3>
+	<tr><td><h3>Income Items</h3></td><td></td></tr>
 	<tr>
-		<td>Category</td>
-		<td>Budgeted Amount</td>
-		<td>Actual Amount</td>
+		<td><b>Category</b></td>
+		<td><b>Budgeted Amount</b></td>
+		<td><b>Actual Amount</b></td>
 	</tr>
 	{% for i in budget_actual_in_table %}
 	<tr>
@@ -30,15 +30,15 @@
 	</tr>
 	{% endfor %}
 	<tr>
-		<td>Total</td>
-		<td>{{sum_budget_in}}</td>
-		<td>{{sum_actual_in}}</td>
+		<td><b>Total</b></td>
+		<td><b>{{sum_budget_in}}</b></td>
+		<td><b>{{sum_actual_in}}</b></td>
 	</tr>
-	<tr><td>Expenses Items</td><td></td></tr>
+	<tr><td><br><br><h3>Expenses Items</h3></td><td></td></tr>
 	<tr>
-		<td>Category</td>
-		<td>Budgeted Amount</td>
-		<td>Actual Amount</td>
+		<td><b>Category</b></td>
+		<td><b>Budgeted Amount</b></td>
+		<td><b>Actual Amount</b></td>
 	</tr>
 	{% for i in budget_actual_ex_table %}
 	<tr>
@@ -49,9 +49,9 @@
 	</tr>
 	{% endfor %}
 	<tr>
-		<td>Total</td>
-		<td>{{sum_budget_ex}}</td>
-		<td>{{sum_actual_ex}}</td>
+		<td><b>Total</b></td>
+		<td><b>{{sum_budget_ex}}</b></td>
+		<td><b>{{sum_actual_ex}}</b></td>
 	</tr>
 	</table>
 {% endif %}

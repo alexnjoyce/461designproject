@@ -57,6 +57,13 @@ table.tableDollars td {
   padding-left: 20px;
 }
 
+
+table.summary {
+    cursor: default;
+    font-size: 12px;
+    padding: 0;
+}
+
 /* show/hide content */
 
 .more {
@@ -280,7 +287,7 @@ a:hover {
 }
 
 #menu a:hover, #menu .current_page_item a {
-	background: #E93301;
+	background: #FF7400;
 	text-decoration: none;
 }
 
