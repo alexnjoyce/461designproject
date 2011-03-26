@@ -3,18 +3,23 @@
 <h1>Transaction Submitted</h1>
 
 <p class="congrats">Congratulations, your transaction has been submitted for approval. </p>
-{% if no_receipt %}<p><b>Please submit your receipts to the Orifice or upload it to the transaction. Will not be approved until submitted.</b></p>{% endif %}
+{% if no_receipt %}<p><font color="red"><b>IMPORTANT!</b></font> Please submit your receipts to the Orifice or upload it to the transaction.<br> 
+  Your transaction <b>will not</b> be approved until a receipt is submitted.</b></p>{% endif %}
 
-<table>
+<table cellpadding="3">
 
-	<tr><td>Type</td><td>{{t.get_type_display}}</td></tr>
-	<tr><td>Date</td><td>{{t.date}}</td></tr>
-	<tr><td>Amount</td><td>{{t.amount|floatformat:2}}</td></tr>
-	<tr><td>Category</td><td>{% ifequal t.type "IN" %}{{t.income_category}}{% else %}{{t.expenditure_category}} {% endifequal %}</td></tr>
-	<tr><td>Description</td><td>{{t.description}}</td></tr>
-	<tr><td>Budget</td><td>{{t.budget}}</td></tr>
+  <tr><td><b>Name of Submitter:</b></td><td>{{t.name}}</td></tr>
+  <tr><td><b>Email Address:</b></td><td>{{t.email}}</td></tr>
+	<tr><td><b>Type:</b></td><td>{{t.get_type_display}}</td></tr>
+	<tr><td><b>Date:</b></td><td>{{t.date}}</td></tr>
+	<tr><td><b>Position/Directorship:</b></td><td>{{t.budget}}</td></tr>
+	 <tr><td><br></td><td><br></td></tr>
+	<tr><td><b>Amount:</b></td><td>{{t.amount|floatformat:2}}</td></tr>
+	<tr><td><b>Category:</b></td><td>{% ifequal t.type "IN" %}{{t.income_category}}{% else %}{{t.expenditure_category}} {% endifequal %}</td></tr>
+	<tr><td><b>Description:</b></td><td>{{t.description}}</td></tr>
+	
 </table>
-
+<br>
 <a href="{% url transaction_view_transactions %}"><button type="button">View All</button></a>   <a href="{% url transaction_edit_transaction id=t.id %}"><button type="button">Edit</button></a>  <a href="{% url transaction_delete_transaction id=t.id %}"><button type="button">Delete</button></a>
 
 
