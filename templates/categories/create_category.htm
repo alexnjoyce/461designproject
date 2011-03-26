@@ -10,7 +10,7 @@
     {% endif %}
 	
 	<select id="type_select" name="type_select">
-		<option value=""></option>
+		<option value="">Select One</option>
 		{% for t in types %}
 			{% ifequal type t %} <option value="{{ t }}" selected="selected">{{t|capfirst}}</option>
 			{% else %}<option value="{{ t }}">{{t|capfirst}}</option>
