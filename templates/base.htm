@@ -91,10 +91,6 @@ Released   : 20100422
 			  <ul>
 				<li><a href = "{% url transaction_view_transactions account='account' %}">My Transactions </a></li>
 				<li><a href = "{% url budget_view_budgets account='account' %}">My Budgets </a></li>
-				{% if user|in_group:"vp_finance,admin" %}
-				<li><a href = "{% url transaction_create_transaction %}">Transaction Approvals </a></li>
-				<li><a href = "{% url transaction_create_transaction %}">Budget Approvals </a></li>
-				{% endif %}
 				<li><a href="{% url logout_view %}">Logout</a></li>
 			  </ul>
               {% else %}
