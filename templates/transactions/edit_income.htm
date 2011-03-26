@@ -1,0 +1,64 @@
+{% extends "base.htm" %}
+{% block body %}
+<h1> Edit Income </h1>
+
+	 {% if form.errors %}
+        <p style="color: red;">
+            Please correct the error{{ form.errors|pluralize }} below.
+        </p>
+    {% endif %}
+	<form action="{% url transaction_edit_income id=t.id %}" method="post">
+		<table>
+        <tr>
+          <td><label for="id_name"><b>Name:</b></label></td>
+		  <td> {{ form.name }}	</td>
+        </tr>   
+
+        <tr>
+          <td><label for="id_email"><b>Email Address:</b></label></td>
+          <td>  {{ form.email }}  </td>  
+      </table><br><br>
+    <b><h3>Edit Income Details</h3></b><br>
+      <table width=800>             
+      <tr>
+      <td><label for="id_date"><b>Date of Income</b> (YYYY-MM-DD):</label>
+        <br>
+        {{ form.date }}
+      </td>
+      <td><label for="id_description"><b>Description:</b></label>
+        <br>
+        {{ form.description }}
+      </td>
+      <td><label for="position"><b>Position/Directorship:</b></label>
+        <br>
+        {{ form.position }}
+      </td> 
+
+      <td><label for="id_amount"><b>Total $:</b></label>
+        <br>
+          {{ form.amount }}
+      </td>
+      </tr>
+      </table>     
+	<br><br>
+     <table><tr>
+      <td><label for="id_term"><b>Term:</b></label>
+        <br>
+          {{ form.term }}
+      <td><label for="id_year"><b>Year</b> (YYYY):</label>
+        <br>
+          {{ form.year }}
+      </td>
+      <td><label for="id_category"><b>Category:</b></label>
+        <br>
+          {{ form.income_category }}
+      </td>
+      </tr></table>
+      <br>
+      <br>
+		<input type="submit" value="Edit Transaction" /> <a href="{% url transaction_confirm_delete_transaction id=t.id %}"><button type="button">Delete</button></a> <a href="{% url transaction_view_transactions %}"><button type="button">Cancel</button></a>
+		<br /> <br />
+		
+	</form>
+
+{% endblock body %}

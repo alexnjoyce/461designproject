@@ -1,6 +1,6 @@
 {% extends "base.htm" %}
 {% block body %}
-<h1> Create Category </h1>
+<h1> Create {% if type %}{{type|capfirst}} {% endif %} Category </h1>
 	
 	
 	{% if form.errors %}
@@ -10,7 +10,7 @@
     {% endif %}
 	
 	<select id="type_select" name="type_select">
-		<option value=""></option>
+		<option value="">Select One</option>
 		{% for t in types %}
 			{% ifequal type t %} <option value="{{ t }}" selected="selected">{{t|capfirst}}</option>
 			{% else %}<option value="{{ t }}">{{t|capfirst}}</option>
@@ -24,7 +24,7 @@
 			{{ form.as_table }}
 		</table>
 		<br /> <br />
-		<input type="submit" value="Add Category" /> <a href="{% url index %}"><button type="button">Cancel</button></a>
+		<input type="submit" value="Add Category" /> <a href="{% url overview_page %}"><button type="button">Cancel</button></a>
 		<br /> <br />
 		
 	</form>

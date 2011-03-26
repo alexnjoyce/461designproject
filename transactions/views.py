@@ -100,54 +100,61 @@ def create_expenditure(request):
     return render_to_response('transactions/create_expenditure.htm',template, context_instance=RequestContext(request))
 
 @login_required
-def edit_transaction(request, id):
+def edit_income(request, id):
 #================================================================================
 # edit specific transaction - general
 #================================================================================
     template = dict()
-    t = Transaction.objects.get(pk=id)
-    type = t.type
+
     
+    t = get_object_or_404(Income, pk=id)
+    if request.method == 'POST': # If the form has been submitted...    
+        form = IncomeForm(request.POST, instance=t)   
+       
+        #validate fields
+        if form.is_valid(): # check if fields validated
+            cleaned_data = form.cleaned_data
+            form = form.save(commit=False) #save it to the db
+            #.editor = request.user
+            form.save()
     
-#    if income, then use all Income forms
-    if t.type == "IN":
-        t = get_object_or_404(Income, pk=id)
-        if request.method == 'POST': # If the form has been submitted...    
-            form = IncomeForm(request.POST, instance=t)   
-           
-            #validate fields
-            if form.is_valid(): # check if fields validated
-                cleaned_data = form.cleaned_data
-                form = form.save(commit=False) #save it to the db
-                #.editor = request.user
-                form.save()
-        
-                return HttpResponseRedirect(reverse('transaction_confirm_transaction', kwargs={'id': form.id})) # Redirect after POST
-        else:
-            form = IncomeForm(instance=t)
-                
-#    if expenditure then use expenditure forms
+            return HttpResponseRedirect(reverse('transaction_confirm_transaction', kwargs={'id': form.id})) # Redirect after POST
     else:
-        t = get_object_or_404(Expenditure, pk=id)
-        if request.method == 'POST': # If the form has been submitted...
-            form = ExpenditureForm(request.POST, instance=t) 
-            
-#            validate fields
-            if form.is_valid(): # check if fields validated
-                cleaned_data = form.cleaned_data
-                form = form.save(commit=False) #save it to the db 
-                #form.editor = request.user
-                form.save()
-        
-                return HttpResponseRedirect(reverse('transaction_confirm_transaction', kwargs={'id': form.id})) # Redirect after POST
-                         
-        else:
-            form = ExpenditureForm(instance=t)
-                    
+        form = IncomeForm(instance=t)
+                
+ 
     template["t"] = t
     template["form"] = form #pass the form to template as "form" variable
        
-    return render_to_response('transactions/edit_transaction.htm', template, context_instance=RequestContext(request))
+    return render_to_response('transactions/edit_income.htm', template, context_instance=RequestContext(request))
+
+@login_required
+def edit_expenditure(request, id):
+#================================================================================
+# edit specific transaction - general
+#================================================================================
+    template = dict()
+
+    t = get_object_or_404(Expenditure, pk=id)
+    if request.method == 'POST': # If the form has been submitted...
+        form = ExpenditureForm(request.POST, instance=t) 
+        
+#            validate fields
+        if form.is_valid(): # check if fields validated
+            cleaned_data = form.cleaned_data
+            form = form.save(commit=False) #save it to the db 
+            #form.editor = request.user
+            form.save()
+    
+            return HttpResponseRedirect(reverse('transaction_confirm_transaction', kwargs={'id': form.id})) # Redirect after POST
+                     
+    else:
+        form = ExpenditureForm(instance=t)
+    
+    template["t"] = t
+    template["form"] = form #pass the form to template as "form" variable    
+
+    return render_to_response('transactions/edit_expenditure.htm', template, context_instance=RequestContext(request))    
 
 @login_required
 def view_transactions(request, year=None, term=None, account=None):
@@ -205,6 +212,7 @@ def view_transactions(request, year=None, term=None, account=None):
     
     template['incomes'] = incomes
     template['expenditures'] = expenditures
+    template['transactions'] = transactions
     
     expenditures_total = expenditures.aggregate(total=Sum('amount'))
     incomes_total = incomes.aggregate(total=Sum('amount'))

@@ -35,8 +35,9 @@ urlpatterns += patterns('transactions.views',
     
     
     url(r'^transaction/details/(?P<id>\d+)/$',             'view_transaction',                     name="transaction_view_transaction"),
-    url(r'^transaction/edit/(?P<id>\d+)/$',             'edit_transaction',             name="transaction_edit_transaction"),
-    url(r'^transaction/confdelete/(?P<id>\d+)/$',       'confirm_delete_transaction',   name="transaction_confirm_delete_transaction"),
+    url(r'^transaction/edit/income/(?P<id>\d+)/$',             'edit_income',             name="transaction_edit_income"),
+    url(r'^transaction/edit/expenditure/(?P<id>\d+)/$',             'edit_expenditure',             name="transaction_edit_expenditure"),
+    url(r'^transaction/confirm/delete/(?P<id>\d+)/$',       'confirm_delete_transaction',   name="transaction_confirm_delete_transaction"),
     url(r'^transaction/delete/(?P<id>\d+)/$',           'delete_transaction',           name="transaction_delete_transaction"),
     
     url(r'^transaction/(?P<id>\d+)/approve/$','approved_switch',                       name="transaction_approved_switch"),
