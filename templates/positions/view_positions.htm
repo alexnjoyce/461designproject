@@ -13,10 +13,13 @@
 		{% endfor %}
 	
 	</select>
-	<table>
+	<br><br><br>
+	To sort rows, click on the column name.
+	<br><br>
+	<table class="sortable" cellpadding="5" cellspacing="0">
 		<tr>
-		<td>Position Name</td>
-		<td>Is Active?</td>
+		<td bgcolor="#ccc"><b>Position Name</b></td>
+		<td bgcolor="#ccc"><b>Is Active?</b></td>
 		</tr>
 	{% for p in positions %}
 		<tr>

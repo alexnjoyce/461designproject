@@ -30,7 +30,7 @@
 <br>
 <br>
 <p>To sort rows, click on the column name.</p>
-<table class="sortable" width=720 cellpadding=5 cellspacing=0>
+<table class="sortable" width=750 cellpadding=5 cellspacing=0>
 	<tr>
 		<td bgcolor="#ccc">Type</td>
 		<td bgcolor="#ccc">Term</td>
@@ -38,7 +38,7 @@
 		<td bgcolor="#ccc">Amount</td>
 		<td bgcolor="#ccc">Category</td>
 		<td bgcolor="#ccc">Description</td>
-		<td bgcolor="#ccc">Budget</td>
+		<td bgcolor="#ccc">Position Name</td>
 		<td bgcolor="#ccc"></td>
 		<td bgcolor="#ccc"></td>
 		<td bgcolor="#ccc">Approved</td></bgcolor>
@@ -48,27 +48,27 @@
 {% for e in expenditures %}
 	<tr>
    
-    <td>{{e.type}}</td>
+    <td>EXPENDITURE</td>
 		<td>{{e.term}}</td>
 		<td>{{e.year}}</td>
-		<td width=60>{{e.amount}}</td>
-		<td width=100>{{e.expenditure_category.name}}</td>
-		<td width=120>{{e.description}}</td>
-		<td width=110>{{e.budget}}</td>
-		<td width=50><a href="{% url transaction_edit_transaction id=e.id %}">Edit</a></td>
-		<td width=60><a href="{% url transaction_view_transaction id=e.id %}" target="_blank" onclick="window.open(this.href,this.target, 'scrollbar=1, height=300, width=400');return false;">Details</a></td>
-		<td width=70>{{e.approved}}</td>
+		<td>{{e.amount}}</td>
+		<td>{{e.expenditure_category.name}}</td>
+		<td>{{e.description}}</td>
+		<td>{{e.position}}</td>
+		<td><a href="{% url transaction_edit_transaction id=e.id %}">Edit</a></td>
+		<td><a href="{% url transaction_view_transaction id=e.id %}" target="_blank" onclick="window.open(this.href,this.target, 'scrollbar=1, height=300, width=400');return false;">Details</a></td>
+		<td>{{e.approved}}</td>
 	</tr>
 {% endfor %}
 {% for i in incomes %}
 	<tr>
-		<td>{{i.type}}</td>
+		<td>INCOME</td>
 		<td>{{i.term}}</td>
 		<td>{{i.year}}</td>
 		<td>{{i.amount}}</td>
 		<td>{{i.income_category.name}}</td>
 		<td>{{i.description}}</td>
-		<td>{{i.budget}}</td>
+		<td>{{i.position}}</td>
 		<td><a href="{% url transaction_edit_transaction id=i.id %}">Edit</a></td>
 		<td><a href="{% url transaction_view_transaction id=i.id %}" target="_blank" onclick="window.open(this.href,this.target, 'scrollbar=1, height=300, width=400');return false;">Details</a></td>
 		<td>{{i.approved}}</td>

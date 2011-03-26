@@ -14,14 +14,13 @@
 		{% endfor %}
 	
 	</select>
-
-	<table>
+  <br><br><br>
+  To sort rows, click on the column name.
+  <br><br>
+	<table class="sortable" width=500 cellspacing="0" cellpadding="5">
 		<tr>
-		<td></td>
-		<td>Is Active?</td>
-		</tr>
-		<tr>
-		<td><b>Income Categories</b></td>
+		<td bgcolor="#ccc">Income Categories</td>
+		<td bgcolor="#ccc">Is Active?</td>
 		</tr>
 	{% for c in income_categories %}
 		<tr>
@@ -33,8 +32,12 @@
 		</td>
 		</tr>
 	{% endfor %}
+	</table>
+	<br><br>
+  <table class="sortable" width=500 cellspacing="0" cellpadding="5">
 		<tr>
-		<td><br><br><b>Expenditure Categories</b></td>
+		<td bgcolor="#ccc">Expenditure Categories</td>
+		<td bgcolor="#ccc">Is Active?</td>
 		</tr>
 	{% for c in expenditure_categories %}
 		<tr>
