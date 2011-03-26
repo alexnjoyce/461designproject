@@ -92,17 +92,20 @@ def create_budget(request):
     return render_to_response('budget/create_budget.htm',template, context_instance=RequestContext(request))
 
 @login_required
-def view_budgets(request, year=None, term=None):
+def view_budgets(request, year=None, term=None, account=None):
 #===========================================================================
 # view all budgets
 #===========================================================================
 
     template = dict()
     
-    if is_admin(request.user):
-        budgets = Budget.objects.all()
+    budgets = Budget.objects.all()
+    
+    if account:
+        if not is_admin(request.user):
+            budgets = budgets.filter(approved=True)
     else:
-        budgets = Budget.objects.filter(approved=True)
+        budgets = budgets.filter(creator=request.user)
     
     terms = []
     terms.append('S')
@@ -128,7 +131,7 @@ def view_budgets(request, year=None, term=None):
         budgets = budgets.filter(term=term)
         template['term'] = term    
    
-    
+    template['account'] = account
     template['budgets'] = budgets
     
     return render_to_response('budget/view_budget.htm',template, context_instance=RequestContext(request))
@@ -193,6 +196,7 @@ def create_budgetitems (request, id):
     template['previous_bi_ex'] = previous_bi_ex
     template['total_in'] = total_in
     template['total_ex'] = total_ex
+    
     
     return render_to_response('budget/create_budgetitems.htm',template, context_instance=RequestContext(request))
 

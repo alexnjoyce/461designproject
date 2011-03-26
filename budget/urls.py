@@ -29,6 +29,7 @@ urlpatterns += patterns('budget.views',
     
     url(r'^budgets/view/$',                          'view_budgets',                         name="budget_view_budgets"),
     url(r'^budgets/view/(?P<year>\d{4})/$',           'view_budgets',                         name="budget_view_budgets"),
+    url(r'^budgets/view/(?P<account>\w{7})/$',           'view_budgets',                         name="budget_view_budgets"),
     url(r'^budgets/view/(?P<term>\w{1})/$',           'view_budgets',                         name="budget_view_budgets"),
     url(r'^budgets/view/(?P<year>\d{4})/(?P<term>\w{1})/$', 'view_budgets',                         name="budget_view_budgets"),
     

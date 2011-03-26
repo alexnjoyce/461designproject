@@ -1,7 +1,11 @@
 
 {% extends "base.htm" %}
 {% block body %}
-<h1> View Budgets </h1>
+
+{% if account %}
+	<h1>My Budgets</h1>
+{% else %}
+	<h1> View All Budgets </h1>
 
 	Term:
 	<select id="term_select" name="term_select">
@@ -27,7 +31,7 @@
 		{% endfor %}
 	</select>
 	<input type="button" value="Refresh" onClick="window.location.reload()">
-	
+{% endif %}
 	<br>
   <br>
   <p>To sort rows, click on the column name.</p>
