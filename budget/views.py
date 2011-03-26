@@ -101,11 +101,14 @@ def view_budgets(request, year=None, term=None, account=None):
     
     budgets = Budget.objects.all()
     
-    if account:
+    if not account:
         if not is_admin(request.user):
             budgets = budgets.filter(approved=True)
     else:
-        budgets = budgets.filter(creator=request.user)
+        if is_admin(request.user):
+            budgets = budgets.filter(approved=False)
+        else:
+            budgets = budgets.filter(creator=request.user)
     
     terms = []
     terms.append('S')

@@ -166,9 +166,14 @@ def view_transactions(request, year=None, term=None, account=None):
             incomes = incomes.filter(approved=True)
             transactions = transactions.filter(approved=True)
     else:
-        expenditures = expenditures.filter(creator=request.user)
-        incomes = incomes.filter(creator=request.user)
-        transactions = transactions.filter(creator=request.user)           
+        if is_admin(request.user):
+            expenditures = expenditures.filter(approved=False)
+            incomes = incomes.filter(approved=False)
+            transactions = transactions.filter(approved=False)  
+        else:
+            expenditures = expenditures.filter(creator=request.user)
+            incomes = incomes.filter(creator=request.user)
+            transactions = transactions.filter(creator=request.user)           
         
     
     terms = []
