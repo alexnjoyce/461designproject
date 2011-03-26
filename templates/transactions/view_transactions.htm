@@ -1,6 +1,9 @@
 {% extends "base.htm" %}
 {% block body %}
-<h1>View All Transactions</h1>
+{% if account %}
+	<h1>My Transactions</h1>
+{% else %}
+	<h1>View All Transactions</h1>
 	Term:
 	<select id="term_select" name="term_select">
 		{% if term %} <option value="{{all}}">{{all}}</option>
@@ -26,7 +29,7 @@
 	</select>
 
 <input type="button" value="Refresh" onClick="window.location.reload()">
-
+{% endif %}
 <br>
 <br>
 <p>To sort rows, click on the column name.</p>

@@ -209,6 +209,8 @@ def view_transactions(request, year=None, term=None, account=None):
     template['expenditures_total'] = expenditures_total
     template['incomes_total'] = incomes_total
     template['incomes'] = incomes
+    
+    template['account'] = account
 
     
     
