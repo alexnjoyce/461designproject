@@ -2,6 +2,7 @@ from django.template import RequestContext
 from django.shortcuts import get_object_or_404, render_to_response
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
+from django.contrib.auth.decorators import login_required
 
 import csv
 
@@ -9,6 +10,7 @@ from categories.models import Category, IncomeCategory, ExpenditureCategory, Inc
 from transactions.models import Income, Expenditure
 from settings import MEDIA_ROOT
 
+@login_required
 def create_category(request, type=None):
     template = dict()
                     
@@ -62,6 +64,7 @@ def create_category(request, type=None):
     #tells the view which template to use, and to pass the template dictionary
     return render_to_response('categories/create_category.htm',template, context_instance=RequestContext(request))
 
+@login_required
 def create_confirmation (request, id):
     template = dict()
     
@@ -71,6 +74,7 @@ def create_confirmation (request, id):
     
     return render_to_response('categories/confirm.htm',template, context_instance=RequestContext(request))
 
+@login_required
 def delete_category(request, id):
 #===============================================================================
 # DELETE category
@@ -93,7 +97,7 @@ def delete_category(request, id):
     return render_to_response('categories/delete.htm',template, context_instance=RequestContext(request))
 
 
-
+@login_required
 def view_categories(request, criteria=None):
     template = dict()
     
@@ -134,6 +138,7 @@ def isactive_switch(request, state, id):
 
     return HttpResponseRedirect(reverse('category_view_categories', kwargs={'criteria': criteria}) )
 
+@login_required
 def upload_data(request):
     
     template = dict()

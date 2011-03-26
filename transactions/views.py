@@ -7,6 +7,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.db.models import Avg, Max, Min, Count, Sum
 from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth.decorators import login_required
 
 #import models
 from transactions.models import Transaction, Income, Expenditure, IncomeCategory, ExpenditureCategory
@@ -17,15 +18,7 @@ from positions.models import Position
 
 
 
-def index(request):
-#================================================================================
-# index
-#================================================================================
-    template = dict()
-    
-    return render_to_response('transactions/index.htm',template, context_instance=RequestContext(request))
-
-
+@login_required
 def create_transaction(request):
 #================================================================================
 # create transaction page
@@ -41,7 +34,7 @@ def create_transaction(request):
 
     return render_to_response('transactions/create_transaction.htm', template, context_instance=RequestContext(request))    
 
-
+@login_required
 def create_income(request):
 #================================================================================
 # create income object
@@ -72,6 +65,7 @@ def create_income(request):
     #tells the view which template to use, and to pass the template dictionary
     return render_to_response('transactions/create_income.htm',template, context_instance=RequestContext(request))
 
+@login_required
 def create_expenditure(request):
 #================================================================================
 # create expenditure object
@@ -102,7 +96,7 @@ def create_expenditure(request):
     
     return render_to_response('transactions/create_expenditure.htm',template, context_instance=RequestContext(request))
 
-
+@login_required
 def edit_transaction(request, id):
 #================================================================================
 # edit specific transaction - general
@@ -152,6 +146,7 @@ def edit_transaction(request, id):
        
     return render_to_response('transactions/edit_transaction.htm', template, context_instance=RequestContext(request))
 
+@login_required
 def view_transactions(request, year=None, term=None):
 #================================================================================
 # view all transactions

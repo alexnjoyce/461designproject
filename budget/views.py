@@ -11,6 +11,7 @@ from django.db.models import Avg, Max, Min, Count, Sum
 from django.forms.formsets import formset_factory
 from django.forms.models import modelformset_factory
 from django.forms.models import inlineformset_factory
+from django.contrib.auth.decorators import login_required
 
 
 
@@ -52,6 +53,7 @@ def end_date(year, term):
     
     return date
 
+@login_required
 def create_budget(request):
 #===============================================================================
 # make a new budget shell
@@ -88,6 +90,7 @@ def create_budget(request):
     #tells the view which template to use, and to pass the template dictionary
     return render_to_response('budget/create_budget.htm',template, context_instance=RequestContext(request))
 
+@login_required
 def view_budgets(request, year=None, term=None):
 #===========================================================================
 # view all budgets
@@ -126,6 +129,7 @@ def view_budgets(request, year=None, term=None):
     
     return render_to_response('budget/view_budget.htm',template, context_instance=RequestContext(request))
 
+@login_required
 def create_budgetitems (request, id):
 #===============================================================================
 # create budget items for new budgets
@@ -188,6 +192,7 @@ def create_budgetitems (request, id):
     
     return render_to_response('budget/create_budgetitems.htm',template, context_instance=RequestContext(request))
 
+@login_required
 def edit_budgetitems (request, id):
 #===========================================================================
 # edit budget items... still broken
@@ -245,6 +250,7 @@ def edit_budgetitems (request, id):
     
     return render_to_response('budget/edit_budgetitems.htm',template, context_instance=RequestContext(request))
 
+@login_required
 def approved_switch(request, id):
     
     budget = Budget.objects.get(pk=id)
@@ -258,6 +264,7 @@ def approved_switch(request, id):
 
     return HttpResponseRedirect(reverse('budget_view_budgets') )
 
+@login_required
 def confirm_budgetitems (request, id):
 #===============================================================================
 # confirm budget items
@@ -288,7 +295,8 @@ def confirm_budgetitems (request, id):
     template['budget'] = budget
     
     return render_to_response('budget/confirm_budget.htm',template, context_instance=RequestContext(request))
-                            
+
+@login_required                            
 def delete_budget (request, id):
     
     template = dict()
@@ -304,7 +312,7 @@ def delete_budget (request, id):
     return render_to_response('budget/delete.htm',template, context_instance=RequestContext(request))
 
 
-
+@login_required
 def view_budgetitems (request, id):
 #===============================================================================
 # view detailed view of the budget
