@@ -13,7 +13,8 @@ from django.forms.models import modelformset_factory
 from django.forms.models import inlineformset_factory
 from django.contrib.auth.decorators import login_required
 
-
+#helper functions
+from overall.views import is_admin, is_vpf
 
 from positions.models import Position
 from transactions.models import Income, Expenditure
@@ -98,9 +99,12 @@ def view_budgets(request, year=None, term=None):
 
     template = dict()
     
-    budgets = Budget.objects.all()
+    if is_admin(request.user):
+        budgets = Budget.objects.all()
+    else:
+        budgets = Budget.objects.filter(approved=True)
+    
     terms = []
-
     terms.append('S')
     terms.append('W')
     terms.append('F')

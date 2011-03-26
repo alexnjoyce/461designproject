@@ -23,6 +23,16 @@ def check(check):
         check = 0
     return check
 
+def is_admin(user):
+    if user:
+        return user.groups.filter(name='admin').count() != 0
+    return False
+
+def is_vpf(user):
+    if user:
+        return user.groups.filter(name='vpf').count() != 0
+    return False
+
 def overview_page(request):
     template = dict()
     

@@ -9,6 +9,9 @@ from django.db.models import Avg, Max, Min, Count, Sum
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 
+#helper functions
+from overall.views import is_admin, is_vpf
+
 #import models
 from transactions.models import Transaction, Income, Expenditure, IncomeCategory, ExpenditureCategory
 from transactions.models import ExpenditureForm, IncomeForm
@@ -152,9 +155,15 @@ def view_transactions(request, year=None, term=None):
 # view all transactions
 #================================================================================
     template = dict()
-    expenditures = Expenditure.objects.all()
-    incomes = Income.objects.all()
-    transactions = Transaction.objects.all()
+    if is_admin(request.user):
+        expenditures = Expenditure.objects.all()
+        incomes = Income.objects.all()
+        transactions = Transaction.objects.all()
+    else:
+        expenditures = Expenditure.objects.filter(approved=True)
+        incomes = Income.objects.filter(approved=True)
+        transactions = Transaction.objects.filter(approved=True)
+        
     
     terms = []
     terms.append('S')
