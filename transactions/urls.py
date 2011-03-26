@@ -30,7 +30,8 @@ urlpatterns += patterns('transactions.views',
     url(r'^transaction/view/$',                         'view_transactions',                     name="transaction_view_transactions"),
     url(r'^transaction/view/(?P<year>\d{4})/$',           'view_transactions',                         name="transaction_view_transactions"),
     url(r'^transaction/view/(?P<term>\w{1})/$',           'view_transactions',                         name="transaction_view_transactions"),
-    url(r'^transaction/view/(?P<year>\d{4})/(?P<term>\w{1})/$', 'view_transactions',                         name="transaction_view_transactions"), 
+    url(r'^transaction/view/(?P<year>\d{4})/(?P<term>\w{1})/$', 'view_transactions',                         name="transaction_view_transactions"),
+    url(r'^transaction/view/(?P<account>\w{7})/$',          'view_transactions',                         name="transaction_view_transactions"), 
     
     
     url(r'^transaction/details/(?P<id>\d+)/$',             'view_transaction',                     name="transaction_view_transaction"),

@@ -150,19 +150,25 @@ def edit_transaction(request, id):
     return render_to_response('transactions/edit_transaction.htm', template, context_instance=RequestContext(request))
 
 @login_required
-def view_transactions(request, year=None, term=None):
+def view_transactions(request, year=None, term=None, account=None):
 #================================================================================
 # view all transactions
 #================================================================================
     template = dict()
-    if is_admin(request.user):
-        expenditures = Expenditure.objects.all()
-        incomes = Income.objects.all()
-        transactions = Transaction.objects.all()
+    
+    expenditures = Expenditure.objects.all()
+    incomes = Income.objects.all()
+    transactions = Transaction.objects.all()
+    
+    if not account:
+        if not is_admin(request.user):
+            expenditures = expenditures.filter(approved=True)
+            incomes = incomes.filter(approved=True)
+            transactions = transactions.filter(approved=True)
     else:
-        expenditures = Expenditure.objects.filter(approved=True)
-        incomes = Income.objects.filter(approved=True)
-        transactions = Transaction.objects.filter(approved=True)
+        expenditures = expenditures.filter(creator=request.user)
+        incomes = incomes.filter(creator=request.user)
+        transactions = transactions.filter(creator=request.user)           
         
     
     terms = []
@@ -208,7 +214,7 @@ def view_transactions(request, year=None, term=None):
     
     return render_to_response('transactions/view_transactions.htm', template, context_instance=RequestContext(request))
 
-
+@login_required
 def delete_transaction(request, id):
 #===============================================================================
 # DELETE transactions
@@ -226,7 +232,7 @@ def delete_transaction(request, id):
     
     return HttpResponseRedirect (reverse('transaction_view_transactions')) #redirect to list of transactions after delete is complete
 
-
+@login_required
 def confirm_delete_transaction(request, id):
 #===============================================================================
 # DELETE transactions
@@ -244,7 +250,7 @@ def confirm_delete_transaction(request, id):
 
     return render_to_response('transactions/confirm_delete_transaction.htm', template, context_instance=RequestContext(request))
 
-
+@login_required
 def view_transaction(request, id):
 #===============================================================================
 # View details of transaction
@@ -260,6 +266,7 @@ def view_transaction(request, id):
     template["t"] = t
     return render_to_response('transactions/view_transaction.htm', template, context_instance=RequestContext(request))
 
+@login_required
 def confirm_transaction(request, id):
 #===============================================================================
 # View details of transaction
@@ -277,7 +284,7 @@ def confirm_transaction(request, id):
     template["t"] = t
     return render_to_response('transactions/confirm_transaction.htm', template, context_instance=RequestContext(request))
 
-
+@login_required
 def approved_switch(request, id):
     
     transaction = Transaction.objects.get(pk=id)
