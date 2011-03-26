@@ -20,7 +20,7 @@
 	
 </table>
 <br>
-<a href="{% url transaction_view_transactions %}"><button type="button">View All</button></a>   <a href="{% url transaction_edit_transaction id=t.id %}"><button type="button">Edit</button></a>  <a href="{% url transaction_delete_transaction id=t.id %}"><button type="button">Delete</button></a>
+<a href="{% url transaction_view_transactions %}"><button type="button">View All</button></a>   {% ifequal t.type "IN" %}<a href="{% url transaction_edit_income id=t.id %}">{% else %}<a href="{% url transaction_edit_expenditure id=t.id %}"> {% endifequal %}<button type="button">Edit</button></a>  <a href="{% url transaction_delete_transaction id=t.id %}"><button type="button">Delete</button></a>
 
 
 {% endblock body %}	
