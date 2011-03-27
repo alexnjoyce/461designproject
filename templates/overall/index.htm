@@ -1,8 +1,6 @@
 {% extends "base.htm" %}
 {% block body %}
 
-<h1> Welcome!</h1>
-<br />
 {% if user.is_authenticated %}
 	<h2>Your Notices</h2>
 		<li>Your transactions: <br/><br/>
@@ -13,8 +11,11 @@
 			 {%  for b in user_budgets %}
 				{{b.position}} - {{b.term}} - {{b.year}}<br/>
 			 {% endfor %}<br/><br/>
-	<h2>Overall Budget - By Category</h2>
-	<br><table class="summary" width=500 cellpadding=3>
+	<h2 align="center">Overall Budget - By Category</h2>
+	<h3 align="center">{{term}} - {{year}}</h3>
+	<p align="center">[<a href = "{% url overview_page year=prev_year term=prev_term %}">Previous Term</a>]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[<a href = "{% url overview_page year=next_year term=next_term %}">Next Term</a>]</p>
+	
+	<br><table class="summary" width=500 cellpadding=3 align="center">
 	<tr><td><h3>Income Items</h3></td><td></td></tr>
 	<tr>
 		<td><b>Category</b></td>

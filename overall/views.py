@@ -33,7 +33,46 @@ def is_vpf(user):
         return user.groups.filter(name='vpf').count() != 0
     return False
 
-def overview_page(request):
+def current_term():
+    
+    today = datetime.date.today()
+    
+    if today.month < 5:
+        term = 'W'
+    elif today.month < 9:
+        term =  'S'
+    else:
+        term = 'F'
+
+    return term
+
+def find_next_term(term, year):
+    
+    if term == 'W':
+        next_term = 'S'
+        next_year = year
+    elif term == 'S':
+        next_term = 'F'
+        next_year = year
+    elif term == 'F':
+        next_term = 'W'
+        next_year = year + 1
+    return next_term, next_year
+
+def find_prev_term(term, year):
+    
+    if term == 'W':
+        prev_term = 'F'
+        prev_year = year - 1
+    elif term == 'S':
+        prev_term = 'W'
+        prev_year = year
+    elif term == 'F':
+        prev_term = 'S'
+        prev_year = year
+    return prev_term, prev_year
+
+def overview_page(request, term=None, year=None):
     template = dict()
     
 #    users-specific information
@@ -45,27 +84,55 @@ def overview_page(request):
     categories_in = IncomeCategory.objects.filter(isactive=True)
     categories_ex = ExpenditureCategory.objects.filter(isactive=True)
     
+#    filter for term
+    if not year:
+        year = datetime.date.today().year
+    if not term:
+        term = current_term()
+    
+    next_term = term
+    next_year = year
+    
+    year = int(year)
+    term = str(term)
+    template['year'] = year
+    template['term'] = term
+    
+#    find previous and next terms
+    next_term, next_year = find_next_term(term, year)
+    template['next_term'] = next_term
+    template['next_year'] = next_year
+    
+    prev_term, prev_year = find_prev_term(term, int(year))
+    template['prev_term'] = prev_term
+    template['prev_year'] = prev_year
+    
+                  
+    overall_budget_in_items = IncomeBudgetItem.objects.filter(budget__start_date__year=year, budget__term=term)
+    overall_budget_ex_items = ExpenseBudgetItem.objects.filter(budget__start_date__year=year, budget__term=term)
+    overall_actual_in_items = Income.objects.filter(year=year, term=term)
+    overall_actual_ex_items = Expenditure.objects.filter(year=year, term=term)    
+    
 #    overall budgeted
-    overall_budget_in_items = IncomeBudgetItem.objects.all()
     overall_budget_in_cat = overall_budget_in_items.values('income_category__name').annotate(sum=Sum('amount'))
     template['overall_budget_in_cat'] = overall_budget_in_cat
     sum_budget_in = overall_budget_in_items.aggregate(sum=Sum('amount'))
     template['sum_budget_in'] = check(sum_budget_in['sum'])
     
-    overall_budget_ex_items = ExpenseBudgetItem.objects.all()
+
     overall_budget_ex_cat = overall_budget_ex_items.values('expenditure_category__name').annotate(sum=Sum('amount'))
     template['overall_budget_ex_cat'] = overall_budget_ex_cat
     sum_budget_ex = overall_budget_ex_items.aggregate(sum=Sum('amount'))
     template['sum_budget_ex'] = check(sum_budget_ex['sum'])
     
 #    overall actual
-    overall_actual_in_items = Income.objects.all()
+
     overall_actual_in_cat = overall_actual_in_items.values('income_category__name').annotate(sum=Sum('amount'))
     template['overall_actual_in_cat'] = overall_actual_in_cat
     sum_actual_in = overall_actual_in_items.aggregate(sum=Sum('amount'))
     template['sum_actual_in'] = check(sum_actual_in['sum'])
     
-    overall_actual_ex_items = Expenditure.objects.all()
+
     overall_actual_ex_cat = overall_actual_ex_items.values('expenditure_category__name').annotate(sum=Sum('amount'))
     template['overall_actual_ex_cat'] = overall_actual_ex_cat
     sum_actual_ex = overall_actual_ex_items.aggregate(sum=Sum('amount'))

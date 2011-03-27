@@ -21,7 +21,8 @@ urlpatterns = patterns('',
 #all our url patterns go here
 urlpatterns += patterns('overall.views',
     
-    url(r'^$',                              'overview_page',                        name="overview_page"),
-    url(r'^accounts/logout/$',              'logout_view',                          name ="logout_view"),
+    url(r'^$',                                                  'overview_page',                        name="overview_page"),
+    url(r'^(?P<year>\d{4})/(?P<term>\w{1})/$',                  'overview_page',                        name="overview_page"),
+    url(r'^accounts/logout/$',                                  'logout_view',                          name ="logout_view"),
 
 )
