@@ -15,6 +15,17 @@
 	<h3 align="center">{{term}} - {{year}}</h3>
 	<p align="center">[<a href = "{% url overview_page year=prev_year term=prev_term %}">Previous Term</a>]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[<a href = "{% url overview_page year=next_year term=next_term %}">Next Term</a>]</p>
 	
+	<table align = "center">
+	<tr>
+	<td align="center"><i>Budgeted Income Breakdown</i></td>
+	<td align="center"><i>Budgeted Expenditure Breakdown</i></td>
+	</tr>
+	<tr>
+	<td>{% if income_chart %}<img src="{{income_chart}}" alt="Income Breakdown" />{% endif %}</td>
+	<td>{% if expenditure_chart %}<img src="{{expenditure_chart}}" alt="Expenditure Breakdown" />{% endif %}</td>
+	<tr>
+	</table>
+	
 	<br><table class="summary" width=500 cellpadding=3 align="center">
 	<tr><td><h3>Income Items</h3></td><td></td></tr>
 	<tr>
@@ -22,38 +33,66 @@
 		<td><b>Budgeted Amount</b></td>
 		<td><b>Actual Amount</b></td>
 	</tr>
-	{% for i in budget_actual_in_table %}
+	{% for i in budget_actual_in_cat_table %}
 	<tr>
 		<td>{{i.category}}</td>
-		<td>{{i.budgeted}}</td>
-		<td>{{i.actual}}</td>
+		<td align='right'>{{i.budgeted|floatformat:2}}</td>
+		<td align='right'>{{i.actual|floatformat:2}}</td>
 
 	</tr>
 	{% endfor %}
 	<tr>
 		<td><b>Total</b></td>
-		<td><b>{{sum_budget_in}}</b></td>
-		<td><b>{{sum_actual_in}}</b></td>
+		<td align='right'><b>{{sum_budget_in|floatformat:2}}</b></td>
+		<td align='right'><b>{{sum_actual_in|floatformat:2}}</b></td>
 	</tr>
-	<tr><td><br><br><h3>Expenses Items</h3></td><td></td></tr>
+	<tr><td><br><br><h3>Expenditure Items</h3></td><td></td></tr>
 	<tr>
 		<td><b>Category</b></td>
 		<td><b>Budgeted Amount</b></td>
 		<td><b>Actual Amount</b></td>
 	</tr>
-	{% for i in budget_actual_ex_table %}
+	{% for i in budget_actual_ex_cat_table %}
 	<tr>
 		<td>{{i.category}}</td>
-		<td>{{i.budgeted}}</td>
-		<td>{{i.actual}}</td>
+		<td align='right'>{{i.budgeted|floatformat:2}}</td>
+		<td align='right'>{{i.actual|floatformat:2}}</td>
 
 	</tr>
 	{% endfor %}
 	<tr>
 		<td><b>Total</b></td>
-		<td><b>{{sum_budget_ex}}</b></td>
-		<td><b>{{sum_actual_ex}}</b></td>
+		<td align='right'><b>{{sum_budget_ex|floatformat:2}}</b></td>
+		<td align='right'><b>{{sum_actual_ex|floatformat:2}}</b></td>
 	</tr>
 	</table>
+	
+	<h2 align="center">Overall Budget - By Directorship</h2>
+	<h3 align="center">{{term}} - {{year}}</h3>
+	
+	<br><table class="summary" width=500 cellpadding=3 align="center">
+	<tr>
+		<td><b>Directorship</b></td>
+		<td><b>Budgeted Income</b></td>
+		<td><b>Budgeted Expenditure</b></td>
+		<td><b>Net</b></td>
+	</tr>
+	{% for i in budget_actual_pos_table %}
+	<tr>
+		<td>{{i.position}}</td>
+		<td align='right'>{{i.budgeted_in|floatformat:2}}</td>
+		<td align='right'>{{i.budgeted_ex|floatformat:2}}</td>
+		<td align='right'>{{i.net|floatformat:2}}</td>
+
+	</tr>
+	{% endfor %}
+	<tr>
+		<td><b>Total</b></td>
+		<td align='right'><b>{{sum_budget_in|floatformat:2}}</b></td>
+		<td align='right'><b>{{sum_budget_ex|floatformat:2}}</b></td>
+		<td align='right'><b>{{sum_budget_net|floatformat:2}}</b></td>
+	</table>
+	
+	
 {% endif %}
 {% endblock body %}

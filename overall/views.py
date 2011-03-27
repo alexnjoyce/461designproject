@@ -1,6 +1,9 @@
 #python functionality
 import datetime
+from pygooglechart import SimpleLineChart, Axis, PieChart3D, PieChart2D, StackedHorizontalBarChart, StackedVerticalBarChart, BarChart
 
+
+from decimal import *
 #django functionality
 from django.template import RequestContext
 from django.shortcuts import get_object_or_404, render_to_response
@@ -72,6 +75,44 @@ def find_prev_term(term, year):
         prev_year = year
     return prev_term, prev_year
 
+def create_category_charts(expenditure_category, income_category):
+    #===========================================================================
+    # chart stuff 
+    #===========================================================================
+    category = []
+    categoryamount = []
+    incomecategorylist = income_category
+    for c in incomecategorylist:
+        categoryamount.append(int(c['sum']))
+#        percent = c['totalcategory'] / income_total['total'] * 100
+        category.append(c['income_category__name'])                              
+#        category.append('%s (%d%%)' % (c['category__name'], percent))
+    
+    incomecategoryBreakdownChart = PieChart3D(375, 125)
+    incomecategoryBreakdownChart.add_data(categoryamount)
+
+    incomecategoryBreakdownChart.set_colours(['045FB4', '2E9AFE', '81BEF7', 'CEE3F6' ])
+    incomecategoryBreakdownChart.set_pie_labels(category)
+    incomeChart = incomecategoryBreakdownChart.get_url()
+    
+    category = []
+    categoryamount = []
+    expenditurecategorylist = expenditure_category
+    for c in expenditurecategorylist:
+        categoryamount.append(int(c['sum']))                                
+        category.append(c['expenditure_category__name'])
+    #categorys = sorted(categorys)
+    
+    expenditurecategoryBreakdownChart = PieChart3D(375, 125)
+    expenditurecategoryBreakdownChart.add_data(categoryamount)
+    
+    expenditurecategoryBreakdownChart.set_colours(['045FB4', '2E9AFE', '81BEF7', 'CEE3F6' ])
+    expenditurecategoryBreakdownChart.set_pie_labels(category)
+    expenditureChart = expenditurecategoryBreakdownChart.get_url()
+    
+    return incomeChart, expenditureChart
+
+
 def overview_page(request, term=None, year=None):
     template = dict()
     
@@ -108,12 +149,12 @@ def overview_page(request, term=None, year=None):
     template['prev_year'] = prev_year
     
                   
-    overall_budget_in_items = IncomeBudgetItem.objects.filter(budget__start_date__year=year, budget__term=term)
-    overall_budget_ex_items = ExpenseBudgetItem.objects.filter(budget__start_date__year=year, budget__term=term)
-    overall_actual_in_items = Income.objects.filter(year=year, term=term)
-    overall_actual_ex_items = Expenditure.objects.filter(year=year, term=term)    
+    overall_budget_in_items = IncomeBudgetItem.objects.filter(budget__start_date__year=year, budget__term=term, budget__approved=True)
+    overall_budget_ex_items = ExpenseBudgetItem.objects.filter(budget__start_date__year=year, budget__term=term, budget__approved=True)
+    overall_actual_in_items = Income.objects.filter(year=year, term=term, approved=True)
+    overall_actual_ex_items = Expenditure.objects.filter(year=year, term=term, approved=True)    
     
-#    overall budgeted
+#    overall budgeted - by category
     overall_budget_in_cat = overall_budget_in_items.values('income_category__name').annotate(sum=Sum('amount'))
     template['overall_budget_in_cat'] = overall_budget_in_cat
     sum_budget_in = overall_budget_in_items.aggregate(sum=Sum('amount'))
@@ -125,8 +166,19 @@ def overview_page(request, term=None, year=None):
     sum_budget_ex = overall_budget_ex_items.aggregate(sum=Sum('amount'))
     template['sum_budget_ex'] = check(sum_budget_ex['sum'])
     
-#    overall actual
-
+    template['sum_budget_net'] = template['sum_budget_in'] - template['sum_budget_ex']
+    
+    #    make category breakdown charts
+    try:
+        incomeChart, expenditureChart = create_category_charts(overall_budget_ex_cat, overall_budget_in_cat)
+    except:
+        incomeChart = None
+        expenditureChart = None
+    
+    template["income_chart"] = incomeChart
+    template["expenditure_chart"] = expenditureChart
+    
+#    overall actual - by cateogry
     overall_actual_in_cat = overall_actual_in_items.values('income_category__name').annotate(sum=Sum('amount'))
     template['overall_actual_in_cat'] = overall_actual_in_cat
     sum_actual_in = overall_actual_in_items.aggregate(sum=Sum('amount'))
@@ -138,8 +190,8 @@ def overview_page(request, term=None, year=None):
     sum_actual_ex = overall_actual_ex_items.aggregate(sum=Sum('amount'))
     template['sum_actual_ex'] = check(sum_actual_ex['sum'])
     
-#    make tables to display budgeted and actual
-    budget_actual_in_table = []
+#    make tables to display budgeted and actual - by category
+    budget_actual_in_cat_table = []
     for c in categories_in:
         line = dict()
         line['category'] = c.name
@@ -151,11 +203,11 @@ def overview_page(request, term=None, year=None):
         for a in overall_actual_in_cat:
             if c.name == a['income_category__name']:
                 line['actual'] = a['sum']
-        budget_actual_in_table.append(line)
+        budget_actual_in_cat_table.append(line)
         
-    template['budget_actual_in_table'] = budget_actual_in_table
+    template['budget_actual_in_cat_table'] = budget_actual_in_cat_table
     
-    budget_actual_ex_table = []
+    budget_actual_ex_cat_table = []
     for c in categories_ex:
         line = dict()
         line['category'] = c.name
@@ -167,9 +219,37 @@ def overview_page(request, term=None, year=None):
         for a in overall_actual_ex_cat:
             if c.name == a['expenditure_category__name']:
                 line['actual'] = a['sum']
-        budget_actual_ex_table.append(line)
+        budget_actual_ex_cat_table.append(line)
         
-    template['budget_actual_ex_table'] = budget_actual_ex_table
+    template['budget_actual_ex_cat_table'] = budget_actual_ex_cat_table
+    
+    
+#    overall budgeted - by position
+    overall_budget_in_pos = overall_budget_in_items.values('budget__position__name').annotate(sum=Sum('amount'))
+    template['overall_budget_in_pos'] = overall_budget_in_pos
+    
+    overall_budget_ex_pos = overall_budget_ex_items.values('budget__position__name').annotate(sum=Sum('amount'))
+    template['overall_budget_ex_pos'] = overall_budget_ex_pos
+
+#    make tables to display budgeted and actual - by position
+    positions = Position.objects.filter(isactive=True)
+    budget_actual_pos_table = []
+    for p in positions:
+        line = dict()
+        line['position'] = p.name
+        line['budgeted_in'] = 0
+        line['budgeted_ex'] = 0
+        line['net'] = 0.00
+        for b in overall_budget_in_pos:
+            if p.name == b['budget__position__name']:
+                line['budgeted_in'] = b['sum']
+        for a in overall_budget_ex_pos:
+            if p.name == a['budget__position__name']:
+                line['budgeted_ex'] = a['sum']
+        line['net'] = line['budgeted_in'] - line['budgeted_ex']
+        budget_actual_pos_table.append(line)
+        
+    template['budget_actual_pos_table'] = budget_actual_pos_table
     
     
     return render_to_response('overall/index.htm',template, context_instance=RequestContext(request))
