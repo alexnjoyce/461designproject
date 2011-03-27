@@ -122,6 +122,7 @@ Released   : 20100422
               </ul>
             </li>
 			{% endif %}
+			{% if user|in_group:"admin" %}
 			<li>
               <h2>Upload</h2>
               <ul>
@@ -130,6 +131,8 @@ Released   : 20100422
               </ul>
             </li>
             {% endif %}
+			{% endif %}
+
           </ul>
         </div>
         <!-- end #sidebar -->
