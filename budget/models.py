@@ -27,7 +27,7 @@ TERM_CHOICES = (
 
 class Budget(models.Model):
 #    budget name can be removed (MFP meeting)
-    name = models.CharField('Budget Name', max_length = 30)
+
     term = models.CharField(max_length = 1, choices=TERM_CHOICES)
     year = models.IntegerField('Year')
     stream = models.CharField(max_length = 1, choices=STREAM_CHOICES)
