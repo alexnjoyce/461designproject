@@ -5,16 +5,20 @@
 <h1>Budget Details</h1>
 
 <br/>
-Budget Name: {{budget.name}} </br>
-Position: {{budget.position.name}}</br>
-Start Date: {{budget.start_date}}</br>
-End Date: {{budget.end_date}}</br>
-Stream: {{budget.stream}}</br></br></br>
+
+<table class="summary">
+  <tr><td><b>Budget Name</b></td><td>{{budget.name}} </td></tr>
+  <tr><td><b>Position Name</b></td><td>{{budget.position.name}}</td></tr>
+  <tr><td><b>Year</b></td><td>{{budget.year}}</td></tr>
+  <tr><td><b>Term</b></td><td>{{budget.term}}</td></tr>
+  <tr><td><b>Stream</b></td><td>{{budget.stream}}</td></tr>
+</table> 
+<br><br>
 
 	{% if full %}
 	    
 	<h2> Income Budget Breakdown </h2><br/>
-		<table class="tableDollars" cellspacing="0" cellpadding="0" width=600>
+		<table class="tableDollars" cellspacing="0" cellpadding="3" width=600>
 		<tr>
 			<th>Income Category</th>
 			<th>Budgeted Amount</th>
@@ -42,7 +46,7 @@ Stream: {{budget.stream}}</br></br></br>
 		<br><br>
 
   <h2> Expenditure Budget Breakdown </h2><br/>		
-		<table class="tableDollars" width=600 cellspacing="0" cellpadding="5">
+		<table class="tableDollars" width=600 cellspacing="0" cellpadding="3">
       <tr>
         <th>Expenditure Category</th>
         <th>Budgeted Amount</th>
@@ -91,11 +95,11 @@ Stream: {{budget.stream}}</br></br></br>
 	
 	<h1>Previous Budgets</h1>
 	{% for b in previous_budgets %}
-		<p>{{b.name}} || {{b.term}} || {{b.start_date.year}} || {{b.stream}}
-		<a href="#" id="{{b.id}}-show" class="showLink" onclick="showHide('{{b.id}}');return false;">More</a>
+		<p>{{b.name}} - {{b.term}} - {{b.start_date.year}} - Stream {{b.stream}}
+		<a href="#" id="{{b.id}}-show" class="showLink" onclick="showHide('{{b.id}}');return false;">[Show More Details]</a>
 		</p>
 		<div id="{{b.id}}" class="more">
-		<p><a href="#" id="{{b.id}}-hide" class="hideLink" onclick="showHide('{{b.id}}');return false;">Less</a></p>
+		<p><a href="#" id="{{b.id}}-hide" class="hideLink" onclick="showHide('{{b.id}}');return false;">[Show Less Details]</a></p>
 			<h2>Income Items</h2>
 			<br>
 			<table class="tableDollars" width=600 cellpadding=0 cellspacing=0>
