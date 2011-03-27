@@ -397,4 +397,40 @@ def view_budgetitems (request, id):
     
     
     return render_to_response('budget/view_budgetitems.htm',template, context_instance=RequestContext(request))
-                            
+
+
+
+@login_required
+def upload_data(request):
+    
+    template = dict()
+    
+    if request.method == 'POST':
+        
+        form = UploadDataForm(request.POST, request.FILES)
+        if form.is_valid():             
+            
+            directory = MEDIA_ROOT + "/test_data/" + request.FILES["file"].name
+            
+            reader = csv.reader(open(directory))
+            
+            for r in reader:
+                if r[0] == "EX":
+                    category = ExpenditureCategory()
+                    category.name = r[1]
+                    category.isactive = True
+                    category.save()
+                elif r[0] == "IN":
+                    category = IncomeCategory()
+                    category.name = r[1]
+                    category.isactive = True
+                    category.save()
+            
+        return HttpResponseRedirect(reverse('category_view_categories'))
+    else:
+        form = UploadDataForm()
+    
+    template['form'] = form
+    
+    return render_to_response('categories/upload_categories.htm',template, context_instance=RequestContext(request))    
+                                
