@@ -11,7 +11,7 @@ added  by alex
 
 /* Sortable tables */
 
-table.sortable thead {
+table.sortable thead{
     background-color:#eee;
     color:#666666;
     font-weight: bold;
@@ -27,6 +27,7 @@ table.sortable tr:nth-child(odd) {
 table.sortable tr:nth-child(even){
     background-color: #fff;
 }
+
 
 
 /* Tables displaying budgets */
