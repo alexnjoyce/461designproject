@@ -1,6 +1,6 @@
 #python functionality
 import datetime
-from pygooglechart import SimpleLineChart, Axis, PieChart3D, PieChart2D, StackedHorizontalBarChart, StackedVerticalBarChart, BarChart
+#from pygooglechart import SimpleLineChart, Axis, PieChart3D, PieChart2D, StackedHorizontalBarChart, StackedVerticalBarChart, BarChart
 
 
 from decimal import *
@@ -75,42 +75,42 @@ def find_prev_term(term, year):
         prev_year = year
     return prev_term, prev_year
 
-def create_category_charts(expenditure_category, income_category):
-    #===========================================================================
-    # chart stuff 
-    #===========================================================================
-    category = []
-    categoryamount = []
-    incomecategorylist = income_category
-    for c in incomecategorylist:
-        categoryamount.append(int(c['sum']))
-#        percent = c['totalcategory'] / income_total['total'] * 100
-        category.append(c['income_category__name'])                              
-#        category.append('%s (%d%%)' % (c['category__name'], percent))
-    
-    incomecategoryBreakdownChart = PieChart3D(375, 125)
-    incomecategoryBreakdownChart.add_data(categoryamount)
-
-    incomecategoryBreakdownChart.set_colours(['045FB4', '2E9AFE', '81BEF7', 'CEE3F6' ])
-    incomecategoryBreakdownChart.set_pie_labels(category)
-    incomeChart = incomecategoryBreakdownChart.get_url()
-    
-    category = []
-    categoryamount = []
-    expenditurecategorylist = expenditure_category
-    for c in expenditurecategorylist:
-        categoryamount.append(int(c['sum']))                                
-        category.append(c['expenditure_category__name'])
-    #categorys = sorted(categorys)
-    
-    expenditurecategoryBreakdownChart = PieChart3D(375, 125)
-    expenditurecategoryBreakdownChart.add_data(categoryamount)
-    
-    expenditurecategoryBreakdownChart.set_colours(['045FB4', '2E9AFE', '81BEF7', 'CEE3F6' ])
-    expenditurecategoryBreakdownChart.set_pie_labels(category)
-    expenditureChart = expenditurecategoryBreakdownChart.get_url()
-    
-    return incomeChart, expenditureChart
+#def create_category_charts(expenditure_category, income_category):
+#    #===========================================================================
+#    # chart stuff 
+#    #===========================================================================
+#    category = []
+#    categoryamount = []
+#    incomecategorylist = income_category
+#    for c in incomecategorylist:
+#        categoryamount.append(int(c['sum']))
+##        percent = c['totalcategory'] / income_total['total'] * 100
+#        category.append(c['income_category__name'])                              
+##        category.append('%s (%d%%)' % (c['category__name'], percent))
+#    
+#    incomecategoryBreakdownChart = PieChart3D(375, 125)
+#    incomecategoryBreakdownChart.add_data(categoryamount)
+#
+#    incomecategoryBreakdownChart.set_colours(['045FB4', '2E9AFE', '81BEF7', 'CEE3F6' ])
+#    incomecategoryBreakdownChart.set_pie_labels(category)
+#    incomeChart = incomecategoryBreakdownChart.get_url()
+#    
+#    category = []
+#    categoryamount = []
+#    expenditurecategorylist = expenditure_category
+#    for c in expenditurecategorylist:
+#        categoryamount.append(int(c['sum']))                                
+#        category.append(c['expenditure_category__name'])
+#    #categorys = sorted(categorys)
+#    
+#    expenditurecategoryBreakdownChart = PieChart3D(375, 125)
+#    expenditurecategoryBreakdownChart.add_data(categoryamount)
+#    
+#    expenditurecategoryBreakdownChart.set_colours(['045FB4', '2E9AFE', '81BEF7', 'CEE3F6' ])
+#    expenditurecategoryBreakdownChart.set_pie_labels(category)
+#    expenditureChart = expenditurecategoryBreakdownChart.get_url()
+#    
+#    return incomeChart, expenditureChart
 
 
 def overview_page(request, term=None, year=None):
@@ -169,14 +169,14 @@ def overview_page(request, term=None, year=None):
     template['sum_budget_net'] = template['sum_budget_in'] - template['sum_budget_ex']
     
     #    make category breakdown charts
-    try:
-        incomeChart, expenditureChart = create_category_charts(overall_budget_ex_cat, overall_budget_in_cat)
-    except:
-        incomeChart = None
-        expenditureChart = None
-
-    template["income_chart"] = incomeChart
-    template["expenditure_chart"] = expenditureChart
+#    try:
+#        incomeChart, expenditureChart = create_category_charts(overall_budget_ex_cat, overall_budget_in_cat)
+#    except:
+#        incomeChart = None
+#        expenditureChart = None
+#
+#    template["income_chart"] = incomeChart
+#    template["expenditure_chart"] = expenditureChart
     
 #    overall actual - by cateogry
     overall_actual_in_cat = overall_actual_in_items.values('income_category__name').annotate(sum=Sum('amount'))
