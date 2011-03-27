@@ -1,4 +1,5 @@
 {% extends "base.htm" %}
+{% load currency %}
 {% block body %}
 <h1>Transaction Submitted</h1>
 
@@ -14,7 +15,7 @@
 	<tr><td><b>Date:</b></td><td>{{t.date}}</td></tr>
 	<tr><td><b>Position/Directorship:</b></td><td>{{t.budget}}</td></tr>
 	 <tr><td><br></td><td><br></td></tr>
-	<tr><td><b>Amount:</b></td><td>{{t.amount|floatformat:2}}</td></tr>
+	<tr><td><b>Amount:</b></td><td>{{t.amount|currency}}</td></tr>
 	<tr><td><b>Category:</b></td><td>{% ifequal t.type "IN" %}{{t.income_category}}{% else %}{{t.expenditure_category}} {% endifequal %}</td></tr>
 	<tr><td><b>Description:</b></td><td>{{t.description}}</td></tr>
 	

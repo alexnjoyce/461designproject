@@ -1,6 +1,7 @@
 <link href="/media_site/style.css" rel="stylesheet" type="text/css" />
 
 {% load user_group %}
+{% load currency %}
 {% block body %}
 <h1>Budget Details</h1>
 
@@ -28,11 +29,11 @@
 		{% for c in budget_items_in_cat %}
 		<tr>
 			<td>{{c.income_category__name}}</td>
-			<td>{{c.sum|floatformat:2}}</td>
+			<td>{{c.sum|currency}}</td>
 			<td>
 				{% for a in transactions_in_cat %}
 					{% ifequal a.income_category__name c.income_category__name %}
-						{{a.sum|floatformat:2}}
+						{{a.sum|currency}}
 					{% endifequal %}
 				{% endfor %}
 			</td>
@@ -40,8 +41,8 @@
 		{% endfor %}
 		<tr>
 			<th>Income Total</th>
-			<th>{{in_tot|floatformat:2}}</th>
-			<th>{{transactions_in_tot|floatformat:2}}</th>
+			<th>{{in_tot|currency}}</th>
+			<th>{{transactions_in_tot|currency}}</th>
 		</tr></table>
 		<br><br>
 
@@ -56,11 +57,11 @@
     {% for c in budget_items_ex_cat %}
 		<tr>
 			<td>{{c.expenditure_category__name}}</td>
-			<td>{{c.sum|floatformat:2}}</td>
+			<td>{{c.sum|currency}}</td>
 			<td>
 				{% for a in transactions_ex_cat %}
 					{% ifequal a.expenditure_category__name c.expenditure_category__name %}
-						{{a.sum|floatformat:2}}
+						{{a.sum|currency}}
 					{% endifequal %}
 				{% endfor %}
 			</td>
@@ -68,14 +69,14 @@
 		{% endfor %}
 		<tr>
 			<th>Total Expenditure Budget</th>
-			<th>{{ex_tot|floatformat:2}}</th>
-			<th>{{transactions_ex_tot|floatformat:2}}</th>
+			<th>{{ex_tot|currency}}</th>
+			<th>{{transactions_ex_tot|currency}}</th>
 		</tr>
 
 		<tr>    
 		  <th>Remaining Budget</th>
       <th></th>
-      <th align='right'>{{net_budget_transaction_ex_tot|floatformat:2}}</th>
+      <th align='right'>{{net_budget_transaction_ex_tot|currency}}</th>
 		</tr>
 		</table>
 		<br><br>
@@ -115,7 +116,7 @@
 					<tr>
 						<td>{{bi.description}}</td>
 						<td>{{bi.income_category}}</td>
-						<td align='right'>{{bi.amount|floatformat:2}}</td>
+						<td align='right'>{{bi.amount|currency}}</td>
 						<td></td>
 					</tr>
 					{% endifequal %}
@@ -125,7 +126,7 @@
 					<th></th>
 					<th align='right'>
 				{% for i in total_in %}
-					{% ifequal i.budget b.id %}{{i.sum|floatformat:2}}{% endifequal %}
+					{% ifequal i.budget b.id %}{{i.sum|currency}}{% endifequal %}
 				{% endfor %}
 						</th>
 					<th></th>
@@ -146,7 +147,7 @@
 					<tr>
 						<td>{{bi.description}}</td>
 						<td>{{bi.expenditure_category}}</td>
-						<td align='right'>{{bi.amount|floatformat:2}}</td>
+						<td align='right'>{{bi.amount|currency}}</td>
 						<td></td>
 					</tr>
 					{% endifequal %}
@@ -156,7 +157,7 @@
 					<th></th>
 					<th align='right'>
 				{% for i in total_ex %}
-					{% ifequal i.budget b.id %}{{i.sum|floatformat:2}}{% endifequal %}
+					{% ifequal i.budget b.id %}{{i.sum|currency}}{% endifequal %}
 				{% endfor %}
 					</th>
 					<th></th>

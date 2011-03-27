@@ -8,7 +8,7 @@
 <p>
 	<tr><td>Type</td><td>{{t.get_type_display}}</td></tr>
 	<tr><td>Date</td><td>{{t.date}}</td></tr>
-	<tr><td>Amount</td><td>{{t.amount|floatformat:2}}</td></tr>
+	<tr><td>Amount</td><td>{{t.amount|currency}}</td></tr>
 	<tr><td>Category</td><td>{% ifequal t.type "IN" %}{{t.income_category}}{% else %}{{t.expenditure_category}} {% endifequal %}</td></tr>
 	<tr><td>Description</td><td>{{t.description}}</td></tr>
 	<tr><td>Budget</td><td>{{t.budget}}</td></tr>

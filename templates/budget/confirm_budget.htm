@@ -1,4 +1,5 @@
 {% extends "base.htm" %}
+{% load currency %}
 {% block body %}
 <h1> Budget Created </h1>
 
@@ -36,14 +37,14 @@
 		<tr>
 			<td>{{b.income_category}}</td>
 			<td>{{b.description}}</td>
-			<td align='right'>{{b.amount|floatformat:2}}</td>
+			<td align='right'>{{b.amount|currency}}</td>
 		</tr>
 
 	{% endfor %}
 		<tr>
 			<td><b>Income Total:</b></td>
 			<td></td>
-			<td align='right'><b>{{in_tot|floatformat:2}}</b></td>
+			<td align='right'><b>{{in_tot|currency}}</b></td>
 		</tr>
 		<tr>
       <td><br><br><b>Expenditure</b></td>
@@ -52,14 +53,14 @@
 		<tr>
 			<td>{{b.expenditure_category}}</td>
 			<td>{{b.description}}</td>
-			<td align='right'>{{b.amount|floatformat:2}}</td>
+			<td align='right'>{{b.amount|currency}}</td>
 		</tr>
 
 	{% endfor %}
 		<tr><b>
 			<td><b>Expenditure Total:</b></td>
 			<td></td>
-			<td align='right'><b>{{ex_tot|floatformat:2}}</b></td>
+			<td align='right'><b>{{ex_tot|currency}}</b></td>
 		</b></tr>
 		<tr>
       <td><br><br></td>
@@ -67,7 +68,7 @@
 		<tr><b>
 			<td><b>Net:</b></td>
 			<td></td>
-			<td align='right'><b>{{net|floatformat:2}}</b></td>
+			<td align='right'><b>{{net|currency}}</b></td>
 		</b></tr>			
 		
 	</table>

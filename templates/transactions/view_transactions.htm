@@ -1,5 +1,6 @@
 {% extends "base.htm" %}
 {% load user_group %}
+{% load currency %}
 {% block body %}
 {% if account %}
 	<h1>My Transactions</h1>
@@ -55,7 +56,7 @@
     <td>EXPENDITURE</td>
 		<td>{{e.term}}</td>
 		<td>{{e.year}}</td>
-		<td>{{e.amount|floatformat:2}}</td>
+		<td>{{e.amount|currency}}</td>
 		<td>{{e.expenditure_category.name}}</td>
 		<td>{{e.description}}</td>
 		<td>{{e.position}}</td>
@@ -69,7 +70,7 @@
 		<td>INCOME</td>
 		<td>{{i.term}}</td>
 		<td>{{i.year}}</td>
-		<td>{{i.amount|floatformat:2}}</td>
+		<td>{{i.amount|currency}}</td>
 		<td>{{i.income_category.name}}</td>
 		<td>{{i.description}}</td>
 		<td>{{i.position}}</td>

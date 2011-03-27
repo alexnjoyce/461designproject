@@ -1,4 +1,6 @@
 {% extends "base.htm" %}
+{% load currency %}
+
 {% block body %}
 
 {% if user.is_authenticated %}
@@ -28,15 +30,15 @@
 	{% for i in budget_actual_in_cat_table %}
 	<tr>
 		<td>{{i.category}}</td>
-		<td align='right'>{{i.budgeted|floatformat:2}}</td>
-		<td align='right'>{{i.actual|floatformat:2}}</td>
+		<td align='right'>{{i.budgeted|currency}}</td>
+		<td align='right'>{{i.actual|currency}}</td>
 
 	</tr>
 	{% endfor %}
 	<tr>
 		<td><b>Total</b></td>
-		<td align='right'><b>{{sum_budget_in|floatformat:2}}</b></td>
-		<td align='right'><b>{{sum_actual_in|floatformat:2}}</b></td>
+		<td align='right'><b>{{sum_budget_in|currency}}</b></td>
+		<td align='right'><b>{{sum_actual_in|currency}}</b></td>
 	</tr>
 	<tr><td><br><br><h3>Expenditure Items</h3></td><td></td></tr>
 	<tr>
@@ -47,15 +49,15 @@
 	{% for i in budget_actual_ex_cat_table %}
 	<tr>
 		<td>{{i.category}}</td>
-		<td align='right'>{{i.budgeted|floatformat:2}}</td>
-		<td align='right'>{{i.actual|floatformat:2}}</td>
+		<td align='right'>{{i.budgeted|currency}}</td>
+		<td align='right'>{{i.actual|currency}}</td>
 
 	</tr>
 	{% endfor %}
 	<tr>
 		<td><b>Total</b></td>
-		<td align='right'><b>{{sum_budget_ex|floatformat:2}}</b></td>
-		<td align='right'><b>{{sum_actual_ex|floatformat:2}}</b></td>
+		<td align='right'><b>{{sum_budget_ex|currency}}</b></td>
+		<td align='right'><b>{{sum_actual_ex|currency}}</b></td>
 	</tr>
 	</table>
 	<br><br>
@@ -66,23 +68,23 @@
 	<tr>
 		<td><b>Directorship</b></td>
 		<td><b>Budgeted Income</b></td>
-		<td><b>Budgeted Expenditure</b></td>
+		<td><b>Budgeted Expenses</b></td>
 		<td><b>Net</b></td>
 	</tr>
 	{% for i in budget_actual_pos_table %}
 	<tr>
 		<td>{{i.position}}</td>
-		<td align='right'>{{i.budgeted_in|floatformat:2}}</td>
-		<td align='right'>{{i.budgeted_ex|floatformat:2}}</td>
-		<td align='right'>{{i.net|floatformat:2}}</td>
+		<td align='right'>{{i.budgeted_in|currency}}</td>
+		<td align='right'>{{i.budgeted_ex|currency}}</td>
+		<td align='right'>{{i.net|currency}}</td>
 
 	</tr>
 	{% endfor %}
 	<tr>
 		<td><b>Total</b></td>
-		<td align='right'><b>{{sum_budget_in|floatformat:2}}</b></td>
-		<td align='right'><b>{{sum_budget_ex|floatformat:2}}</b></td>
-		<td align='right'><b>{{sum_budget_net|floatformat:2}}</b></td>
+		<td align='right'><b>{{sum_budget_in|currency}}</b></td>
+		<td align='right'><b>{{sum_budget_ex|currency}}</b></td>
+		<td align='right'><b>{{sum_budget_net|currency}}</b></td>
 	</table>
 	
 	
