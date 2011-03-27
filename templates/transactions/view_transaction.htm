@@ -4,14 +4,26 @@
 {% block body %}
 <h1>Details of Transaction</h1>
 
+<table class="summary" cellpadding="3" cellspacing="2" width=350>
+<p>
+  <tr><td><b>Name of Submitter:</b></td><td>{{t.name}}</td></tr>
+  <tr><td><b>Email Address:</b></td><td>{{t.email}}</td></tr>
+  <tr><td><b>Cheque Needs to be Mailed?</b></td><td>{{t.mail}}</td></tr>
+  <tr><td><b>Is Cheque Ready for Pickup?</b></td><td>{{t.cheque_ready}}</td></tr>
+  <tr><td><b>Has Cheque Been Picked Up?</b></td><td>{{t.cheque_received}}</td></tr>
+ 
+</p>
+</table>
+<br><br>
+
 <table class="summary" cellpadding="5" cellspacing="3" width=350>
 <p>
-	<tr><td>Type</td><td>{{t.get_type_display}}</td></tr>
-	<tr><td>Date</td><td>{{t.date}}</td></tr>
-	<tr><td>Amount</td><td>{{t.amount|currency}}</td></tr>
-	<tr><td>Category</td><td>{% ifequal t.type "IN" %}{{t.income_category}}{% else %}{{t.expenditure_category}} {% endifequal %}</td></tr>
-	<tr><td>Description</td><td>{{t.description}}</td></tr>
-	<tr><td>Budget</td><td>{{t.budget}}</td></tr>
+	<tr><td><b>Type</b></td><td>{{t.get_type_display}}</td></tr>
+	<tr><td><b>Date</b></td><td>{{t.date}}</td></tr>
+	<tr><td><b>Amount</b></td><td>{{t.amount|currency}}</td></tr>
+	<tr><td><b>Category</b></td><td>{% ifequal t.type "IN" %}{{t.income_category}}{% else %}{{t.expenditure_category}} {% endifequal %}</td></tr>
+	<tr><td><b>Description</b></td><td>{{t.description}}</td></tr>
+	<tr><td><b>Position Name</b></td><td>{{t.position}}</td></tr>
 	
 </p>
 </table>

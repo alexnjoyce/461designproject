@@ -44,7 +44,7 @@ class Budget(models.Model):
 #    edited_by = models.ForeignKey(User, related_name="budget_edited")
     
     def __unicode__(self):
-        return u'%s %s-%s' %(self.name, self.term, self.year)
+        return u'%s %s-%s' %(self.position.name, self.term, self.year)
 
 class BudgetItem(models.Model):
 

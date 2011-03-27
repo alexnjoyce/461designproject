@@ -61,7 +61,7 @@
 		<td>{{e.description}}</td>
 		<td>{{e.position}}</td>
 		<td>{% if user|in_group:"vp_finance,admin" %}<a href="{% url transaction_edit_expenditure id=e.id %}">Edit</a>{% endif %}</td>
-		<td><a href="{% url transaction_view_transaction id=e.id %}" target="_blank" onclick="window.open(this.href,this.target, 'scrollbar=1, height=300, width=400');return false;">Details</a></td>
+		<td><a href="{% url transaction_view_transaction id=e.id %}" target="_blank" onclick="window.open(this.href,this.target, 'scrollbar=1, height=500, width=400');return false;">Details</a></td>
 		<td>{{e.approved}}</td>
 	</tr>
 {% endfor %}
@@ -75,7 +75,7 @@
 		<td>{{i.description}}</td>
 		<td>{{i.position}}</td>
 		<td>{% if i.approved %}{% if user|in_group:"vp_finance,admin" %}<a href="{% url transaction_edit_income id=i.id %}">Edit</a>{% endif %}{% else %}<a href="{% url transaction_edit_income id=i.id %}">Edit</a> {% endif %}</td>
-		<td><a href="{% url transaction_view_transaction id=i.id %}" target="_blank" onclick="window.open(this.href,this.target, 'scrollbar=1, height=300, width=400');return false;">Details</a></td>
+		<td><a href="{% url transaction_view_transaction id=i.id %}" target="_blank" onclick="window.open(this.href,this.target, 'scrollbar=1, height=500, width=400');return false;">Details</a></td>
 		<td>{{i.approved}}</td>
 	</tr>
 {% endfor %}
