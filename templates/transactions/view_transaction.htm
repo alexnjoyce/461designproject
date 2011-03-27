@@ -1,9 +1,10 @@
 <link href="/media_site/style.css" rel="stylesheet" type="text/css" media="screen" />
 {% load user_group %}
+{% load currency %}
 {% block body %}
 <h1>Details of Transaction</h1>
 
-<table width=350>
+<table class="summary" cellpadding="5" cellspacing="3" width=350>
 <p>
 	<tr><td>Type</td><td>{{t.get_type_display}}</td></tr>
 	<tr><td>Date</td><td>{{t.date}}</td></tr>
