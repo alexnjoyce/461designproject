@@ -4,19 +4,7 @@
 {% block body %}
 
 {% if user.is_authenticated %}
-	<h2>Your Notices</h2>
-	{% if user_trans %}
-	<li>Your transactions: <br/><br/>
-			 {%  for i in user_trans %}
-				{{i.type}} - {{i.amount}} - {{i.description}}<br/>
-			 {% endfor %}<br/>
-	{% endif %}
-	{% if user_budgets %}
-	 <li>Your budgets:</p>
-			 {%  for b in user_budgets %}
-				{{b.position}} - {{b.term}} - {{b.year}}<br/>
-			 {% endfor %}<br/><br/>
-	{% endif %}
+	
 	<h2 align="center">Overall Budget - By Category</h2>
 	<h3 align="center">{{term}} - {{year}}</h3>
 	<p align="center">[<a href = "{% url overview_page year=prev_year term=prev_term %}">Previous Term</a>]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[<a href = "{% url overview_page year=next_year term=next_term %}">Next Term</a>]</p>
