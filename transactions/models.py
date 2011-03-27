@@ -39,6 +39,7 @@ class Transaction(models.Model):
 #    info of submitter
     name = models.CharField(max_length = 100)
     email = models.EmailField(max_length = 100)
+    mail = models.BooleanField(default=False)
       
     date = models.DateField('Date (YYYY-MM-DD)', null=True, blank=True) 
     amount = models.DecimalField(max_digits=10, decimal_places=2)
@@ -47,6 +48,7 @@ class Transaction(models.Model):
 #    admin fields
     approved = models.BooleanField(default=False)
     cheque_ready = models.BooleanField(default=False)
+    cheque_received = models.BooleanField(default=False)
     
     
     term = models.CharField(max_length = 1, choices=TERM_CHOICES)
