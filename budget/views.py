@@ -150,12 +150,33 @@ def create_budgetitems (request, id):
     
     budget = Budget.objects.get(pk=id)
     
-#   information for previous budget information 
+#   information for previous budget information - budget
     previous_budgets = Budget.objects.filter(position=budget.position).exclude(id=budget.id)
     previous_bi_in = IncomeBudgetItem.objects.filter(budget__position=budget.position).exclude(id=budget.id)
     previous_bi_ex = ExpenseBudgetItem.objects.filter(budget__position=budget.position).exclude(id=budget.id)
-    total_in = previous_bi_in.values('budget').annotate(sum=Sum('amount'))
-    total_ex = previous_bi_ex.values('budget').annotate(sum=Sum('amount'))
+    total_bi_in_cat = previous_bi_in.values('budget', 'income_category__name').annotate(sum=Sum('amount'))
+    total_bi_ex_cat = previous_bi_ex.values('budget', 'expenditure_category__name').annotate(sum=Sum('amount'))
+    previous_total_in = previous_bi_in.values('budget').annotate(sum=Sum('amount'))
+    previous_total_ex = previous_bi_ex.values('budget').annotate(sum=Sum('amount'))
+    
+#   information for previous budget information - actuals
+    previous_bi_in_trans = Income.objects.filter(budget__position=budget.position).exclude(id=budget.id)
+    previous_bi_ex_trans = Expenditure.objects.filter(budget__position=budget.position).exclude(id=budget.id)
+    total_in_trans_cat = previous_bi_in_trans.values('budget', 'income_category__name').annotate(sum=Sum('amount'))
+    total_ex_trans_cat = previous_bi_ex_trans.values('budget', 'expenditure_category__name').annotate(sum=Sum('amount'))
+    previous_total_in_trans = previous_bi_in_trans.values('budget').annotate(sum=Sum('amount'))
+    previous_total_ex_trans = previous_bi_ex_trans.values('budget').annotate(sum=Sum('amount'))
+    
+#    previous budget information
+    template['previous_budgets'] = previous_budgets
+    template['previous_bi_in'] = previous_bi_in
+    template['previous_bi_ex'] = previous_bi_ex
+    template['previous_total_in'] = previous_total_in
+    template['previous_total_ex'] = previous_total_ex
+    template['total_in_trans_cat'] = total_in_trans_cat
+    template['total_ex_trans_cat'] = total_ex_trans_cat
+    template['previous_total_in_trans'] = previous_total_in_trans
+    template['previous_total_ex_trans'] = previous_total_ex_trans
     
 #    create a formset - multiple forms on one page
     ExpensebudgetFormSet = formset_factory(ExpenseBudgetItemForm, extra=5)
@@ -194,12 +215,8 @@ def create_budgetitems (request, id):
     template['expense_formset'] = expense_formset
     template['budget'] = budget
     
-#    previous budget information
-    template['previous_budgets'] = previous_budgets
-    template['previous_bi_in'] = previous_bi_in
-    template['previous_bi_ex'] = previous_bi_ex
-    template['total_in'] = total_in
-    template['total_ex'] = total_ex
+    template['categories_in'] = IncomeCategory.objects.filter(isactive=True)
+    template['categories_ex'] = ExpenditureCategory.objects.filter(isactive=True)
     
     
     return render_to_response('budget/create_budgetitems.htm',template, context_instance=RequestContext(request))
@@ -337,6 +354,8 @@ def view_budgetitems (request, id):
 #    get all the proposed budget items
     budget_items_in = IncomeBudgetItem.objects.filter(budget=budget)
     budget_items_ex = ExpenseBudgetItem.objects.filter(budget=budget)
+
+        
     
     in_tot = budget_items_in.aggregate(sum=Sum('amount'))
     in_tot = check(in_tot['sum'])
@@ -353,15 +372,25 @@ def view_budgetitems (request, id):
     transactions_ex_cat = Expenditure.objects.filter(budget=budget).values('expenditure_category__name').annotate(sum=Sum('amount'))
     transactions_in_tot = Income.objects.filter(budget=budget).aggregate(sum=Sum('amount'))
     transactions_in_tot = check(transactions_in_tot['sum'])
-    transactions_ex_tot = Income.objects.filter(budget=budget).aggregate(sum=Sum('amount'))
+    transactions_ex_tot = Expenditure.objects.filter(budget=budget).aggregate(sum=Sum('amount'))
     transactions_ex_tot = check(transactions_ex_tot['sum'])
     
-#   information for previous budget information 
+#   information for previous budget information - budget
     previous_budgets = Budget.objects.filter(position=budget.position).exclude(id=budget.id)
     previous_bi_in = IncomeBudgetItem.objects.filter(budget__position=budget.position).exclude(id=budget.id)
     previous_bi_ex = ExpenseBudgetItem.objects.filter(budget__position=budget.position).exclude(id=budget.id)
-    total_in = previous_bi_in.values('budget').annotate(sum=Sum('amount'))
-    total_ex = previous_bi_ex.values('budget').annotate(sum=Sum('amount'))
+    total_bi_in_cat = previous_bi_in.values('budget', 'income_category__name').annotate(sum=Sum('amount'))
+    total_bi_ex_cat = previous_bi_ex.values('budget', 'expenditure_category__name').annotate(sum=Sum('amount'))
+    previous_total_in = previous_bi_in.values('budget').annotate(sum=Sum('amount'))
+    previous_total_ex = previous_bi_ex.values('budget').annotate(sum=Sum('amount'))
+    
+#   information for previous budget information - actuals
+    previous_bi_in_trans = Income.objects.filter(budget__position=budget.position).exclude(id=budget.id)
+    previous_bi_ex_trans = Expenditure.objects.filter(budget__position=budget.position).exclude(id=budget.id)
+    total_in_trans_cat = previous_bi_in_trans.values('budget', 'income_category__name').annotate(sum=Sum('amount'))
+    total_ex_trans_cat = previous_bi_ex_trans.values('budget', 'expenditure_category__name').annotate(sum=Sum('amount'))
+    previous_total_in_trans = previous_bi_in_trans.values('budget').annotate(sum=Sum('amount'))
+    previous_total_ex_trans = previous_bi_ex_trans.values('budget').annotate(sum=Sum('amount'))
     
 #    check if there are budget items
     if budget_items_in or budget_items_ex:
@@ -372,7 +401,10 @@ def view_budgetitems (request, id):
     template['budget_items_ex'] = budget_items_ex
     template['in_tot'] = in_tot
     template['ex_tot'] = ex_tot
-    template['net'] = in_tot - ex_tot
+    template['net_budget'] = in_tot - ex_tot
+    
+    template['categories_in'] = IncomeCategory.objects.filter(isactive=True)
+    template['categories_ex'] = ExpenditureCategory.objects.filter(isactive=True)
     
 #    category breakdown
     template['budget_items_in_cat'] = budget_items_in_cat
@@ -384,19 +416,28 @@ def view_budgetitems (request, id):
     template['transactions_in_tot'] = transactions_in_tot
     template['transactions_ex_tot'] = transactions_ex_tot
 
-#    variables to hold the net of budget - actuals
-    template['net_budget_transaction_ex_tot'] = ex_tot - transactions_ex_tot
+    
+#    variables to hold the net of budget
+    template['net_transaction'] = transactions_in_tot - transactions_ex_tot
+
     
 #    previous budget information
     template['previous_budgets'] = previous_budgets
     template['previous_bi_in'] = previous_bi_in
     template['previous_bi_ex'] = previous_bi_ex
-    template['total_in'] = total_in
-    template['total_ex'] = total_ex
+    template['previous_total_in'] = previous_total_in
+    template['previous_total_ex'] = previous_total_ex
+    template['total_in_trans_cat'] = total_in_trans_cat
+    template['total_ex_trans_cat'] = total_ex_trans_cat
+    template['previous_total_in_trans'] = previous_total_in_trans
+    template['previous_total_ex_trans'] = previous_total_ex_trans
+    
+    template['total_bi_in_cat'] = total_bi_in_cat
+    template['total_bi_ex_cat'] = total_bi_ex_cat
     
     template['budget'] = budget
     
-    
+#    blash
     return render_to_response('budget/view_budgetitems.htm',template, context_instance=RequestContext(request))
 
 

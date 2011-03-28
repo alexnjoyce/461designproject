@@ -5,7 +5,7 @@
 {% if account %}
 	<h1>My Budgets</h1>
 {% else %}
-	<h1> View All Budgets </h1>
+	<h1> View All Budgets </h1><br>
 
 	Term:
 	<select id="term_select" name="term_select">
@@ -38,12 +38,13 @@
 
 <table class="sortable" width=500 cellpadding=5 cellspacing=0>
 		<tr>
-			<td bgcolor="#ccc">Position Name</td>
-			<td bgcolor="#ccc">Term</td>
-			<td bgcolor="#ccc">Year</td>
-			<td bgcolor="#ccc">Stream</td>
-			<td bgcolor="#ccc">Details</td>
-			<td bgcolor="#ccc">Approved</td>
+			<th>Position Name</th>
+			<th>Term</th>
+			<th>Year</th>
+			<th>Stream</th>
+			<th>Approved</th>
+			<th>Details</th>
+			
 		</tr>
 	{% for b in budgets %}
 		<tr>
@@ -51,8 +52,9 @@
 			<td>{{b.term}}</td>
 			<td>{{b.year}}</td>
 			<td>{{b.stream}}</td>
-			<td><a href="{% url budget_view_budgetitems id=b.id %}" target="_blank" onclick="window.open(this.href,this.target, 'scrollbar=1, height=500, width=600');return false;">Details</a></td>
 			<td>{{b.approved}}</td>
+			<td><a href="{% url budget_view_budgetitems id=b.id %}" target="_blank" onclick="window.open(this.href,this.target, 'scrollbar=1, height=500, width=600');return false;">Details</a></td>
+			
 			
 		</tr>
 	{% endfor %}

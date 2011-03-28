@@ -2,82 +2,136 @@
 {% block body %}
 {% load currency %}
 
-<h1>Previous Budgets</h1>
-<br/>
 {% if previous_budgets %}
-
+<h1>Previous Budgets</h1>
+	<p>Click below for more detail on similar budgets.</p>
 	{% for b in previous_budgets %}
-		<p><a href="{% url budget_view_budgetitems id=b.id %}" target="_blank" onclick="window.open(this.href,this.target, 'scrollbar=1, height=500, width=600');return false;">{{b.name}} - {{b.term}} - {{b.start_date.year}} - Stream {{b.stream}}</a>
-		<a href="#" id="{{b.id}}-show" class="showLink" onclick="showHide('{{b.id}}');return false;">[ Show More Details ]</a>
-		</p>
+		<h3>{{b.position}} - {{b.term}} - {{b.start_date.year}} - Stream {{b.stream}}</h3>
+		<p><a href="#" id="{{b.id}}-show" class="showLink" onclick="showHide('{{b.id}}');return false;">[Show More Details]</a></p>
+
 		<div id="{{b.id}}" class="more">
-		<p><a href="#" id="{{b.id}}-hide" class="hideLink" onclick="showHide('{{b.id}}');return false;">[ Show Less Details ]</a></p>
-			<b>Income Items</b>
-			<table class="sortable" width=500 cellpadding=3 cellspacing=0>
+		<p><a href="#" id="{{b.id}}-hide" class="hideLink" onclick="showHide('{{b.id}}');return false;">[Show Less Details]</a></p>
+			<h2>Income Items</h2>
+			
+			<table class="summary" cellspacing="0" cellpadding="3" width=600>
 				<tr>
-					<td bgcolor="#ccc">Description</td>
-					<td bgcolor="#ccc">Category</td>
-					<td bgcolor="#ccc">Budgeted</td>
-					<td bgcolor="#ccc">Actual</td>
+					<th>Income Category</th>
+					<th>Budgeted Amount</th>
+					<th>Actual Amount</th>
 				</tr>
-
-				{% for bi in previous_bi_in %}
-					{% ifequal bi.budget b %}
-					<tr>
-						<td>{{bi.description}}</td>
-						<td>{{bi.income_category}}</td>
-						<td align='right'>{{bi.amount|currency}}</td>
-						<td></td>
-					</tr>
-					{% endifequal %}
-				{% endfor %}
-				</table>
-				<table width=500 cellpadding=3 cellspacing=0>
-				  <tr>
-					<td><b>Total Income</b></td>
-					<td></td>
-					<td align='right'><b>
-				{% for i in total_in %}
-					{% ifequal i.budget b.id %}{{i.sum|currency}}{% endifequal %}
-				{% endfor %}
-				</b></td>
-					<td></td>
-				</tr>
-				</table>
-				<br><br>
 				
-				<b>Expenditure Items</b>
-				<table class="sortable" width=500 cellpadding=3 cellspacing=0>
-					<tr>
-						<td bgcolor="#ccc">Description</td>
-						<td bgcolor="#ccc">Category</td>
-						<td bgcolor="#ccc">Budgeted</td>
-						<td bgcolor="#ccc">Actual</td>
-					</tr>
-				{% for bi in previous_bi_ex %}
-					{% ifequal bi.budget b %}
-					<tr>
-						<td>{{bi.description}}</td>
-						<td>{{bi.expenditure_category}}</td>
-						<td align='right'>{{bi.amount|currency}}</td>
-						<td></td>
-					</tr>
-					{% endifequal %}
-				{% endfor %}
-				</table>
-				<table width=500 cellpadding=3 cellspacing=0>
+				{% for c in categories_in %}
 				<tr>
-					<td><b>Total Expenditure</b></td>
-					<td></td>
-					<td align='right'><b>
-				{% for i in total_ex %}
-					{% ifequal i.budget b.id %}{{i.sum|currency}}{% endifequal %}
+					<td>{{c.name}}</td>
+					<td align='right'>
+					{% for i in total_bi_in_cat %}
+						{% ifequal i.budget b.id %}
+						{% ifequal i.income_category__name c.name %}
+							{{i.sum|currency}}
+						{% endifequal %}
+						{% endifequal %}
+					{% endfor %}
+					</td>
+					<td align='right'>
+					{% for i in total_in_trans_cat %}
+						{% ifequal i.budget b.id %}
+						{% ifequal i.income_category__name c.name %}
+							{{i.sum|currency}}
+						{% endifequal %}
+						{% endifequal %}
+					{% endfor %}
+					</td>
+				</tr>
+					{% for bi in previous_bi_in %}
+						{% ifequal bi.budget b %}
+						{% ifequal bi.income_category.name c.name %}
+							<tr>
+							<td class="item">{{bi.description}} ({{bi.num_items}}@{{bi.amount_per_item|currency}}/item)</td>
+							<td class="item" align='right'>{{bi.amount|currency}}</td>
+							<td></td>
+							</tr>
+						{% endifequal %}
+						{% endifequal %}
+					
+					{% endfor %}
 				{% endfor %}
-					</b></td>
+				<tr class="total">
+					<td>Total Income</td>
+					<td align='right'>
+						{% for i in previous_total_in %}
+							{% ifequal i.budget b.id %}{{i.sum|currency}}{% endifequal %}
+						{% endfor %}
+					</td>
+					<td align='right'>
+						{% for i in previous_total_in_trans %}
+							{% ifequal i.budget b.id %}{{i.sum|currency}}{% endifequal %}
+						{% endfor %}
+					</td>
+
 					<td></td>
 				</tr>
+				</table>
+				
+				<h2>Expenditure Items</h2>
+				
+				<table class="summary" cellspacing="0" cellpadding="3" width=600>
+				<tr>
+					<th>Expenditure Category</th>
+					<th>Budgeted Amount</th>
+					<th>Actual Amount</th>
+				</tr>
+				
+				{% for c in categories_ex %}
+				<tr>
+					<td>{{c.name}}</td>
+					<td align='right'>
+					{% for i in total_bi_ex_cat %}
+						{% ifequal i.budget b.id %}
+						{% ifequal i.Expenditure_category__name c.name %}
+							{{i.sum|currency}}
+						{% endifequal %}
+						{% endifequal %}
+					{% endfor %}
+					</td>
+					<td align='right'>
+					{% for i in total_ex_trans_cat %}
+						{% ifequal i.budget b.id %}
+						{% ifequal i.expenditure_category__name c.name %}
+							{{i.sum|currency}}
+						{% endifequal %}
+						{% endifequal %}
+					{% endfor %}
+					</td>
+				</tr>
+					{% for bi in previous_bi_ex %}
+						{% ifequal bi.budget b %}
+						{% ifequal bi.expenditure_category.name c.name %}
+							<tr>
+							<td class="item">{{bi.description}} ({{bi.num_items}}@{{bi.amount_per_item|currency}}/item)</td>
+							<td class="item" align='right'>{{bi.amount|currency}}</td>
+							<td></td>
+							</tr>
+						{% endifequal %}
+						{% endifequal %}
+					
+					{% endfor %}
+				{% endfor %}
+				<tr class="total">
+					<td>Total Expenditure</td>
+					<td align='right'>
+						{% for i in previous_total_ex %}
+							{% ifequal i.budget b.id %}{{i.sum|currency}}{% endifequal %}
+						{% endfor %}
+					</td>
+					<td align='right'>
+						{% for i in previous_total_ex_trans %}
+							{% ifequal i.budget b.id %}{{i.sum|currency}}{% endifequal %}
+						{% endfor %}
+					</td>
 
-			</table><br/><br/>
+					<td></td>
+				</tr>
+				</table>
 			
 		</div>
 	
