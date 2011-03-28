@@ -399,7 +399,8 @@ def upload_data(request):
                     item.position = Position.objects.get(name=r[13])                
                     item.budget = Budget.objects.get(position__name=r[13],term=r[11],year=r[12])
                     item.expenditure_category = ExpenditureCategory.objects.get(name=r[14])
-                    item.hst = r[15]
+                    if r[15]:
+                        item.hst = r[15]
                     item.creator = request.user
                     item.save()
                     
