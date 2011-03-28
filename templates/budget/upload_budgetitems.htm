@@ -1,0 +1,21 @@
+{% extends "base.htm" %}
+{% block body %}
+	<h1> Upload Budget Item Data </h1>
+	
+	{% if form.errors %}
+        <p style="color: red;">
+            Please correct the error{{ form.errors|pluralize }} below.
+        </p>
+    {% endif %}
+	
+	<form action="{% url budget_upload_budgetitems %}" method="post"  enctype="multipart/form-data">
+		<table>
+			{{ form.as_table }}
+		</table>
+		<br /> <br />
+		<input type="submit" value="Upload Data" /> <a href="{% url budget_view_budgets %}"><button type="button">Cancel</button></a>
+		<br /> <br />
+		
+	</form>
+	
+{% endblock %}

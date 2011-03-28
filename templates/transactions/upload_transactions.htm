@@ -1,0 +1,21 @@
+{% extends "base.htm" %}
+{% block body %}
+	<h1> Upload Transaction Data </h1>
+	
+	{% if form.errors %}
+        <p style="color: red;">
+            Please correct the error{{ form.errors|pluralize }} below.
+        </p>
+    {% endif %}
+	
+	<form action="{% url transaction_upload_transaction %}" method="post"  enctype="multipart/form-data">
+		<table>
+			{{ form.as_table }}
+		</table>
+		<br /> <br />
+		<input type="submit" value="Upload Data" /> <a href="{% url transaction_view_transactions %}"><button type="button">Cancel</button></a>
+		<br /> <br />
+		
+	</form>
+	
+{% endblock %}
