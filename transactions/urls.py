@@ -41,5 +41,6 @@ urlpatterns += patterns('transactions.views',
     url(r'^transaction/delete/(?P<id>\d+)/$',           'delete_transaction',           name="transaction_delete_transaction"),
     
     url(r'^transaction/(?P<id>\d+)/approve/$','approved_switch',                       name="transaction_approved_switch"),
+    url(r'^transaction/upload/$',                         'upload_data',                       name="transaction_upload_transaction"),
 
 )

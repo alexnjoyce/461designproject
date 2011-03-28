@@ -1,6 +1,6 @@
 #python functionality
 import datetime
-
+import csv
 
 #django functionality
 from django.template import RequestContext
@@ -18,7 +18,9 @@ from overall.views import is_admin, is_vpf
 
 from positions.models import Position
 from transactions.models import Income, Expenditure
-from budget.models import Budget, BudgetItem, IncomeBudgetItemForm, ExpenseBudgetItemForm, BudgetForm, IncomeBudgetItem, ExpenseBudgetItem
+from categories.models import ExpenditureCategory, IncomeCategory
+from budget.models import Budget, BudgetItem, IncomeBudgetItemForm, ExpenseBudgetItemForm, BudgetForm, IncomeBudgetItem, ExpenseBudgetItem, UploadDataForm
+from settings import MEDIA_ROOT
 
 def check(check):
 #===============================================================================
@@ -74,7 +76,6 @@ def create_budget(request):
                 budget.creator = request.user
                 budget.start_date = start_date(budget.year, budget.term)
                 budget.end_date = end_date(budget.year, budget.term)
-                budget.creator = request.user
                 budget.save()
                 return HttpResponseRedirect(reverse('budget_create_budgetitems', kwargs={'id': budget.id}))
             else:
@@ -401,7 +402,7 @@ def view_budgetitems (request, id):
 
 
 @login_required
-def upload_data(request):
+def upload_data_budget(request):
     
     template = dict()
     
@@ -415,22 +416,67 @@ def upload_data(request):
             reader = csv.reader(open(directory))
             
             for r in reader:
-                if r[0] == "EX":
-                    category = ExpenditureCategory()
-                    category.name = r[1]
-                    category.isactive = True
-                    category.save()
-                elif r[0] == "IN":
-                    category = IncomeCategory()
-                    category.name = r[1]
-                    category.isactive = True
-                    category.save()
+                budget = Budget()
+                budget.position = Position.objects.get(name=r[0])
+                budget.term = r[1]
+                budget.year = r[2]
+                budget.stream = r[3]
+                if r[4] == "TRUE":
+                    budget.approved = True
+                budget.creator = request.user
+                budget.start_date = start_date(int(budget.year), budget.term)
+                budget.end_date = end_date(int(budget.year), budget.term)
+                budget.save()
+
+                
             
-        return HttpResponseRedirect(reverse('category_view_categories'))
+        return HttpResponseRedirect(reverse('budget_view_budgets'))
     else:
         form = UploadDataForm()
     
     template['form'] = form
     
-    return render_to_response('categories/upload_categories.htm',template, context_instance=RequestContext(request))    
+    return render_to_response('budget/upload_budget.htm',template, context_instance=RequestContext(request))    
+
+@login_required
+def upload_data_budgetitems(request):
+    
+    template = dict()
+    
+    if request.method == 'POST':
+        
+        form = UploadDataForm(request.POST, request.FILES)
+        if form.is_valid():             
+            
+            directory = MEDIA_ROOT + "/test_data/" + request.FILES["file"].name
+            
+            reader = csv.reader(open(directory))
+            
+            for r in reader:
+                if r[0] == "IN":
+                    item = IncomeBudgetItem()
+                    item.description = r[1]
+                    item.amount_per_item = r[2]
+                    item.num_items = r[3]
+                    item.amount = r[4]
+                    item.budget = Budget.objects.get(position__name=r[5],term=r[6],year=r[7])
+                    item.income_category = IncomeCategory.objects.get(name=r[8])
+                    item.save()
+                elif r[0] == "EX":
+                    item = ExpenseBudgetItem()
+                    item.description = r[1]
+                    item.amount_per_item = r[2]
+                    item.num_items = r[3]
+                    item.amount = r[4]
+                    item.budget = Budget.objects.get(position__name=r[5],term=r[6],year=r[7])
+                    item.expenditure_category = ExpenditureCategory.objects.get(name=r[8])
+                    item.save()
+                    
+        return HttpResponseRedirect(reverse('budget_view_budgets'))
+    else:
+        form = UploadDataForm()
+    
+    template['form'] = form
+    
+    return render_to_response('budget/upload_budgetitems.htm',template, context_instance=RequestContext(request))    
                                 

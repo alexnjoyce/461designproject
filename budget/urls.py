@@ -38,6 +38,8 @@ urlpatterns += patterns('budget.views',
     url(r'^budget/(?P<id>\d+)/approve/$',            'approved_switch',                       name="budget_approved_switch"),
     url(r'^budget/(?P<id>\d+)/view/$',              'view_budgetitems',                         name="budget_view_budgetitems"),
     
+    url(r'^budget/upload/$',                         'upload_data_budget',                       name="budget_upload_budget"),
+    url(r'^budget/items/upload/$',                         'upload_data_budgetitems',                       name="budget_upload_budgetitems"),
 
 
 )

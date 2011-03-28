@@ -1,4 +1,6 @@
 # Create your views here.
+import csv
+import datetime
 
 #import Django stuff
 from django.template import RequestContext
@@ -14,7 +16,8 @@ from overall.views import is_admin, is_vpf
 
 #import models
 from transactions.models import Transaction, Income, Expenditure, IncomeCategory, ExpenditureCategory
-from transactions.models import ExpenditureForm, IncomeForm
+from transactions.models import ExpenditureForm, IncomeForm, UploadDataForm
+from settings import MEDIA_ROOT
 
 from budget.models import Budget
 from positions.models import Position
@@ -313,3 +316,71 @@ def approved_switch(request, id):
 
     return HttpResponseRedirect(reverse('transaction_view_transactions') )
     
+@login_required
+def upload_data(request):
+    
+    template = dict()
+    
+    if request.method == 'POST':
+        
+        form = UploadDataForm(request.POST, request.FILES)
+        if form.is_valid():             
+            
+            directory = MEDIA_ROOT + "/test_data/" + request.FILES["file"].name
+            
+            reader = csv.reader(open(directory))
+            
+            for r in reader:
+                if r[0] == "IN":
+                    item = Income()
+                    item.type = "IN"
+                    item.name = r[1]
+                    item.email = r[2]
+                    item.date = datetime.date(year=int(r[3]), month=int(r[4]), day=int(r[5]))
+                    item.amount = r[6]
+                    item.description = r[7]
+                    if r[8] == "TRUE":
+                        item.approved = True
+                    if r[9] == "TRUE":
+                        item.cheque_ready = True
+                    if r[10] == "TRUE":
+                        item.cheque_received = True
+                    item.term = r[11]
+                    item.year = r[12]
+                    item.position = Position.objects.get(name=r[13])                
+                    item.budget = Budget.objects.get(position__name=r[13],term=r[11],year=r[12])
+                    item.income_category = IncomeCategory.objects.get(name=r[14])
+                    item.creator = request.user
+                    item.save()
+                elif r[0] == "EX":
+                    item = Expenditure()
+                    item.type = "EX"
+                    item.name = r[1]
+                    item.email = r[2]
+                    item.date = datetime.date(year=int(r[3]), month=int(r[4]), day=int(r[5]))
+                    item.amount = r[6]
+                    item.description = r[7]
+                    if r[8] == "TRUE":
+                        item.approved = True
+                    if r[9] == "TRUE":
+                        item.cheque_ready = True
+                    if r[10] == "TRUE":
+                        item.cheque_received = True
+                    item.cheque_ready = r[9]
+                    item.cheque_received = r[10]
+                    item.term = r[11]
+                    item.year = r[12]
+                    item.position = Position.objects.get(name=r[13])                
+                    item.budget = Budget.objects.get(position__name=r[13],term=r[11],year=r[12])
+                    item.expenditure_category = ExpenditureCategory.objects.get(name=r[14])
+                    item.hst = r[15]
+                    item.creator = request.user
+                    item.save()
+                    
+        return HttpResponseRedirect(reverse('transaction_view_transactions'))
+    else:
+        form = UploadDataForm()
+    
+    template['form'] = form
+    
+    return render_to_response('transactions/upload_transactions.htm',template, context_instance=RequestContext(request))  

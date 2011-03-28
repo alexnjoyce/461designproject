@@ -116,3 +116,10 @@ class BudgetForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(BudgetForm, self).__init__(*args, **kwargs)
         self.fields['position'].queryset = Position.objects.filter(isactive=True)
+
+#===============================================================================
+# form for uploading test data
+#===============================================================================
+
+class UploadDataForm(forms.Form):
+    file  = forms.FileField()
