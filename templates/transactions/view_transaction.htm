@@ -9,8 +9,8 @@
   <tr><td><b>Name of Submitter:</b></td><td>{{t.name}}</td></tr>
   <tr><td><b>Email Address:</b></td><td>{{t.email}}</td></tr>
   <tr><td><b>Cheque Needs to be Mailed?</b></td><td>{{t.mail}}</td></tr>
-  <tr><td><b>Is Cheque Ready for Pickup?</b></td><td>{{t.cheque_ready}}</td></tr>
-  <tr><td><b>Has Cheque Been Picked Up?</b></td><td>{{t.cheque_received}}</td></tr>
+  <tr><td><b>Is Cheque Ready for Pickup?</b></td><td><a href="{% url transaction_ready_switch id=t.id %}">{{t.cheque_ready}}</a></td></tr>
+  <tr><td><b>Has Cheque Been Picked Up?</b></td><td><a href="{% url transaction_received_switch id=t.id %}">{{t.cheque_received}}</a></td></tr>
  
 </p>
 </table>

@@ -314,7 +314,33 @@ def approved_switch(request, id):
         transaction.approved = True
         transaction.save()
 
-    return HttpResponseRedirect(reverse('transaction_view_transactions') )
+    return HttpResponseRedirect(reverse('transaction_view_transaction') )
+
+def ready_switch(request, id):
+    
+    transaction = Transaction.objects.get(pk=id)
+   
+    if(transaction.cheque_ready == True):
+        transaction.cheque_ready = False
+        transaction.save()
+    else:
+        transaction.cheque_ready = True
+        transaction.save()
+
+    return HttpResponseRedirect(reverse('transaction_view_transaction', kwargs={'id': transaction.id}))
+
+def received_switch(request, id):
+    
+    transaction = Transaction.objects.get(pk=id)
+   
+    if(transaction.cheque_received == True):
+        transaction.cheque_received = False
+        transaction.save()
+    else:
+        transaction.cheque_received = True
+        transaction.save()
+
+    return HttpResponseRedirect(reverse('transaction_view_transaction', kwargs={'id': transaction.id}))
     
 @login_required
 def upload_data(request):

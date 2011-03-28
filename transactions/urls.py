@@ -25,7 +25,7 @@ urlpatterns += patterns('transactions.views',
     url(r'^transaction/create/transaction/$',                'create_transaction',                name="transaction_create_transaction"),
     url(r'^transaction/create/income/$',                'create_income',                name="transaction_create_income"),
     url(r'^transaction/create/expenditure/$',           'create_expenditure',           name="transaction_create_expenditure"),
-        url(r'^transaction/(?P<id>\d+)/confirm/$',           'confirm_transaction',           name="transaction_confirm_transaction"),
+    url(r'^transaction/(?P<id>\d+)/confirm/$',           'confirm_transaction',           name="transaction_confirm_transaction"),
     
     url(r'^transaction/view/$',                         'view_transactions',                     name="transaction_view_transactions"),
     url(r'^transaction/view/(?P<year>\d{4})/$',           'view_transactions',                         name="transaction_view_transactions"),
@@ -40,7 +40,9 @@ urlpatterns += patterns('transactions.views',
     url(r'^transaction/confirm/delete/(?P<id>\d+)/$',       'confirm_delete_transaction',   name="transaction_confirm_delete_transaction"),
     url(r'^transaction/delete/(?P<id>\d+)/$',           'delete_transaction',           name="transaction_delete_transaction"),
     
-    url(r'^transaction/(?P<id>\d+)/approve/$','approved_switch',                       name="transaction_approved_switch"),
+    url(r'^transaction/(?P<id>\d+)/approve/$',              'approved_switch',                       name="transaction_approved_switch"),
+    url(r'^transaction/(?P<id>\d+)/chequeready/$',          'ready_switch',                       name="transaction_ready_switch"),
+    url(r'^transaction/(?P<id>\d+)/chequereceived/$',          'received_switch',                       name="transaction_received_switch"),
     url(r'^transaction/upload/$',                         'upload_data',                       name="transaction_upload_transaction"),
 
 )
