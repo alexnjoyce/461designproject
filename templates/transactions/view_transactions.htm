@@ -37,16 +37,17 @@
 <p>To sort rows, click on the column name.</p>
 <table class="sortable" width=750 cellpadding=5 cellspacing=0>
 	<tr>
-		<td bgcolor="#ccc">Type</td>
-		<td bgcolor="#ccc">Term</td>
-		<td bgcolor="#ccc">Year</td>
-		<td bgcolor="#ccc">Amount</td>
-		<td bgcolor="#ccc">Category</td>
-		<td bgcolor="#ccc">Description</td>
-		<td bgcolor="#ccc">Position Name</td>
-		<td bgcolor="#ccc"></td>
-		<td bgcolor="#ccc"></td>
-		<td bgcolor="#ccc">Approved</td></bgcolor>
+		<th>Type</th>
+		<th>Term</th>
+		<th>Year</th>
+		<th>Amount</th>
+		<th>Category</th>
+		<th>Description</th>
+		<th>Position Name</th>
+		<th>Approved</th>
+		<th></th>
+		<th></th>
+		
 	</tr>
 	
 	
@@ -60,9 +61,10 @@
 		<td>{{e.expenditure_category.name}}</td>
 		<td>{{e.description}}</td>
 		<td>{{e.position}}</td>
+		<td>{{e.approved}}</td>
 		<td>{% if user|in_group:"vp_finance,admin" %}<a href="{% url transaction_edit_expenditure id=e.id %}">Edit</a>{% endif %}</td>
 		<td><a href="{% url transaction_view_transaction id=e.id %}" target="_blank" onclick="window.open(this.href,this.target, 'scrollbar=1, height=500, width=400');return false;">Details</a></td>
-		<td>{{e.approved}}</td>
+		
 	</tr>
 {% endfor %}
 {% for i in incomes %}
@@ -74,9 +76,10 @@
 		<td>{{i.income_category.name}}</td>
 		<td>{{i.description}}</td>
 		<td>{{i.position}}</td>
+		<td>{{i.approved}}</td>
 		<td>{% if i.approved %}{% if user|in_group:"vp_finance,admin" %}<a href="{% url transaction_edit_income id=i.id %}">Edit</a>{% endif %}{% else %}<a href="{% url transaction_edit_income id=i.id %}">Edit</a> {% endif %}</td>
 		<td><a href="{% url transaction_view_transaction id=i.id %}" target="_blank" onclick="window.open(this.href,this.target, 'scrollbar=1, height=500, width=400');return false;">Details</a></td>
-		<td>{{i.approved}}</td>
+		
 	</tr>
 {% endfor %}
 </table>
